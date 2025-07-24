@@ -1,0 +1,109 @@
+/* PROFILE EDITOR STYLE 
+:root {
+    --PhoneInputCountrySelectArrow-color: var(--base-text);
+    --PhoneInputCountrySelectArrow-opacity: 1;
+    --PhoneInputCountrySelectArrow-marginLeft: 0.4rem;
+}
+.profile-editor {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    width: 100%;
+    height: 100%;
+}
+.profile-editor-header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0.5rem;
+    border-bottom: 2px solid var(--base-bg);
+}
+.profile-editor-subheader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+}
+.profile-editor-error h3 {
+    color: red;
+}
+.profile-editor-info  {
+    width: 200px;
+    height: 35px;
+    object-fit: contain;
+}
+.profile-editor-info h3 {
+    color: green;
+}
+.profile-editor-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: left;
+    gap: 1rem;
+}
+.profile-editor-item{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 0.5rem;
+    width: 300px;
+    height: 150px;
+    padding: 1rem;
+    border: 2px solid var(--base-bg);
+}
+.profile-editor-item .input-large {
+    background: var(--base-bg);
+    padding: 0 0.5rem;
+    width: 100%;
+    height: 30px;
+}
+.profile-editor-item .PhoneInputInput {
+    height: 30px;
+}
+.profile-editor-item .btn-small {
+    width: 40px;
+    height: 40px;
+}
+.profile-editor-item-buttons {
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    gap: 1rem;
+}*/
+/* Estilos para dispositivos móviles (320px - 480px) 
+@media screen and (max-width: 480px) {
+    .profile-editor-item{
+        width: 100%;
+        height: 150px;
+    }
+  }*/
+  
+  /* Estilos para iPads y tablets (481px - 768px) 
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .profile-editor-item{
+        width: 80%;
+        height: 150px;
+    }
+  }
+  */
+  /* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px) 
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .profile-editor-item{
+        width: 250px;
+        height: 150px;
+    }
+  }*/
+  
+  /* Estilos para pantallas grandes y ordenadores de escritorio (1025px - 1200px) 
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .profile-editor-item{
+        width: 300px;
+        height: 150px;
+    }
+  }
+  */

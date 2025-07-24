@@ -1,0 +1,222 @@
+/* DELIVERY STYLE */
+.checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    border-radius: 50%;
+    background: var(--base-bg);
+    box-shadow: 0 0 5px var(--third-bg);
+}
+.checkbox-center {
+    width: 20px;
+    height: 20px;
+    background: var(--second-bg);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: .3s ease;
+}
+.checkbox:hover .checkbox-center {
+    width: 20px;
+    height: 20px;
+    background: var(--third-bg);
+    cursor: pointer;
+}
+.checkbox-center-active {
+    width: 20px;
+    height: 20px;
+    background: var(--third-bg);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: .3s ease;
+}
+.checkbox:hover .checkbox-center-active {
+    width: 20px;
+    height: 20px;
+    background: var(--second-bg);
+    cursor: pointer;
+}
+.address-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-content: flex-start;
+    width: 100%;
+    position: relative;
+}
+.address-header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0.5rem;
+    border-bottom: 2px solid var(--base-bg);
+}
+.address-subheader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 25px;
+}
+.address-error h3 {
+    color: red;
+}
+.address-info  {
+    color: green;
+    width: 100%;
+}
+.address-loading {
+    width: 200px;
+    height: 35px;
+    object-fit: contain;
+}
+.address-form {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    padding:  0 1rem;
+    gap: 1.5rem;
+}
+.address-form-item {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    gap: 0.25rem;
+    width: 300px;
+    height: 50px;
+}
+.address-form-item-textarea {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    gap: 0.25rem;
+    width: 300px;
+    height: 75px;
+}
+.address-form-item-checkbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: start;
+    gap: 0.25rem;
+    width: 300px;
+}
+.address-form-item-phone {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    gap: 0.25rem;
+    width: 300px;
+    height: 50px;
+}
+.address-form-item input,
+.address-form-item select,
+.address-form-item textarea {
+    width: 100%;
+    background: var(--base-bg);
+    padding: 0.5rem;
+}
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+}
+.option-displayed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    padding: 0.25rem;
+    color: var(--base-text);
+    cursor: pointer;
+    background: var(--second-text);
+    border-radius: 4px;
+    transition: .3s ease;
+}
+.option-displayed:hover{
+    background: var(--base-bg);
+}
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 1.5rem 0 0 0;
+    gap: 2rem;
+}
+.nav-buttons .btn-large {
+    gap: 0.5rem;
+}
+@media screen and (max-width: 480px) {
+    .address-form-item {
+        width: 100%;
+    }
+    .address-form-item-textarea {
+        width: 100%;
+    }
+    .address-form-item-checkbox {
+        width: 100%;
+    }
+    .address-form-item-phone {
+        width: 100%;
+    }
+  }
+  
+  /* Estilos para iPads y tablets (481px - 768px) */
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .address-form-item {
+        width: 100%;
+    }
+    .address-form-item-textarea {
+        width: 100%;
+    }
+    .address-form-item-checkbox {
+        width: 100%;
+    }
+    .address-form-item-phone {
+        width: 100%;
+    }
+  }
+  
+  /* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px) */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .address-form-item {
+        width: 90%;
+    }
+    .address-form-item-textarea {
+        width: 90%;
+    }
+    .address-form-item-checkbox {
+        width: 90%;
+    }
+    .address-form-item-phone {
+        width: 90%;
+    }
+  }
+  
+  /* Estilos para pantallas grandes y ordenadores de escritorio (1025px - 1200px) */
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .address-form-item {
+        width: 300px;
+    }
+    .address-form-item-textarea {
+        width: 300px;
+    }
+    .address-form-item-checkbox {
+        width: 300px;
+    }
+    .address-form-item-phone {
+        width: 300px;
+    }
+  }
+  
+  /* Estilos para pantallas extra-grandes y televisores (1201px en adelante) */
+  @media screen and (min-width: 1201px) {
+
+
+  }

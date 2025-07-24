@@ -1,0 +1,94 @@
+services:
+  ecw-backend:
+    container_name: ecw-backend
+    build:
+      context: ./server
+    image: hellocodefusion/ecw-backend:pro-v1
+    command: >
+      sh -c "
+        python manage.py collectstatic --no-input &&
+        python manage.py makemigrations &&
+        python manage.py migrate &&
+        python build.py &&
+        uvicorn core.asgi:application --host 0.0.0.0 --port 8000
+      "
+    ports:
+      - 8000:8000
+    working_dir: /server
+    environment:
+      PYTHONUNBUFFERED: 1
+    env_file:
+      - /server/core/.env
+    restart: always
+    networks:
+      - ecw-red
+  ecw-frontend:
+    container_name: ecw-frontend
+    build:
+      context: ./client
+    image: hellocodefusion/ecw-frontend:pro-v1
+    command: npx next start -H 0.0.0.0 -p 3000 
+    ports:
+      - 3000:3000
+    working_dir: /client
+    environment:
+      NODE_ENV: production
+    env_file:
+      - /client/.env.local
+    restart: always
+    networks:
+      - ecw-red
+  ecw-nginx:
+    container_name: ecw-nginx
+    build:
+      context: ./nginx
+    image: hellocodefusion/ecw-nginx:pro-v1
+    ports:
+      - 80
+    depends_on:
+      - ecw-backend
+      - ecw-frontend
+      - nginx-proxy
+      - letsencrypt
+    environment:
+      - VIRTUAL_HOST=e-commerce-web.store,www.e-commerce-web.store
+      - LETSENCRYPT_HOST=e-commerce-web.store,www.e-commerce-web.store
+    restart: always
+    networks:
+      - ecw-red
+  nginx-proxy:
+    container_name: nginx-proxy
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:ro
+      - vhostd:/etc/nginx/vhostd.d
+      - html:/usr/share/nginx/html
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy 
+    networks:
+      - ecw-red
+  letsencrypt:
+    container_name: letsencrypt
+    image: jrcs/letsencrypt-nginx-proxy-companion 
+    restart: always
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:z
+      - vhostd:/etc/nginx/vhostd.d
+      - html:/usr/share/nginx/html
+    networks:
+      - ecw-red
+volumes:
+  certs:
+  html:
+  vhostd:
+networks:
+  ecw-red:
+    driver: bridge

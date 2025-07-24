@@ -1,0 +1,82 @@
+/* PROFILE STYLE 
+.profile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 700px;
+    padding: 180px 0 50px 0;
+}
+.profile-box {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    width: 80%;
+    background: var(--second-bg);
+    border-radius: 1%;
+}
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid var(--base-bg);
+}
+.profile-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 70%;
+    padding: 1rem;
+    min-height: 450px;
+    border-left: 2px solid var(--base-bg);
+}*/
+/* Estilos para dispositivos móviles (320px - 480px) 
+@media screen and (max-width: 480px) {
+    .profile-box {
+        width: 95%;
+    }
+    .profile-content {
+        width: 100%;
+        border-left: none;
+        border-top: 2px solid var(--base-bg);
+    }
+  }
+  */
+  /* Estilos para iPads y tablets (481px - 768px)
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .profile-box {
+        width: 90%;
+    }
+    .profile-content {
+        width: 100%;
+        border-left: none;
+        border-top: 2px solid var(--base-bg);
+    }
+  } */
+  
+  /* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px) 
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .profile-content {
+        width: 100%;
+        border-left: none;
+        border-top: 2px solid var(--base-bg);
+    }
+  }*/
+  
+  /* Estilos para pantallas grandes y ordenadores de escritorio (1025px - 1200px) 
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .profile-content {
+        width: 100%;
+        border-left: none;
+        border-top: 2px solid var(--base-bg);
+    }
+  }*/
+  
+  /* Estilos para pantallas extra-grandes y televisores (1201px en adelante)
+  @media screen and (min-width: 1201px) {
+
+
+  } */

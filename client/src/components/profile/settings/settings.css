@@ -1,0 +1,205 @@
+/* SETTINGS STYLE 
+.profile-settings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    width: 100%;
+    height: 100%;
+}
+.profile-settings-header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0.5rem;
+    border-bottom: 2px solid var(--base-bg);
+}
+.profile-settings-subheader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+}
+.profile-settings-info  {
+    width: 200px;
+    height: 35px;
+    object-fit: contain;
+}
+.profile-settings-error h3 {
+    color: red;
+}
+.profile-settings-info h3 {
+    color: green;
+}
+
+.profile-settings-content {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    gap: 1rem;
+}
+.profile-settings-item {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 0.5rem;
+    width: 300px;
+    height: 150px;
+    padding: 1rem;
+    border: 2px solid var(--base-bg);
+}
+.profile-settings-providers {
+    display: flex;
+    flex-wrap: wrap;
+    width: 700px;
+    height: 100%;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 2px solid var(--base-bg);
+    padding: 1rem;
+}
+.setings-providers {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 1rem;
+    justify-content: center;
+}
+.setings-provider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px;
+    height: 50px;
+    padding: 0 1rem;
+}
+.setings-provider .btn-small {
+    width: 40px;
+    height: 40px;
+}
+.profile-settings-item-buttons {
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    gap: 0.5rem;
+}
+.profile-settings-item-buttons .btn-small {
+    width: 40px;
+    height: 40px;
+}
+.profile-settings-item-checkbox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    border-radius: 50%;
+    background: var(--base-bg);
+    box-shadow: 0 0 5px var(--third-bg);
+}
+.checkbox-center {
+    width: 20px;
+    height: 20px;
+    background: var(--second-bg);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: .3s ease;
+}
+.checkbox:hover .checkbox-center {
+    width: 20px;
+    height: 20px;
+    background: var(--third-bg);
+    cursor: pointer;
+}
+.checkbox-center-active {
+    width: 20px;
+    height: 20px;
+    background: var(--third-bg);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: .3s ease;
+}
+.checkbox:hover .checkbox-center-active {
+    width: 20px;
+    height: 20px;
+    background: var(--second-bg);
+    cursor: pointer;
+}
+/* Estilos para dispositivos móviles (320px - 480px)
+@media screen and (max-width: 480px) {
+    .profile-settings-item {
+        width: 100%;
+    }
+    .setings-provider {
+        width: 100%;
+    }
+    .setings-provider .btn-small {
+        width: 35px;
+        height: 35px;
+    }
+  }
+  
+  /* Estilos para iPads y tablets (481px - 768px) 
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .profile-settings-item {
+        width: 100%;
+    }
+    .setings-provider {
+        width: 100%;
+    }
+    .setings-provider .btn-small {
+        width: 35px;
+        height: 35px;
+    }
+  }
+  
+  /* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px) 
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .profile-settings-item {
+        width: 300px;
+        height: 150px;
+    }
+    .setings-provider {
+        width: 100%;
+    }
+    .setings-provider .btn-small {
+        width: 40px;
+        height: 40px;
+    }
+  }
+  
+  /* Estilos para pantallas grandes y ordenadores de escritorio (1025px - 1200px) 
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .profile-settings-item {
+        width: 300px;
+        height: 150px;
+    }
+    .setings-provider {
+        width: 300px;
+        height: 50px;
+ 
+    }
+    .setings-provider .btn-small {
+        width: 40px;
+        height: 40px;
+    }
+  }
+  
+  /* Estilos para pantallas extra-grandes y televisores (1201px en adelante) 
+  @media screen and (min-width: 1201px) {
+
+
+  }*/

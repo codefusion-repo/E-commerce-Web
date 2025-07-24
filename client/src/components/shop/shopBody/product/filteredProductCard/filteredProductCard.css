@@ -1,0 +1,65 @@
+/* FILTERED PRODUCT CARD STYLE 
+.filter-product-box {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 300px;
+    height: 300px;
+    border-radius: 4px;
+    box-shadow: 0 0 1rem var(--bg-color);
+    overflow: hidden;
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .15));
+    padding: 1rem;
+}
+.filter-product-box-header {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.filter-product-box-header img {
+    object-fit: contain;
+    transition: .3s ease;
+}
+.filter-product-box-header img:hover {
+    transform: scale(1.1);
+}
+.filter-product-layer {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 100px;
+    padding: 1rem 0 0 0;
+    gap: 0.5rem;
+}
+.filter-product-layer .btn-text {
+    background: none;
+}
+.product-categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.product-categories button {
+    font-size: 0.7rem;
+    transform: scale(0.8);
+}
+.filter-product-box-footer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.filter-product-layer-buttons {
+    display: flex;
+    gap: 1rem;
+}
+.filter-product-filter-layer-buttons {
+    display: flex;
+    gap: 1rem;
+}
+*/

@@ -1,0 +1,122 @@
+/* SUBNAVBAR STYLE 
+
+.subnavbar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    z-index: 15;
+}
+.subnavbar-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    min-height: 50px;
+    gap: 0.5rem 3rem;
+    padding: 1rem;
+    background: var(--second-bg);
+    border-bottom: 2px solid var(--base-bg);
+}
+.subnavbar-box .btn-text{
+    gap: 0.5rem;
+    min-width: 50px;
+}
+.subnavbar-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-height: 200px;
+    background: var(--base-bg);
+    border-bottom: 2px solid var(--second-bg);
+}
+.subnavbar-content-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35%;
+    text-align: center;
+}
+.subnavbar-content-item h1 {
+   font-size: 3rem;
+}
+.subnavbar-content-item:nth-child(1) {
+    background: var(--second-bg);
+    height: 200px;
+}
+.subnavbar-content-item:nth-child(2),
+.subnavbar-content-item:nth-child(3) {
+    background: var(--base-bg);
+}
+.subnavbar-content-item:nth-child(2) {
+    width: 50%;
+    height: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+}
+.subnavbar-content-item:nth-child(3) {
+    width: 15%;
+    height: 200px;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--second-bg);
+}
+.subnavbar-content-i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--base-text);
+    background: var(--base-bg);
+    border-radius: 4px;
+    transition: .3s ease-in-out;
+}
+.subnavbar-content-i:hover {
+    transform: scale(1.025);
+}
+.subnavbar-content-i h3 {
+    transition: .3s ease-in-out;
+}
+.subnavbar-content-i:hover h3 {
+    color: var(--third-bg);
+}
+.subnavbar-content-i:disabled {
+    box-shadow: none;
+    cursor: not-allowed;
+    color: var(--second-bg);
+}
+.subnavbar-content-item img {
+    object-fit: contain;
+}*/
+
+/* Estilos para dispositivos móviles (320px - 480px) 
+@media screen and (max-width: 480px) {
+    .subnavbar-content {
+        flex-direction: column;
+        gap: 1rem;
+        max-height: 300px;
+    }
+    .subnavbar-content-item:nth-child(1),
+    .subnavbar-content-item:nth-child(2),
+    .subnavbar-content-item:nth-child(3) {
+        width: 100%;
+    }
+
+}*/
+/* Estilos para iPads y tablets (481px - 768px) 
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .subnavbar-content {
+        flex-direction: column;
+        gap: 1rem;
+        max-height: 300px;
+    }
+    .subnavbar-content-item:nth-child(1),
+    .subnavbar-content-item:nth-child(2),
+    .subnavbar-content-item:nth-child(3) {
+        width: 100%;
+    }
+}*/

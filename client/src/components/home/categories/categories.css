@@ -1,0 +1,119 @@
+/* CATEGORIES STYLE
+
+.categories-box {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+.categories-header {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    width: 80%;
+    height: 75px;
+    padding: 1rem 0.5rem 0.25rem 0.5rem;
+    border-bottom: 2px solid var(--second-bg);
+}
+.categories-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    gap: 1rem;
+}
+.categories-item {
+    display: flex;
+    width: 200px;
+    height: 150px;
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    background: none;
+    transition: .3s ease-in-out;
+}
+.categories-item:hover {
+    transform: scale(1.025);
+}
+.categories-item h3 {
+    transition: .3s ease-in-out;
+}
+.categories-item:hover h3 {
+    color: var(--third-bg);
+}
+.categories-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+@media screen and (max-width: 480px) {
+
+    .categories-header {
+        width: 95%;
+        height: 50px;
+    }
+    .categories-item {
+        width: 100px;
+        height: 100px;
+    }
+    .categories-item img {
+        width: 50px;
+        height: 50px;
+    }
+  }
+  
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+
+    .categories-header {
+        width: 95%;
+        height: 60px;
+    }
+    .categories-item {
+        width: 100px;
+        height: 100px;
+    }
+    .categories-item img {
+        width: 60px;
+        height: 60px;
+    }
+  }
+  
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+
+    .categories-header {
+        width: 90%;
+        height: 70px;
+    }
+    .categories-item {
+        width: 150px;
+        height: 125px;
+    }
+    .categories-item img {
+        width: 75px;
+        height: 75px;
+    }
+}
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+
+    .categories-header {
+        width: 90%;
+        height: 80px;
+    }
+    .categories-item {
+        width: 200px;
+        height: 150px;
+    }
+    .categories-item img {
+        width: 80px;
+        height: 80px;
+    }
+  }*/

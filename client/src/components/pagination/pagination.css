@@ -1,0 +1,16 @@
+/* PAGINATION STYLE */
+.pagination {
+    display: flex;
+    position: relative;
+    height: 75px;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.pagination .active-page {
+    transform: scale(0.9);
+    background: var(--second-text);
+    box-shadow: 0 0 0.5rem var(--second-text);
+}

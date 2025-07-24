@@ -1,0 +1,4 @@
+ecw-key
+ecw-key.pub 
+client/.env.local
+server/core/.env

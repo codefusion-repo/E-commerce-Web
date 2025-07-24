@@ -1,0 +1,123 @@
+/* AUTH STYLE */
+/*.auth-box {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--base-bg);
+}
+.auth-box-header {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    align-items: flex-start;
+    padding: 0.5rem;
+    width: 100%;
+    border-bottom: 2px solid var(--base-bg);
+}
+.auth-subheader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 30px;
+    margin: 0.35rem 0 0.35rem 0;
+}
+.auth-error h3 {
+    color: red;
+}
+.auth-info  {
+    width: 200px;
+    height: 100%;
+}
+.auth-info h3 {
+    color: green;
+}
+.auth-info img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.auth-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: left;
+    width: 100%;
+}
+.auth-item-small, 
+.auth-item-large  {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+    gap: 0.5rem;
+    border-radius: 2%;
+}
+.auth-item-small {
+    width: 45%;
+}
+.auth-item-large{
+    width: 90%;
+}
+.auth-form-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 1rem 0 0 0;
+}
+.auth-providers-buttons {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 1rem 0;
+    width: 100%;
+    gap: 0.25rem;
+}
+.auth-providers-buttons .provider {
+    margin-right: 0.75rem;
+}
+.provider {
+    display: flex;
+}
+@media screen and (max-width: 480px) {
+    .auth-item-small {
+        width: 95%;
+    }
+    .auth-item-large{
+        width: 95%;
+    }
+    .PhoneInputInput {
+        height: 25px;
+    }
+  }
+  
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .auth-item-small {
+        width: 90%;
+    }
+    .auth-item-large{
+        width: 90%;
+    }
+    .PhoneInputInput {
+        height: 25px;
+    }
+  }
+  
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+
+  }
+  
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+
+  }
+  
+  @media screen and (min-width: 1201px) {
+
+
+  }*/
+

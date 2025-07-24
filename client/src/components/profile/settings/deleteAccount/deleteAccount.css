@@ -1,0 +1,88 @@
+/* DELETE ACCOUNT STYLE */
+.del-account-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-height: 800px;
+    padding: 1rem;
+    border: 2px solid var(--base-bg);
+}
+.del-account-box-header {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    align-items: flex-start;
+    padding: 0.5rem;
+    width: 100%;
+    border-bottom: 2px solid var(--base-bg);
+}
+.del-account-subheader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+    margin: 0.25rem 0 0 0;
+}
+.del-account-error h3 {
+    color: red;
+}
+.del-account-info  {
+    width: 200px;
+    height: 35px;
+    object-fit: contain;
+}
+.del-account-info h3 {
+    color: green;
+}
+/*#confirm-form,
+#code-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    text-align: left;
+    max-width: 700px;
+    max-height: 400px;
+}
+#confirm-form {
+    gap: 7rem;
+}*/
+.del-account-item-small {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 0.5rem 1rem;
+    gap: 0.3rem;
+    border-radius: 2%;
+}
+.del-account-item-large {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    gap: 0.3rem;
+    border-radius: 2%;
+}
+.del-account-form-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 1rem 0 0 0 ;
+}
+.del-account-provider {
+    display: flex;
+}
+.del-account-item-small input,
+.del-account-item-large input{
+    background: var(--base-bg);
+    padding: 0 0.5rem;
+    width: 100%;
+    height: 35px;
+}

@@ -1,0 +1,111 @@
+/* PURCHASE STYLE */
+.purchase {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    width: 100%;
+    height: 100%;
+}
+.purchase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    padding: 0.5rem;
+    border-bottom: 2px solid var(--base-bg);
+}
+.purchase-amounts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    padding: 0.25rem 0.5rem 0 0.5rem;
+    border-top: 2px solid var(--base-bg);
+    gap: 0.1rem;
+}
+.purchase-subheader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+}
+.purchase-error h3 {
+    color: red;
+}
+.purchase-info  {
+    width: 200px;
+    height: 35px;
+    object-fit: contain;
+}
+.purchase-info h3 {
+    color: green;
+}
+.purchase-items {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.purchase-header-list {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid var(--base-bg);
+}
+.purchase-header-list-item,
+.purchase-item-item {
+    display: flex;
+    width: 25%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.purchase-header-list-item:nth-child(-n+3),
+.purchase-item-item:nth-child(-n+3){
+    border-right: 2px solid var(--base-bg);
+}
+.purchase-item-box {
+    display: flex;
+    width: 100%;
+    height: 100px;
+}
+.purchase-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 0 1rem 0;
+}
+.purchase-item-item:nth-child(1) {
+    flex-direction: column;
+    gap: 0.35rem;
+}
+.purchase-item-item:nth-child(1) img {
+    width: 50px;
+    height: 50px;
+}
+.purchase-delivery-status {
+    display: flex;
+    width: 100%;
+    height: 100px;
+}
+.purchase-delivery-status-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    width: 25%;
+    height: 100px;
+}
+.purchase-delivery-status-item .btn-small.small-active {
+    background: var(--third-bg);
+}
+.purchase-button .btn-large {
+    width: 300px;
+}

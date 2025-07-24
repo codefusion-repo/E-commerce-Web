@@ -1,0 +1,116 @@
+/* CONTACT STYLE */
+.contact {
+    display: flex;
+    flex-direction: column;
+    padding: 35px 0 0 0;
+    align-items: center;
+    gap: 35px;
+}
+.contact-box {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    background: var(--second-bg);
+    border-radius: 1%;
+}
+.contact-header {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-bottom: 2px solid var(--base-bg);
+}
+.contact-subheader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+}
+.contact-error h3 {
+    color: red;
+}
+.contact-info  {
+    width: 200px;
+    height: 35px;
+    object-fit: contain;
+}
+.contact-info h3 {
+    color: green;
+}
+.contact-form {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.contact-form-item-small {
+   display: flex;
+   flex-direction: column;
+   width: 45%;
+   height: 50px;
+   gap: 0.25rem;
+}
+.contact-form-item-large {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 100px;
+    gap: 0.25rem;
+}
+.contact-form-item-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    gap: 0.25rem;
+}
+.contact-form-item-button .btn-large {
+    width: 150px;
+}
+/* Estilos para dispositivos móviles (320px - 480px) */
+@media screen and (max-width: 480px) {
+    .contact-box {
+        width: 95%;
+    }
+    .contact-form-item-small {
+        width: 100%;
+    }
+    .contact-form-item-button .btn-large {
+        width: 100px;
+    }
+  }
+  
+  /* Estilos para iPads y tablets (481px - 768px) */
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .contact-box {
+        width: 90%;
+    }
+  }
+  
+  /* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px) */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .contact-box {
+        width: 80%;
+    }
+  }
+  
+  /* Estilos para pantallas grandes y ordenadores de escritorio (1025px - 1200px) */
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .contact-box {
+        width: 70%;
+    }
+  }
+  
+  /* Estilos para pantallas extra-grandes y televisores (1201px en adelante) */
+  @media screen and (min-width: 1201px) {
+    .contact-box {
+        width: 60%;
+    }
+
+  }
+

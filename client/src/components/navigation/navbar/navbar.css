@@ -1,0 +1,124 @@
+/* NAVBAR STYLE 
+header {
+    background: var(--second-bg);
+    border-bottom: 2px solid var(--base-border);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    gap: 2rem;
+    z-index: 30;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 30;
+    width: 100%;
+    height: 100px;
+}
+.header-left {
+    height: 75px;
+    width: 10%;
+    overflow: hidden;
+    padding: 0 2rem;
+}
+.header-left img {
+    height: 75px;
+    width: 75px;
+    object-fit: contain;
+    object-position: 0 0;
+    border-radius: 4px;
+    transition: 0.3s ease-in-out;
+}
+.header-left img:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}*/
+.header-middle {
+    display: flex;
+    width: 60%;
+    height: 100%;
+    gap: 1rem;
+    padding: 0 1rem;
+    justify-content: center;
+    align-items: center;
+}
+.header-search-bar {
+    display: flex;
+    position: relative;
+    background: var(--base-bg);
+    box-shadow: 0 0 0.5rem var(--third-bg);
+    cursor: text;
+    width: 100%;
+    height: 35px;
+    letter-spacing: .1rem;
+    color: var(--base-text);
+    border-radius: 4px;
+}
+/*.header-search-bar input {
+    background: none;
+    box-shadow: none;
+}
+.header-search-bar .icon {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+}*/
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    width: 30%;
+    height: 100%;
+    align-items: center;
+    padding: 0 2rem;
+}
+.active-path {
+    background: var(--third-bg);
+}
+/* Estilos para dispositivos móviles (320px - 480px) */
+@media screen and (max-width: 480px) {
+
+    .header-left,
+    .header-left img{
+        height: 55px;
+        width: 55px;
+    }
+
+  }
+  
+  /* Estilos para iPads y tablets (481px - 768px) */
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+
+    .header-left,
+    .header-left img{
+        height: 60px;
+        width: 60px;
+    }
+
+
+  }
+  
+  /* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px) */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+
+    .header-left,
+    .header-left img{
+        height: 65px;
+        width: 65px;
+    }
+
+
+}
+  /* Estilos para pantallas grandes y ordenadores de escritorio (1025px - 1200px) */
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+
+    .header-left,
+    .header-left img{
+        height: 70px;
+        width: 70px;
+    }
+
+  }

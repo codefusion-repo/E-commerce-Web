@@ -1,0 +1,61 @@
+/*.profile-sidebar {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 30%;
+    gap: 50px;
+    padding: 50px 0;
+}
+.profile-sidebar-mobile {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem;
+    gap: 1rem;
+}
+.profile-sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.profile-sidebar-item .btn-large {
+    height: 50px;
+    width: 175px;
+    text-align: center;
+} */
+/* Estilos para dispositivos móviles (320px - 480px)
+@media screen and (max-width: 480px) {
+    .profile-sidebar-item .btn-large {
+        width: 100px;
+        height: 35px;
+    }
+  }
+   */
+  /* Estilos para iPads y tablets (481px - 768px) 
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .profile-sidebar-item .btn-large {
+        width: 150px;
+        height: 35px;
+    }
+  }*/
+  
+  /* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px) 
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .profile-sidebar-item .btn-large {
+        width: 150px;
+    }
+  }*/
+  
+  /* Estilos para pantallas grandes y ordenadores de escritorio (1025px - 1200px)
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .profile-sidebar-item .btn-large {
+        width: 200px;
+    }
+  }*/
+  
+  /* Estilos para pantallas extra-grandes y televisores (1201px en adelante) 
+  @media screen and (min-width: 1201px) {
+
+
+  }*/

@@ -1,0 +1,72 @@
+/* NEWSLETTER STYLE 
+.newsletter {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+.newsletter-header {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: 7;
+}
+.newsletter-form {
+    position: absolute;
+    display: flex;
+    align-items: last baseline;
+    bottom: 25px;
+    right: 25px;
+    width: 80%;
+    gap: 0.5rem;
+}
+.newsletter-form-item {
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+    width: 100%;
+    gap: 0.25rem;
+}
+.newsletter-form .btn-large {
+    height: 35px;
+}
+.newsletter .img {
+    position: absolute;
+    opacity: 0.5;
+    object-fit: cover;
+}*/
+/* Estilos para dispositivos móviles (320px - 480px) 
+@media screen and (max-width: 480px) {
+    .newsletter-header {
+        top: 5px;
+        left: 5px;
+    }
+    .newsletter-form {
+        bottom: 5px;
+        right: 5px;
+    }
+}*/
+/* Estilos para iPads y tablets (481px - 768px) 
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .newsletter-header {
+        top: 15px;
+        left: 15px;
+    }
+    .newsletter-form {
+        bottom: 15px;
+        right: 15px;
+    }
+}*/
+/* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px)
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .newsletter-header {
+        top: 20px;
+        left: 20px;
+    }
+    .newsletter-form {
+        bottom: 20px;
+        right: 20px;
+    }
+} */

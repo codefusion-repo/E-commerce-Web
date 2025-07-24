@@ -1,0 +1,152 @@
+/* HOME STYLE 
+.home {
+    padding: 150px 0 0 0;
+}
+.home-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 80%;
+    height: 75px;
+    padding: 1rem 0 0.5rem 0;
+    margin: 0 auto;
+    border-bottom: 2px solid var(--second-bg);
+}
+.home-subheader {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 80%;
+    height: 100%;
+    margin: 0 auto;
+}
+.home-subheader-content {
+    display: flex;
+    padding: 1.25rem 1rem;
+    align-items: center;
+    justify-content: center;
+    text-align: justify;
+    width: 100%;
+    height: 100%;
+    gap: 1.5rem;
+}
+.home-subheader-content-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 0.5rem;
+}
+.home-subheader-content img {
+    width: 30%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 25px;
+}
+.home-categories {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    gap: 2rem;
+    width: 80%;
+    height: 200px;
+    margin: 0 auto;
+}
+.home-category {
+    display: flex;
+    width: 20%;
+    height: 100%;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    background: none;
+    transition: .3s ease-in-out;
+}
+.home-category:hover {
+    transform: scale(1.025);
+}
+.home-category h3 {
+    transition: .3s ease-in-out;
+}
+.home-category:hover h3 {
+    color: var(--third-bg);
+}
+.home-category img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+.home-products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    gap: 1rem;
+    margin: 0 auto;
+}*/
+
+/* Estilos para dispositivos móviles (320px - 480px)
+@media screen and (max-width: 480px) {
+    .home {
+        padding: 100px 0 0 200px;
+    }
+    .home-header,
+    .home-subheader {
+        width: 95%;
+        
+    }
+    .home-header {
+        height: 100px;
+    }
+    .home-subheader-content {
+        flex-direction: column;
+    }
+  }*/
+  
+  /* Estilos para iPads y tablets (481px - 768px) 
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .home {
+        padding: 100px 0 0 200px;
+    }
+    .home-header,
+    .home-subheader {
+        width: 95%;
+    }
+    .home-header {
+        height: 100px;
+    }
+    .home-subheader-content {
+        flex-direction: column;
+    }
+  }*/
+  
+  /* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px) 
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .home {
+        padding: 100px 0 0 200px;
+    }
+    .home-header,
+    .home-subheader {
+        width: 90%;
+    }
+
+  }*/
+  
+  /* Estilos para pantallas grandes y ordenadores de escritorio (1025px - 1200px) 
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .home {
+        padding: 100px 0 0 200px;
+    }
+    .home-header,
+    .home-subheader {
+        width: 90%;
+    }
+
+  }*/

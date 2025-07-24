@@ -1,0 +1,68 @@
+/* SITEMAP STYLE 
+.sitemap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: flex-start;
+    gap: 25px;
+}
+.sitemap-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 auto;
+    gap: 1rem;
+}
+.sitemap-content {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 1.5rem 3rem;
+    justify-content: center;
+}
+.sitemap-header {
+    width: 100%;
+    padding: 0.5rem;
+    border-bottom: 2px solid var(--second-bg);
+} 
+.sitemap-content-header {
+    width: 100%;
+    padding: 0.25rem;
+    border-bottom: 2px solid var(--second-bg);
+}
+.sitemap-content-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 400px;
+    gap: 0.5rem;
+}
+.sitemap-content-item .btn-text {
+    width: 100%;
+    text-align: start;
+    height: 10%;
+    background: none;
+    padding: 0.25rem;
+}
+*/
+/* Estilos para dispositivos móviles (320px - 480px) 
+@media screen and (max-width: 480px) {
+    .sitemap-content-item {
+        width: 95%;
+    }
+}*/
+/* Estilos para iPads y tablets (481px - 768px) 
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .sitemap-content-item {
+        width: 90%;
+    }
+}*/
+/* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px) 
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .sitemap-content-item {
+        width: 90%;
+    }
+}*/
+  

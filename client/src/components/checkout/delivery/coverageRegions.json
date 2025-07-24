@@ -1,0 +1,82 @@
+[    
+    {
+        "regionName": "Región de Tarapacá",
+        "regionId": "R1",
+        "region_id": 2
+    },
+    {
+        "regionName": "Región de Antofagasta",
+        "regionId": "R2",
+        "region_id": 3
+    },
+    {
+        "regionName": "Región de Atacama",
+        "regionId": "R3",
+        "region_id": 4
+    },
+    {
+        "regionName": "Región de Coquimbo",
+        "regionId": "R4",
+        "region_id": 5
+    },
+    {
+        "regionName": "Región de Valparaíso",
+        "regionId": "R5",
+        "region_id": 6
+    },
+    {
+        "regionName": "Región de O'Higgins",
+        "regionId": "R6",
+        "region_id": 8
+    },
+    {
+        "regionName": "Región del Maule",
+        "regionId": "R7",
+        "region_id": 9
+    },
+    {
+        "regionName": "Región del Biobio",
+        "regionId": "R8",
+        "region_id": 10
+    },
+    {
+        "regionName": "Región de la Araucanía",
+        "regionId": "R9",
+        "region_id": 11
+    },
+    {
+        "regionName": "Región de los Lagos",
+        "regionId": "R10",
+        "region_id": 13
+    },
+    {
+        "regionName": "Región de Aysén",
+        "regionId": "R11",
+        "region_id": 14
+    },
+    {
+        "regionName": "Región de Magallanes",
+        "regionId": "R12",
+        "region_id": 15
+    },
+    {
+        "regionName": "Región Metropolitana",
+        "regionId": "RM",
+        "region_id": 7
+    },
+    {
+        "regionName": "Región de los Ríos",
+        "regionId": "R14",
+        "region_id": 12
+    },
+    {
+        "regionName": "Región de Arica y Parinacota",
+        "regionId": "R15",
+        "region_id": 1
+    },
+    {
+        "regionName": "Región del Ñuble",
+        "regionId": "R16",
+        "region_id": 48
+    }
+]

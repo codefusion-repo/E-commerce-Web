@@ -1,0 +1,132 @@
+/* BLOG STYLE 
+.blog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.blog-box {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 0 50px 0;
+}
+.blog-header {
+    display: flex;
+    top: 150px;
+    width: 65%;
+    height: 35px;
+    background: var(--second-bg);
+}
+.blog-header-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+.blog-header-item:nth-child(-n+4) {
+    border-right: 2px solid var(--base-bg);
+}
+.blog-subheader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+    width: 65%;
+    height: 150px;
+    padding: 1rem 3rem;
+    background: var(--second-bg);
+    border-top: 2px solid var(--base-bg);
+}
+.blog-subheader .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.5;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(0.5px);
+}
+.blog-subheader h1,
+.blog-subheader p {
+    z-index: 10;
+    text-shadow: 5px 5px 10px var(--second-bg);
+}
+.blog-content {
+    display: flex;
+    flex-direction: column;
+    width: 62.5%;
+    align-items: center;
+    margin: 1rem 0;
+}*/
+/* Estilos para dispositivos móviles (320px - 480px) 
+@media screen and (max-width: 480px) {
+    .blog-header {
+        width: 100%;
+    }
+    .blog-subheader {
+        width: 100%;
+    }
+    .blog-content {
+        width: 97.5%;
+    }
+  }*/
+  
+  /* Estilos para iPads y tablets (481px - 768px) 
+  @media screen and (min-width: 481px) and (max-width: 768px) {
+    .blog-header {
+        width: 95%;
+    }
+    .blog-subheader {
+        width: 95%;
+    }
+    .blog-content {
+        width: 92.5%;
+    }
+  }
+  
+  /* Estilos para pantallas pequeñas y ordenadores portátiles (769px - 1024px) 
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .blog-header {
+        width: 90%;
+    }
+    .blog-subheader {
+        width: 90%;
+    }
+    .blog-content {
+        width: 87.5%;
+    }
+  }
+  
+  /* Estilos para pantallas grandes y ordenadores de escritorio (1025px - 1200px) 
+  @media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .blog-header {
+        width: 85%;
+    }
+    .blog-subheader {
+        width: 85%;
+    }
+    .blog-content {
+        width: 82.5%;
+    }
+  }
+  
+  /* Estilos para pantallas extra-grandes y televisores (1201px en adelante) 
+  @media screen and (min-width: 1201px) {
+    .blog-header {
+        width: 80%;
+    }
+    .blog-subheader {
+        width: 80%;
+    }
+    .blog-content {
+        width: 77.5%;
+    }
+  }*/

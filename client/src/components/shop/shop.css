@@ -1,0 +1,62 @@
+/* SHOP STYLE */
+.shop {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 150px 0 0 0;
+}
+.banner-shop {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    margin: 0 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.banner-shop h1 {
+    font-size: 4rem;
+    text-shadow: 0 0 0.75rem var(--second-bg);
+    z-index: 10;
+}
+.banner-shop img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-position: center;
+    opacity: 0.25;
+}
+.shop-subheader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+    margin: 0.25rem;
+}
+.shop-info  {
+    width: 200px;
+    height: 35px;
+    object-fit: contain;
+}
+.shop-error h3 {
+    color: red;
+}
+.shop-info h3 {
+    color: green;
+}
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    min-height: 125px;
+    gap: 1rem;
+    padding: 0 1rem;
+}

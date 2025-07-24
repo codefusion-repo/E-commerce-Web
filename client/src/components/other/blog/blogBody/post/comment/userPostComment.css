@@ -1,0 +1,84 @@
+/* COMMENT STYLE 
+.user-post-comment {
+    display: flex;
+    width: 100%;
+    min-height: 50px;
+}
+.not-post-comment {
+    display: flex;
+    height: 75px;
+    width: 100%;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0 0.75rem;
+    border-bottom: 2px solid var(--second-bg);
+}
+.not-post-comment .btn-text {
+    height: 35px;
+    padding: 0 0.5rem;
+}
+.post-comment-box-item {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 100%;
+    padding: 1rem;
+}
+.post-comment-box-item:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+}
+.post-comment-form-item-del {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 33.33%;
+    height: 100%;
+    padding: 1rem;
+    gap: 1rem;
+}
+.post-comment-box-item:nth-child(2) {
+    gap: 0.5rem;
+}
+.post-comment-form {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    border-bottom: 2px solid var(--second-bg);
+}
+.post-comment-form-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.post-comment-form-item .input-large {
+    background: var(--second-bg);
+    height: 35px;
+}
+.post-comment-form-item .btn-large {
+    width: 150px;
+}
+.post-comment-form-stars {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+.post-comment-form-item input {
+    background: var(--base-bg);
+    padding: 0 0.5rem;
+    width: 100%;
+}
+.post-comment-form-stars .icon-s {
+    transition: color 0.3s;
+}
+.post-comment-form-stars .icon-s:hover,
+.post-comment-form-stars .icon-s:hover ~ .icon-s  {
+  color: yellow; 
+}
+*/

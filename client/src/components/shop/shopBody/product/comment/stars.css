@@ -1,0 +1,12 @@
+.active-star {
+    color: yellow;
+}
+.comment-form-stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    align-items: center;
+    z-index: 7;
+}

@@ -3,15 +3,8 @@ services:
     container_name: ecw-backend
     build:
       context: ./server
-    image: hellocodefusion/ecw-backend:pro-v1
-    command: >
-      sh -c "
-        python manage.py collectstatic --no-input &&
-        python manage.py makemigrations &&
-        python manage.py migrate &&
-        python build.py &&
-        uvicorn core.asgi:application --host 0.0.0.0 --port 8000
-      "
+    image: hellocodefusion/ecw-backend:pro-v2
+    command: uvicorn core.asgi:application --host 0.0.0.0 --port 8000
     ports:
       - 8000:8000
     working_dir: /server
@@ -26,7 +19,7 @@ services:
     container_name: ecw-frontend
     build:
       context: ./client
-    image: hellocodefusion/ecw-frontend:pro-v1
+    image: hellocodefusion/ecw-frontend:pro-v2
     command: npx next start -H 0.0.0.0 -p 3000 
     ports:
       - 3000:3000
@@ -42,7 +35,7 @@ services:
     container_name: ecw-nginx
     build:
       context: ./nginx
-    image: hellocodefusion/ecw-nginx:pro-v1
+    image: hellocodefusion/ecw-nginx:pro-v2
     ports:
       - 80
     depends_on:

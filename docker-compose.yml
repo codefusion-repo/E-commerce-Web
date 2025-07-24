@@ -19,7 +19,7 @@ services:
     container_name: ecw-frontend
     build:
       context: ./client
-    image: hellocodefusion/ecw-frontend:pro-v2
+    image: hellocodefusion/ecw-frontend:pro-v1
     command: npx next start -H 0.0.0.0 -p 3000 
     ports:
       - 3000:3000

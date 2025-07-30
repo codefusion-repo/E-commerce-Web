@@ -11,31 +11,29 @@ import { ProductType } from "../../../../../interfaces/shop/shopInterface";
 import axios from "axios";
 
 export const postCreateMercadopago = (
-  cartId: string | undefined,
   items: ProductType[] | undefined,
   selectedCourier: any | undefined,
   selectedAddress: AddressType | undefined,
-  couponCode: string | undefined,
-  discount: number,
+
   signOutAuthState: (
     message?: string,
     needRedirection?: boolean,
     needRefresh?: boolean
-  ) => void
+  ) => void,
+  couponCode?: string
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     postCreatePurchaseOrder(
-      cartId,
       items,
       selectedCourier,
       selectedAddress?.id,
-      couponCode,
-      discount,
-
-      signOutAuthState
+      "mp",
+      signOutAuthState,
+      couponCode
     )
-      .then((commerceOrder) => {
-        postJWTAccessTokenInPage()
+      .then((url) => {
+        console.log("url: ", url);
+        /*postJWTAccessTokenInPage()
           .then((token) => {
             const config = {
               headers: {
@@ -47,7 +45,7 @@ export const postCreateMercadopago = (
             let products: any[] = [];
             let total_amount: number = 0;
 
-            if (couponCode) {
+            if (purchase.coupon) {
               let discountItem = {
                 id: "discount",
                 title: "discount",
@@ -56,36 +54,36 @@ export const postCreateMercadopago = (
                 category_id: "",
                 quantity: 1,
                 currency_id: "CLP",
-                unit_price: -discount,
+                unit_price: -purchase.discount,
               };
 
               products.push(discountItem);
             }
 
-            items &&
-              items.forEach((product) => {
+            purchase.items &&
+              purchase.items.forEach((i) => {
                 let item = {
-                  id: product.id,
-                  title: product.name,
+                  id: i.product.id,
+                  title: i.product.name,
                   description: "",
-                  picture_url: product.thumbnail,
+                  picture_url: i.product.thumbnail,
                   category_id: "",
-                  quantity: product.quantity,
+                  quantity: i.quantity,
                   currency_id: "CLP",
-                  unit_price: product.price,
+                  unit_price: i.product.price,
                 };
-                total_amount += product.quantity * product.price;
+                total_amount += i.quantity * i.product.price;
                 products.push(item);
               });
 
-            total_amount += parseFloat(selectedCourier.price);
-            total_amount -= discount;
-
             const paymentFormData = new FormData();
-            paymentFormData.append("commerceOrder", commerceOrder);
+            paymentFormData.append("commerceOrder", purchase.code);
             paymentFormData.append("items", JSON.stringify(products));
-            paymentFormData.append("deliveryCost", selectedCourier.price);
-            paymentFormData.append("total_amount", total_amount.toString());
+            paymentFormData.append(
+              "deliveryCost",
+              String(purchase.deliveryCost)
+            );
+            paymentFormData.append("total_amount", String(purchase.total));
 
             axios
               .post(
@@ -106,7 +104,7 @@ export const postCreateMercadopago = (
           .catch((err) => {
             signOutAuthState(err, true, false);
             return reject(err);
-          });
+          });*/
       })
       .catch((err) => {
         return reject(err);

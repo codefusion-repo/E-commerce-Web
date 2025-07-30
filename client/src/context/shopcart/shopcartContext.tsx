@@ -14,11 +14,15 @@ import Cookies from "js-cookie";
 import { updateShopcartInFirestore } from "./api/action";
 import { useFirebase } from "../firebase/firebaseContext";
 import { useCheckout } from "../checkout/checkoutContext";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { useAuth } from "../auth/authContext";
+import { onAuthStateChanged } from "firebase/auth";
+import { UserCouponType } from "@/interfaces/auth/authInterface";
 
 // Crear interface para ShopcartContextType
 interface ShopcartContextType {
-  cartId?: string;
   items?: ProductType[];
+  coupon?: UserCouponType | undefined;
 
   addItem: (item: ProductType) => void;
   removeItem: (item: ProductType) => void;
@@ -26,16 +30,7 @@ interface ShopcartContextType {
   updateItemQuantity: (item: ProductType, quantity: number) => void;
   clearShop: () => void;
 
-  updateItemsFirebase: (
-    items: ProductType[],
-    cartId: string,
-    coupon?: CouponType
-  ) => void;
-
-  discount: number;
-  setDiscount: (discount: number) => void;
-  coupon?: CouponType;
-  setCoupon: (coupon: CouponType | undefined) => void;
+  setCoupon: (coupon: UserCouponType | undefined) => void;
 
   subtotal: number;
   total: number;
@@ -44,48 +39,112 @@ interface ShopcartContextType {
 // Crear ShopcartContext
 const ShopcartContext = createContext<ShopcartContextType | null>(null);
 
+export function mergeCarts(
+  serverCart: ProductType[] = [],
+  localCart: ProductType[] = []
+): ProductType[] {
+  const merged: Record<string, ProductType> = {};
+
+  for (const item of serverCart) {
+    merged[item.id] = { ...item };
+  }
+
+  for (const item of localCart) {
+    if (merged[item.id]) {
+      // Ya existe, sumamos cantidades
+      merged[item.id].quantity = item.quantity;
+    } else {
+      merged[item.id] = { ...item };
+    }
+  }
+
+  return Object.values(merged);
+}
+
 // Exportar ShopcartProvider
 export const ShopcartProvider: React.FC<{
   children: ReactNode;
-  cartData: {
-    cartId: string;
-    items: ProductType[];
-    coupon: CouponType;
-  };
-}> = ({ children, cartData }) => {
-  const [cartId, setCartId] = useState<string>(cartData.cartId);
-  const [coupon, setCoupon] = useState<CouponType | undefined>(cartData.coupon);
-  const [items, setItems] = useState<ProductType[] | undefined>(
-    cartData.items ? cartData.items : []
-  );
+}> = ({ children }) => {
+  const [coupon, setCoupon] = useState<UserCouponType | undefined>(undefined);
+  const [items, setItems] = useState<ProductType[] | undefined>([]);
 
-  const [discount, setDiscount] = useState<number>(0);
   const { deliveryPrice } = useCheckout();
   const [total, setTotal] = useState<number>(0);
   const [subtotal, setSubtotal] = useState<number>(0);
 
   const { areCookiesActive } = useSettings();
+  const { auth, db } = useFirebase();
+  const { user, isAuthenticated } = useAuth();
+
+  function syncLocalCart() {
+    const cart = localStorage.getItem("cart");
+    if (cart) {
+      const localCart = JSON.parse(cart);
+      console.log("Local data:", localCart);
+      setItems(localCart.items);
+      setCoupon(localCart.coupon);
+    }
+  }
+
+  async function updateShopcart(
+    items: ProductType[],
+    user_id: string | undefined,
+    isAuthenticated: boolean
+  ) {
+    if (isAuthenticated && user_id) {
+      const cartRef = doc(db, "carts", user_id);
+      await updateDoc(cartRef, {
+        items: items,
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify({ items: items }));
+  }
+
+  async function syncCartWithFirestore(userUid: string) {
+    const localCart = JSON.parse(localStorage.getItem("cart") || "{}");
+
+    const cartRef = doc(db, "carts", userUid);
+    const cartSnap = await getDoc(cartRef);
+
+    let finalCart: ProductType[] = [];
+
+    if (cartSnap.exists()) {
+      const serverCart = cartSnap.data();
+      finalCart = mergeCarts(serverCart.items || [], localCart.items || []);
+    } else {
+      finalCart = localCart.items || [];
+    }
+
+    await setDoc(cartRef, {
+      items: finalCart,
+    });
+
+    localStorage.setItem("cart", JSON.stringify({ items: items }));
+
+    setItems(finalCart || []);
+  }
 
   useEffect(() => {
-    if (cartData.cartId !== "default" && areCookiesActive) {
-      Cookies.set("shopcartId", cartData.cartId);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        syncCartWithFirestore(user.uid);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("cart")) {
+      syncLocalCart();
     }
   }, []);
 
   useEffect(() => {
-    if (coupon) {
-      if (coupon.discount_type === "value") {
-        setDiscount(coupon.discount_value);
-      } else if (coupon.discount_type === "percent") {
-        setDiscount((subtotal * coupon.discount_percent) / 100);
-      }
-    }
-  }, [coupon]);
-
-  useEffect(() => {
     const getTotal = (i: ProductType[]) => {
-      let subtotal = 0;
-      let total = 0;
+      let s = 0;
+
       i?.forEach((item) => {
         let inputs = document.querySelectorAll(
           `#input_${item.id}`
@@ -95,48 +154,66 @@ export const ShopcartProvider: React.FC<{
             input.value = item.quantity.toString();
           });
         }
-        subtotal += item.price * item.quantity;
+        s += item.price * item.quantity;
       });
+      setSubtotal(s);
 
-      total = subtotal + deliveryPrice - discount;
+      console.log("subtotal: ", s);
+      console.log("deliveryPrice: ", deliveryPrice);
 
-      setSubtotal(subtotal);
-      setTotal(total);
+      let t = 0;
+
+      t = s + deliveryPrice;
+
+      console.log("total: ", t);
+
+      let discount: number = 0;
+      if (coupon) {
+        console.log(
+          "coupon.coupon.discount_type: ",
+          coupon.coupon.discount_type
+        );
+        if (coupon.coupon.discount_type === "value") {
+          discount = coupon.coupon.discount_value;
+        } else if (coupon.coupon.discount_type === "percent") {
+          discount = Math.round((t * coupon.coupon.discount_percent) / 100);
+        } else if (coupon.coupon.discount_type === "free_delivery") {
+          discount = deliveryPrice;
+        }
+      }
+
+      console.log("discount: ", discount);
+      console.log("total: ", t);
+
+      t = t - discount;
+
+      console.log("t: ", t);
+
+      setTotal(t);
     };
 
     if (items) {
       getTotal(items);
     }
-  }, [items, deliveryPrice, discount]);
+  }, [items, deliveryPrice, coupon]);
 
-  const { db } = useFirebase();
-
-  const updateItemsFirebase = (
-    items: ProductType[],
-    cartId: string,
-    coupon: CouponType | undefined
-  ) => {
-    updateShopcartInFirestore(items, cartId, coupon, db);
-  };
   const addItem = (item: ProductType) => {
     setItems((prevState) => {
       if (!prevState) {
         return;
       }
       // Encuentra el ítem en el arreglo
-      const itemIndex = prevState.findIndex((i) => i.id === item.id);
+      const itemIndex = prevState.findIndex((i: any) => i.id === item.id);
 
       // Utiliza el operador ternario para agregar uno más al ítem existente o agregar un nuevo ítem
       const updatedItems =
         itemIndex !== -1
-          ? prevState.map((i, index) =>
+          ? prevState.map((i: any, index: any) =>
               index === itemIndex ? { ...i, quantity: i.quantity + 1 } : i
             )
           : [...prevState, { ...item, quantity: 1 }]; // Asegúrate de establecer una cantidad inicial si es necesario
 
-      if (cartId) {
-        updateItemsFirebase(updatedItems, cartId, coupon);
-      }
+      updateShopcart(updatedItems, user?.id, isAuthenticated);
       return updatedItems;
     });
   };
@@ -153,9 +230,7 @@ export const ShopcartProvider: React.FC<{
         itemIndex !== -1
           ? prevState.filter((i, index) => index !== itemIndex)
           : prevState;
-      if (cartId) {
-        updateItemsFirebase(updatedItems, cartId, coupon);
-      }
+      updateShopcart(updatedItems, user?.id, isAuthenticated);
       return updatedItems;
     });
   };
@@ -175,9 +250,7 @@ export const ShopcartProvider: React.FC<{
               )
             : prevState.filter((i, index) => index !== itemIndex)
           : prevState;
-      if (cartId) {
-        updateItemsFirebase(updatedItems, cartId, coupon);
-      }
+      updateShopcart(updatedItems, user?.id, isAuthenticated);
       return updatedItems;
     });
   };
@@ -200,9 +273,7 @@ export const ShopcartProvider: React.FC<{
           ? [...prevState, { ...item, quantity: quantity }]
           : prevState;
 
-      if (cartId) {
-        updateItemsFirebase(updatedItems, cartId, coupon);
-      }
+      updateShopcart(updatedItems, user?.id, isAuthenticated);
       return updatedItems;
     });
   };
@@ -212,31 +283,23 @@ export const ShopcartProvider: React.FC<{
         return;
       }
       const updatedItems: ProductType[] = [];
+      updateShopcart(updatedItems, user?.id, isAuthenticated);
       return updatedItems;
     });
 
     setCoupon(undefined);
-    setDiscount(0);
-
-    if (cartId) {
-      updateItemsFirebase([], cartId, undefined);
-    }
   };
 
   return (
     <ShopcartContext.Provider
       value={{
-        cartId,
         items,
+        coupon,
         addItem,
         removeItem,
         removeUnitFromItem,
         updateItemQuantity,
         clearShop,
-        updateItemsFirebase,
-        discount,
-        setDiscount,
-        coupon,
         setCoupon,
         subtotal,
         total,

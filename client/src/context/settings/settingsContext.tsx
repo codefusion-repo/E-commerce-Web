@@ -46,7 +46,7 @@ const availableProviders: ProvidersType[] = [
     name: null,
     linked: false,
   },
-  {
+  /*{
     icon: <FaFacebook className="zoom-in-xxl" />,
     providerId: "facebook.com",
     providerName: "Facebook",
@@ -61,7 +61,7 @@ const availableProviders: ProvidersType[] = [
     email: null,
     name: null,
     linked: false,
-  },
+  },*/
 ];
 
 // Crear SettingsContext

@@ -1,6 +1,5 @@
 from django.db import models
 import uuid
-from apps.purchase.models import Purchase
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -8,6 +7,7 @@ User = get_user_model()
 options_type = {
     ('percent', 'percent'),
     ('value', 'value'),
+    ('free_delivery', 'free_delivery')
 }
 
 class Coupon(models.Model):
@@ -24,14 +24,22 @@ class Coupon(models.Model):
     discount_expire = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return f'Coupon: {self.code}, Discount_type: {self.discount_type}, Valor: {self.discount_percent}/{self.discount_value}'
+        return f'Coupon: {self.code}, Discount_type: {self.discount_type}'
     
 class UserCoupon(models.Model):
-    id = models.CharField(max_length=300, primary_key=True, unique=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE, blank=True, null=True)
-    coupon = models.ForeignKey(Coupon, on_delete=models.CASCADE)
-    isUsed = models.BooleanField(default=False)
+    id      = models.CharField(max_length=300, primary_key=True, unique=True, default=uuid.uuid4, editable=False)
+    user    = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_coupons")
+    coupon  = models.ForeignKey(Coupon, on_delete=models.CASCADE)
+
+    COUPON_STATUS = {
+        ("is_used", "Used"),
+        ("is_applied", "Applied"),
+        ("is_claimed", "Claimed"),
+        ("is_expired", "Expired"),
+    }
+    status = models.CharField(choices=COUPON_STATUS, default="is_claimed", max_length=30)
+
+    creationDate = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'Coupon: {self.coupon.code}, isUsed: {self.isUsed}, User: {self.user.email}'
+        return f'Coupon: {self.coupon.code}, status: {self.status}'

@@ -3,12 +3,11 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
-import { postCreateMercadopago } from "./api/action";
 import { useAuth } from "../../../../context/auth/authContext";
-import { verifyCoupon } from "../../coupons/api/action";
 import { useShopcart } from "../../../../context/shopcart/shopcartContext";
 import { useCheckout } from "../../../../context/checkout/checkoutContext";
 import { useMobile } from "../../../../context/mobile/mobileContext";
+import { postCreatePurchaseOrder } from "../../../../components/profile/purchases/api/action";
 
 export default function Mercadopago({
   setError,
@@ -20,12 +19,12 @@ export default function Mercadopago({
   loading: boolean;
 }) {
   const { device } = useMobile();
-  const { cartId, items, coupon, discount } = useShopcart();
+  const { items, coupon } = useShopcart();
   const { selectedCourier, selectedAddress } = useCheckout();
   const { signOutAuthState } = useAuth();
   const router = useRouter();
 
-  const handleMercadopagoPayment = () => {
+  /*const handleMercadopagoPayment = () => {
     setError(null);
     setLoading(true);
 
@@ -41,23 +40,23 @@ export default function Mercadopago({
     } else {
       sendPayment();
     }
-  };
+  };*/
 
-  const sendPayment = () => {
-    postCreateMercadopago(
-      cartId,
+  const handleMercadopagoPayment = () => {
+    setError(null);
+    setLoading(true);
+
+    postCreatePurchaseOrder(
       items,
       selectedCourier,
-      selectedAddress,
-      coupon?.code,
-      discount,
-
-      signOutAuthState
+      selectedAddress?.id,
+      "mp",
+      signOutAuthState,
+      coupon?.coupon.code
     )
       .then((url) => {
         setLoading(false);
-        console.log(url);
-
+        console.log("url: ", url);
         router.push(url);
       })
       .catch((err) => {

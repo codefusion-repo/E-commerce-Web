@@ -117,12 +117,8 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
         </div>
 
         <div
-          className={`flex ${
-            device > 2
-              ? "box-s column"
-              : device < 1
-              ? "box-xxl column"
-              : "box-xxl reverse"
+          className={`flex column ${
+            device > 2 ? "box-s" : "box-xxl"
           } j-space gap-l padding-t-l padding-b-l padding-r-s padding-l-s`}
         >
           <div className="flex box-xxl column a-center gap-m">
@@ -204,21 +200,35 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
             }).format(subtotal && subtotal)}
           </h3>
           <h3>
-            Costo de envió:{" "}
+            Delivery cost:{" "}
             {Intl.NumberFormat("es-CL", {
               style: "currency",
               currency: "CLP",
             }).format(deliveryPrice && deliveryPrice)}
           </h3>
-          {coupon?.code && (
+          {coupon?.coupon.code && (
             <h3>
-              {coupon.discount_type === "value" &&
-                `Discount: ${Intl.NumberFormat("es-CL", {
+              {coupon.coupon.discount_type === "value" &&
+                `Discount: -${Intl.NumberFormat("es-CL", {
                   style: "currency",
                   currency: "CLP",
-                }).format(coupon.discount_value)}`}
-              {coupon.discount_type === "percent" &&
-                `Discount: ${coupon.discount_percent}%`}
+                }).format(coupon.coupon.discount_value)}`}
+              {coupon.coupon.discount_type === "percent" &&
+                `Discount: ${
+                  coupon.coupon.discount_percent
+                }%/-${Intl.NumberFormat("es-CL", {
+                  style: "currency",
+                  currency: "CLP",
+                }).format(
+                  Math.round(
+                    (subtotal + deliveryPrice) * coupon.coupon.discount_percent
+                  ) / 100
+                )}`}
+              {coupon.coupon.discount_type === "free_delivery" &&
+                `Discount: Free delivery/-${Intl.NumberFormat("es-CL", {
+                  style: "currency",
+                  currency: "CLP",
+                }).format(deliveryPrice)}`}
             </h3>
           )}
           <h3>

@@ -1,8 +1,55 @@
 // `components/checkout/coupons/api/action.ts`
 
+import { UserType } from "@/interfaces/auth/authInterface";
 import { postJWTAccessTokenInPage } from "../../../../context/auth/api/action";
 import { CouponType } from "../../../../interfaces/shop/shopInterface";
 import axios from "axios";
+
+// Función para aplicar cupón
+export const postClaimCoupon = (
+  coupon_code: string,
+  signOutAuthState: (
+    message?: string,
+    needRedirection?: boolean,
+    needRefresh?: boolean
+  ) => void
+): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    postJWTAccessTokenInPage()
+      .then((token) => {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `JWT ${token}`,
+          },
+        };
+
+        const couponFormData = new FormData();
+        couponFormData.append("coupon_code", coupon_code);
+
+        axios
+          .post(
+            `${process.env.NEXT_PUBLIC_URL_PRO}/api/coupons/claim`,
+            couponFormData,
+            config
+          )
+          .then((res) => {
+            console.log("res: ", res);
+            return resolve(res.data);
+          })
+          .catch((err) => {
+            return reject(
+              err?.response?.data?.detail ||
+                "Unexpected error, please try again"
+            );
+          });
+      })
+      .catch((err) => {
+        signOutAuthState(err, true, false);
+        return reject(err);
+      });
+  });
+};
 
 // Función para aplicar un cupón
 export const postApplyCoupon = (

@@ -345,60 +345,6 @@ export default function Add({
           onDragMarker={onDragMarker}
         />
       )}
-
-      {/*validateStatus === "confirm" && (
-        <div className="box-xxl box-column padding-middle">
-          <div className="box-xxl box-center padding-large gap-large">
-            <h3>
-              {streetName} {streetNumber}, {postalCode} {countyName},{" "}
-              {regionName}
-            </h3>
-          </div>
-          <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS || ""}>
-            <Map
-              style={{ width: "100%", height: "300px" }}
-              defaultCenter={{ lat: lat, lng: lng }}
-              defaultZoom={18}
-              gestureHandling={"greedy"}
-              disableDefaultUI={true}
-              mapId={process.env.NEXT_PUBLIC_MAP_ID}
-            >
-              <AdvancedMarker
-                draggable={true}
-                onDragEnd={(e) => onDragMarker(e)}
-                position={{ lat: lat, lng: lng }}
-              >
-                <img src={markerImage.src} className="map-img" />
-              </AdvancedMarker>
-            </Map>
-          </APIProvider>
-
-          <div className="box-xxl box-center padding-large gap-large">
-            <h3>
-              Latitud: {lat}, Longitud: {lng}
-            </h3>
-          </div>
-
-          <div className="box-xxl box-center padding-large gap-large">
-            <button
-              className="btn-middle"
-              form="none"
-              disabled={loading}
-              onClick={() => setValidateStatus("default")}
-            >
-              <MdArrowBack className="icon" />
-              <h4>Atras</h4>
-            </button>
-            <button
-              onClick={() => onClickConfirm()}
-              disabled={loading}
-              className="btn-middle btn-active"
-            >
-              <h4>Confirmar</h4>
-            </button>
-          </div>
-        </div>
-      )*/}
     </>
   );
 }

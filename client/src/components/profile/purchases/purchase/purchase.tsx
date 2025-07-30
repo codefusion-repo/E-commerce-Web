@@ -22,6 +22,7 @@ import {
   PurchaseType,
 } from "../../../../interfaces/auth/authInterface";
 import { useMobile } from "../../../../context/mobile/mobileContext";
+import Coupons from "../../../../components/checkout/coupons/coupons";
 
 export default function Purchase({ code }: { code: string }) {
   const { device } = useMobile();
@@ -197,15 +198,34 @@ export default function Purchase({ code }: { code: string }) {
       {order?.coupon && (
         <div className="flex box-xxl m-height-xxs a-start j-space padding-t-xs padding-b-xs margin-l-xs margin-r-xs base-border-b">
           <h3 className="padding-l-s padding-r-s">
-            Coupon: {order?.coupon.coupon.code || ""}{" "}
+            Coupon code: {order?.coupon.coupon.code || ""}
           </h3>
-          <h3 className="padding-l-s padding-r-s">
-            Discount:{" "}
-            {Intl.NumberFormat("es-CL", {
-              style: "currency",
-              currency: "CLP",
-            }).format(order?.discount || 0)}
-          </h3>
+          {order?.coupon?.coupon.code && (
+            <h3>
+              {order?.coupon.coupon.discount_type === "value" &&
+                `Discount: -${Intl.NumberFormat("es-CL", {
+                  style: "currency",
+                  currency: "CLP",
+                }).format(order?.coupon.coupon.discount_value)}`}
+              {order?.coupon.coupon.discount_type === "percent" &&
+                `Discount: ${
+                  order?.coupon.coupon.discount_percent
+                }%/-${Intl.NumberFormat("es-CL", {
+                  style: "currency",
+                  currency: "CLP",
+                }).format(
+                  Math.round(
+                    (order?.subtotal + order?.deliveryCost) *
+                      order?.coupon.coupon.discount_percent
+                  ) / 100
+                )}`}
+              {order?.coupon.coupon.discount_type === "free_delivery" &&
+                `Discount: Free delivery/-${Intl.NumberFormat("es-CL", {
+                  style: "currency",
+                  currency: "CLP",
+                }).format(order?.deliveryCost)}`}
+            </h3>
+          )}
           {/*((order && order.status === "uncompleted") ||
             (order && order.status === "created")) && (
             <button className="btn-text" onClick={() => onClick()}>
@@ -241,10 +261,14 @@ export default function Purchase({ code }: { code: string }) {
               purchase at continuation.
             </h4>
           </div>
+          <div className="padding-t-l">
+            <Coupons />
+          </div>
+
           <div
             className={`flex ${
               device > 1
-                ? "box-xl wrap margin-t-l margin-b-l"
+                ? "box-xl wrap margin-t-xs margin-b-l"
                 : "box-xxl column gap-s margin-t-s margin-b-s"
             } a-center`}
           >

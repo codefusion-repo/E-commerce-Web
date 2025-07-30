@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from apps.purchase.models import Purchase
+from apps.purchase.models import Purchase, PurchaseItem
 from apps.coupons.models import UserCoupon
 from .utils import createBaseFlowPayment, createBaseMercadopagoPayment
 from django.views.decorators.csrf import csrf_exempt
@@ -18,6 +18,80 @@ from django.shortcuts import redirect
 
 User = get_user_model()
 
+def create_mercadopago_payment(purchase_id, user):
+    try:
+        if Purchase.objects.filter(id=purchase_id).exists():
+            purchase = Purchase.objects.get(id=purchase_id)
+
+            products = []
+
+            if purchase.coupon:
+                discount_item = {
+                    "id": "discount",
+                    "title": "discount",
+                    "description": "",
+                    "picture_url": "",
+                    "category_id": "",
+                    "quantity": 1,
+                    "currency_id": "CLP",
+                    "unit_price": -purchase.discount,
+                }
+                products.append(discount_item);
+        
+            for i in PurchaseItem.objects.filter(purchase=purchase):
+                item = {
+                  "id": i.product.id,
+                  "title": i.product.name,
+                  "description": "",
+                  "picture_url": str(i.product.thumbnail),
+                  "category_id": "",
+                  "quantity": i.quantity,
+                  "currency_id": "CLP",
+                  "unit_price": i.product.price,
+                }
+                products.append(item)
+
+            preference_data = {
+                "purpose": "wallet_purchase",
+                "items": products,
+                "shipments": {
+                    "cost": float(purchase.deliveryCost),
+                },
+                "payer": {
+                    "name": user.first_name,
+                    "surname": user.last_name,
+                    "email": user.email,
+                    "identification": {
+                        "type": "DNI",
+                        "number": user.rut
+                    }
+                },
+                "back_urls": {
+                        "failure": f"{os.environ.get('CLIENT_URL_PRO')}/receive/mercadopago",
+                        "pending": f"{os.environ.get('CLIENT_URL_PRO')}/receive/mercadopago",
+                        "success": f"{os.environ.get('CLIENT_URL_PRO')}/receive/mercadopago",
+                    },
+                "auto_return": "approved",
+
+                "metadata": {
+                    'commerceOrder': purchase.code,
+                    'total_amount': purchase.total,
+                },
+            }    
+
+            sdk = mercadopago.SDK(os.environ.get("MERCADO_PAGO_ACCESS_TOKEN"))
+
+            preference_response = sdk.preference().create(preference_data)
+
+            preference = preference_response["response"]
+
+            return {'url': preference['sandbox_init_point']}, 200
+        else:
+            raise ValueError("Unexpected error, please try again")
+        
+    except ValueError as e:
+        return e, 500
+    
 # Función para enviar un pago a mercado pago
 class CreateMercadoPagoPayment(APIView):
     authentication_classes=[JWTAuthentication]
@@ -176,6 +250,61 @@ def receiveMercadopagoWebhook(request):
                 'detail': e
             }, status=status.HTTP_400_BAD_REQUEST)          
 
+def create_flow_payment(purchase_id, user):
+    try:
+        if Purchase.objects.filter(id=purchase_id).exists():
+            purchase = Purchase.objects.get(id=purchase_id)
+
+            apiKey = os.environ.get('API_KEY_FLOW')
+            secretKey = os.environ.get('SECRET_KEY_FLOW')     
+
+            optional = {}
+
+            for i in PurchaseItem.objects.filter(purchase=purchase):
+                optional[i.product.name] = i.quantity 
+
+            print(f"{user.email}: user")
+
+            data = {
+                'apiKey': apiKey,
+                'commerceOrder': purchase.code,
+                'subject': "Order payment",
+                'currency': "CLP",
+                'amount': purchase.total,
+                'email': user.email,
+                'paymentMethod': 9, 
+                'urlConfirmation': f"{os.environ.get('BACK_URL')}/api/payment/receive/flow/webwook",
+                'urlReturn': f"{os.environ.get('BACK_URL')}/api/payment/receive/flow/redirect",
+                'optional': json.dumps(optional),
+                'timeout': 1800,
+            }
+
+            keys = sorted(data.keys())
+            stringToSign = ''.join([f'{key}{data[key]}' for key in keys])
+            signature = hmac.new(secretKey.encode('utf-8'), stringToSign.encode('utf-8'), hashlib.sha256).hexdigest()
+            data['s'] = signature
+
+            url = 'https://sandbox.flow.cl/api/payment/create'
+
+            headers = {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+
+            response = requests.post(url, data=data, headers=headers)
+
+            if response.status_code == 200:
+                data = response.json()        
+                redirect_url = data['url'] + '?token=' + data['token']
+                return {'url': redirect_url}, 200
+            else:
+                print(f'Request error: {response.status_code} - {response.text}')
+                raise ValueError('The request could not be sent')          
+        else:
+            raise ValueError("Unexpected error, please try again")
+        
+    except ValueError as e:
+        return e, 500
+    
 # Función para enviar un pago a flow
 class CreateFlowPayment(APIView):
     authentication_classes=[JWTAuthentication]

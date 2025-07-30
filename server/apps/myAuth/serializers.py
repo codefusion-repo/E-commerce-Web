@@ -4,6 +4,8 @@ from apps.delivery.models import Address
 from apps.delivery.serializers import AddressSerializer
 from apps.purchase.models import Purchase
 from apps.purchase.serializers import PurchaseSerializer
+from apps.coupons.models import UserCoupon
+from apps.coupons.serializers import UserCouponSerializer
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -18,6 +20,7 @@ class IpAddressSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     addresses = serializers.SerializerMethodField()
     purchases = serializers.SerializerMethodField()
+    coupons = serializers.SerializerMethodField()
     class Meta: 
         model = User
         fields = [
@@ -29,7 +32,8 @@ class UserSerializer(serializers.ModelSerializer):
             'rut',
             'phone',
             'addresses',
-            'purchases'
+            'purchases',
+            'coupons'
         ]
 
     def get_addresses(self, obj):
@@ -45,6 +49,14 @@ class UserSerializer(serializers.ModelSerializer):
             purchases_qs = Purchase.objects.filter(user=obj).order_by("-creationDate")
             purchases_serializer = PurchaseSerializer(purchases_qs, many=True)
             return purchases_serializer.data  
+        else:
+            return [] 
+        
+    def get_coupons(self, obj):
+        if UserCoupon.objects.filter(user=obj, status="is_claimed").exists():
+            user_coupons_qs = UserCoupon.objects.filter(user=obj, status="is_claimed").order_by("-creationDate")
+            user_coupons_serializer = UserCouponSerializer(user_coupons_qs, many=True)
+            return user_coupons_serializer.data  
         else:
             return [] 
                 

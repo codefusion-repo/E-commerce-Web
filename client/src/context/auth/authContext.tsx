@@ -16,6 +16,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useSettings } from "../settings/settingsContext";
 import Cookies from "js-cookie";
 import { UserType } from "../../interfaces/auth/authInterface";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 // Crear interface para AuthContextType
 interface AuthContextType {
@@ -50,7 +51,7 @@ export const AuthProvider: React.FC<{
     refresh?: string;
   };
 }> = ({ children, authData }) => {
-  const { auth } = useFirebase();
+  const { auth, db } = useFirebase();
   const { addMessage } = useMessages();
   const { syncProviders } = useSettings();
 

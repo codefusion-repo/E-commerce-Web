@@ -51,11 +51,10 @@ export interface PaymentType {
   creationDate: Date;
 }
 
-// Interface para un cupón del usuario
 export interface UserCouponType {
   id: string;
   coupon: CouponType;
-  isUsed: boolean;
+  status: string;
 }
 
 // Interface para una compra del usuario
@@ -83,7 +82,7 @@ export interface UserCommentType {
 
 // Interface para el usuario
 export interface UserType {
-  uid: string;
+  id: string;
   username: string;
   email: string;
   first_name: string;
@@ -92,4 +91,5 @@ export interface UserType {
   phone: string;
   addresses: AddressType[];
   purchases: PurchaseType[];
+  coupons: UserCouponType[];
 }

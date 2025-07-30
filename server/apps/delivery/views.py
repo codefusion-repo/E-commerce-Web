@@ -3,9 +3,59 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.conf import settings
 from .models import Address
 from django.contrib.auth import get_user_model
+import requests
 User = get_user_model()
+
+# Función para obtener los precios de envio desde shipit
+class PostShipit(APIView):
+    authentication_classes=[JWTAuthentication]
+    permission_classes=(permissions.IsAuthenticated,)
+    def post(self, request, format=None):
+        try:
+
+
+            data = request.data 
+            print("data: ", data)
+
+            url = "https://api.shipit.cl/v/rates"
+
+            headers = {
+                "accept": "application/json",
+                "Accept": "application/vnd.shipit.v4",
+                "Content-Type": "application/json",
+                "X-Shipit-Email": settings.SHIPIT_USER,
+                "X-Shipit-Access-Token": settings.SHIPIT_TOKEN,
+            }
+            origin_id = int(settings.SHIPIT_SENDER_COMMUNE_ID)
+
+            payload = {
+                "parcel": {
+                    "length": data.get("length"),
+                    "height": data.get("height"),
+                    "width": data.get("width"),
+                    "weight": data.get("weight"),
+                    "origin_id": origin_id,
+                    "destiny_id": data.get("destiny_id"),
+                    "type_of_destiny": "domicilio",
+                    "algorithm": 1
+                },
+            }
+
+            response = requests.post(url, json=payload, headers=headers)
+            json_res = response.json()
+
+            prices = json_res.get("prices")
+            if not prices: 
+                raise ValueError("Couriers not found.")
+            return Response(prices, status=status.HTTP_200_OK)
+
+        except ValueError as e:
+            print(e)
+            return Response({'detail': e}, status=status.HTTP_400_BAD_REQUEST)               
+
 
 # Función para agregar una dirección de envio
 class AddAddress(APIView):

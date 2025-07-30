@@ -4,11 +4,10 @@
 import { useAuth } from "../../../../context/auth/authContext";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
-import { postCreateFlow } from "./api/action";
-import { verifyCoupon } from "../../coupons/api/action";
 import { useShopcart } from "../../../../context/shopcart/shopcartContext";
 import { useCheckout } from "../../../../context/checkout/checkoutContext";
 import { useMobile } from "../../../../context/mobile/mobileContext";
+import { postCreatePurchaseOrder } from "../../../../components/profile/purchases/api/action";
 
 export default function Flow({
   setError,
@@ -20,12 +19,12 @@ export default function Flow({
   loading: boolean;
 }) {
   const { device } = useMobile();
-  const { cartId, items, coupon, discount } = useShopcart();
+  const { items, coupon } = useShopcart();
   const { selectedCourier, selectedAddress } = useCheckout();
   const { signOutAuthState } = useAuth();
   const router = useRouter();
 
-  const handleFlowPayment = () => {
+  /* const handleFlowPayment = () => {
     setError(null);
     setLoading(true);
 
@@ -41,18 +40,19 @@ export default function Flow({
     } else {
       sendPayment();
     }
-  };
+  };*/
 
-  const sendPayment = () => {
-    postCreateFlow(
-      cartId,
+  const handleFlowPayment = () => {
+    setError(null);
+    setLoading(true);
+
+    postCreatePurchaseOrder(
       items,
       selectedCourier,
-      selectedAddress,
-      coupon?.code,
-      discount,
-
-      signOutAuthState
+      selectedAddress?.id,
+      "f",
+      signOutAuthState,
+      coupon?.coupon.code
     )
       .then((url) => {
         setLoading(false);
@@ -64,6 +64,7 @@ export default function Flow({
         setLoading(false);
       });
   };
+
   return (
     <button
       disabled={loading}

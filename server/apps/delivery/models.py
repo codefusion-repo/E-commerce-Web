@@ -13,7 +13,7 @@ class Address(models.Model):
         verbose_name_plural = "Addresses"
     id = models.CharField(max_length=300, primary_key=True, unique=True, default=uuid.uuid4, editable=False)
 
-    user            = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    user            = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_address")
     regionName     = models.CharField(max_length=155)
     regionCode     = models.CharField(max_length=20)
     countyName     = models.CharField(max_length=155)

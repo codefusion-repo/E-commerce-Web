@@ -23,6 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
+SHIPIT_USER = env("SHIPIT_USER")
+SHIPIT_TOKEN = env("SHIPIT_TOKEN")
+SHIPIT_SENDER_COMMUNE_ID = env("SHIPIT_SENDER_COMMUNE_ID")
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 

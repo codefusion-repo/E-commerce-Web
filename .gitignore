@@ -137,7 +137,7 @@ env.bak/
 venv.bak/
 ecw-key
 ecw-key.pub 
-
+.env.local
 # Spyder project settings
 .spyderproject
 .spyproject

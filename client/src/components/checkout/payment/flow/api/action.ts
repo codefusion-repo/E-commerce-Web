@@ -10,32 +10,29 @@ import { ProductType } from "../../../../../interfaces/shop/shopInterface";
 import axios from "axios";
 
 export const postCreateFlow = (
-  cartId: string | undefined,
   items: ProductType[] | undefined,
   selectedCourier: any | undefined,
   selectedAddress: AddressType | undefined,
-  couponCode: string | undefined,
-  discount: number,
 
   signOutAuthState: (
     message?: string,
     needRedirection?: boolean,
     needRefresh?: boolean
-  ) => void
+  ) => void,
+  couponCode?: string
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     postCreatePurchaseOrder(
-      cartId,
       items,
       selectedCourier,
       selectedAddress?.id,
-      couponCode,
-      discount,
-
-      signOutAuthState
+      "f",
+      signOutAuthState,
+      couponCode
     )
-      .then((commerceOrder) => {
-        postJWTAccessTokenInPage()
+      .then((url) => {
+        console.log("url: ", url);
+        /*postJWTAccessTokenInPage()
           .then((token) => {
             const config = {
               headers: {
@@ -44,26 +41,21 @@ export const postCreateFlow = (
               },
             };
 
-            let amount: number = 0;
             let optional: any = {};
 
-            items &&
-              items.forEach((item) => {
-                optional[`${item.name}`] = `${item.quantity}`;
-                amount += item.price * item.quantity;
+            purchase.items &&
+              purchase.items.forEach((item) => {
+                optional[`${item.product.name}`] = `${item.quantity}`;
               });
 
-            amount = amount + parseFloat(selectedCourier.price) - discount;
-
             const params = {
-              commerceOrder: commerceOrder,
+              commerceOrder: purchase.code,
               subject: "Order payment",
               currency: "CLP",
-              amount: amount,
+              amount: purchase.total,
               urlConfirmation: `${process.env.NEXT_PUBLIC_URL_PRO}/api/payment/receive/flow/webwook`,
               urlReturn: `${process.env.NEXT_PUBLIC_URL_PRO}/api/payment/receive/flow/redirect`,
               optional: JSON.stringify(optional),
-              couponCode: couponCode,
             };
 
             axios
@@ -85,7 +77,7 @@ export const postCreateFlow = (
           .catch((err) => {
             signOutAuthState(err, true, false);
             return reject(err);
-          });
+          });*/
       })
       .catch((err) => {
         return reject(err);

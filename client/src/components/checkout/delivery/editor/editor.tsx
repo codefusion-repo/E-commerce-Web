@@ -90,15 +90,6 @@ export default function Editor({
   } = addressFormData;
 
   useEffect(() => {
-    /*if (!regions) {
-      getRegionsCoverage()
-        .then((res) => {
-          setRegions(res.data.regions);
-        })
-        .catch((err) => {
-          setError(err);
-        });
-    }*/
     if (!communes) {
       const communesOfSelectedRegion = allCommunes.filter(
         (commune) => String(commune.region_id) === address.regionCode
@@ -106,14 +97,6 @@ export default function Editor({
 
       setCommunes(communesOfSelectedRegion);
       setLoading(false);
-
-      /*getCommunesCoverage(address.regionCode)
-        .then((res) => {
-          setCommunes(res.data.coverageAreas);
-        })
-        .catch((err) => {
-          setError(err);
-        })*/
     }
   }, [communes]);
 

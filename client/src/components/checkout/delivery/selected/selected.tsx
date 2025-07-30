@@ -20,7 +20,7 @@ export default function Selected({
   setStatus: Dispatch<SetStateAction<string | undefined>>;
 }) {
   const { device } = useMobile();
-  const { user } = useAuth();
+  const { user, signOutAuthState } = useAuth();
   const { items } = useShopcart();
   const {
     selectedAddress,
@@ -71,6 +71,7 @@ export default function Selected({
 
       postDeliveryCotization(
         items,
+        signOutAuthState,
         selectedAddress?.countyCode,
         selectedAddress?.countyName
       )

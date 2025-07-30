@@ -1,112 +1,8 @@
 // `components/checkout/delivery/api/action.ts`
 
+import { postJWTAccessTokenInPage } from "../../../../context/auth/api/action";
 import { ProductType } from "../../../../interfaces/shop/shopInterface";
 import axios from "axios";
-
-export const getRegionsCoverage = (): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    const version = "1.0";
-    const url = `https://testservices.wschilexpress.com/georeference/api/v${version}/regions`;
-    const config = {
-      headers: {
-        "Cache-Control": "no-cache",
-        "Ocp-Apim-Subscription-Key": process.env.NEXT_PUBLIC_KEY_COBERTURA,
-      },
-    };
-    axios
-      .get(url, config)
-      .then((res) => {
-        console.log("res: ", res);
-        return resolve(res);
-      })
-      .catch((err) => {
-        return reject(err.response.data.statusDescription);
-      });
-  });
-};
-
-export const getCommunesCoverage = (regionCode: string): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    const version = "1.0";
-    const type = "0";
-    const url = `https://testservices.wschilexpress.com/georeference/api/v${version}/coverage-areas?RegionCode=${regionCode}&type=${type}`;
-    const config = {
-      headers: {
-        "Cache-Control": "no-cache",
-        "Ocp-Apim-Subscription-Key": process.env.NEXT_PUBLIC_KEY_COBERTURA,
-      },
-    };
-    axios
-      .get(url, config)
-      .then((res) => {
-        console.log("res: ", res);
-        return resolve(res);
-      })
-      .catch((err) => {
-        return reject(err.response.data.statusDescription);
-      });
-  });
-};
-
-export const postSearchedStreets = (
-  countyName: string,
-  streetName: string
-): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    const limit = "5";
-    const version = "1.0";
-
-    const body = {
-      countyName: countyName,
-      streetName: streetName,
-      pointsOfInterestEnabled: true,
-      streetNameEnabled: true,
-      roadType: 0,
-    };
-    console.log("body: ", body);
-    const url = `https://testservices.wschilexpress.com/georeference/api/v${version}/streets/search?limit=${limit}`;
-    const config = {
-      headers: {
-        "Cache-Control": "no-cache",
-        "Ocp-Apim-Subscription-Key": process.env.NEXT_PUBLIC_KEY_COBERTURA,
-      },
-    };
-
-    axios
-      .post(url, body, config)
-      .then((res) => {
-        return resolve(res);
-      })
-      .catch((err) => {
-        return reject(err.response.data.statusDescription);
-      });
-  });
-};
-
-export const getSearchedStreetNumbers = (
-  streetId: string,
-  streetNumber: string
-): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    const version = "1.0";
-    const url = `https://testservices.wschilexpress.com/georeference/api/v${version}/streets/${streetId}/numbers?streetNumber=${streetNumber}`;
-    const config = {
-      headers: {
-        "Cache-Control": "no-cache",
-        "Ocp-Apim-Subscription-Key": process.env.NEXT_PUBLIC_KEY_COBERTURA,
-      },
-    };
-
-    axios
-      .get(url, config)
-      .then((res) => {
-        return resolve(res);
-      })
-      .catch((err) => {
-        return reject(err.response.data.statusDescription);
-      });
-  });
-};
 
 export const postValidateAddress = (
   streetName: string,
@@ -174,7 +70,6 @@ export const postValidateAddress = (
               }
             }
           });
-          console.log("params: ", params);
           return resolve(params);
         } else {
           return reject("Address entered is not valid");
@@ -191,197 +86,68 @@ export const postValidateAddress = (
   });
 };
 
-export const postGeoreferenceAddress = (
-  countyName?: string,
-  streetName?: string,
-  streetNumber?: string
-): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    if (!streetName) {
-      return reject("Enter a street");
-    } else if (streetName.length < 1) {
-      return reject("The street must have at least 2 characters");
-    }
-    if (!streetNumber) {
-      return reject("Enter a street number");
-    } else if (streetNumber.length < 0) {
-      return reject("The street number must have at least 1 character");
-    }
-    const version = "1.0";
-    const url = `http://testservices.wschilexpress.com/georeference/api/v${version}/addresses/georeference`;
-
-    const body = {
-      countyName: countyName,
-      streetName: streetName,
-      number: streetNumber,
-    };
-
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        "Cache-Control": "no-cache",
-        "Ocp-Apim-Subscription-Key": process.env.NEXT_PUBLIC_KEY_COBERTURA,
-      },
-    };
-    axios
-      .post(url, body, config)
-      .then((res) => {
-        console.log("res: ", res);
-        if (res.data.data.addressId != 0) {
-          return resolve(res.data.data.addressId);
-        } else {
-          return reject(res.data.statusDescription);
-        }
-      })
-      .catch((err) => {
-        return reject(err.response.data.statusDescription);
-      });
-  });
-};
-
-const postChilexpress = (
-  countyCode: string,
-  peso: string,
-  alto: string,
-  ancho: string,
-  largo: string,
-  subtotal: string
-): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    const url = `https://testservices.wschilexpress.com/rating/api/v1.0/rates/courier`;
-
-    const body = {
-      originCountyCode: process.env.NEXT_PUBLIC_ORIGIN_COUNTY,
-      destinationCountyCode: countyCode,
-      package: {
-        weight: peso,
-        height: alto,
-        width: ancho,
-        length: largo,
-      },
-      productType: 3,
-      contentType: 1,
-      declaredWorth: subtotal,
-      deliveryTime: 2,
-    };
-    const config = {
-      headers: {
-        "Cache-Control": "no-cache",
-        "Ocp-Apim-Subscription-Key": process.env.NEXT_PUBLIC_KEY_COTIZADOR,
-      },
-    };
-    axios
-      .post(url, body, config)
-      .then((res) => {
-        if (res.data.data.courierServiceOptions.length > 0) {
-          return resolve(res.data.data.courierServiceOptions);
-        } else {
-          return resolve([]);
-        }
-      })
-      .catch(() => {
-        return resolve([]);
-      });
-  });
-};
-const postCorreosChile = (
-  countyName: string,
-  peso: string,
-  alto: string,
-  ancho: string,
-  largo: string,
-  subtotal: string
-): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    const url = "https://cert-apib2bv2.correos.cl:8000/tarifas";
-
-    const usuario = process.env.NEXT_PUBLIC_USER;
-    const password = process.env.NEXT_PUBLIC_PASSWORD;
-    const authorization =
-      "basic " + Buffer.from(usuario + ":" + password).toString("base64");
-
-    const config = {
-      headers: {
-        Authorization: authorization,
-        "Content-Type": "application/json",
-      },
-    };
-
-    const volume =
-      (parseFloat(ancho) * parseFloat(largo) * parseFloat(alto)) / 1000000;
-
-    const body = JSON.stringify({
-      comunaRemitente: process.env.NEXT_PUBLIC_SENDER_COMMUNE,
-      comunaDestino: countyName.toUpperCase(),
-      tipoPortes: "P",
-      bultos: 1,
-      kilos: peso,
-      volumen: volume,
-      importeReembolso: 0,
-      valorAsegurado: subtotal,
-    });
-
-    axios
-      .post(url, body, config)
-      .then((res) => {
-        // console.log("correosChileRes: ", res);
-        return resolve([]);
-      })
-      .catch(() => {
-        return resolve([]);
-      });
-  });
-};
-
 const postShipit = (
-  countyCode: number,
-  peso: number,
-  alto: number,
-  ancho: number,
-  largo: number
+  destiny_id: number,
+  weight: number,
+  height: number,
+  width: number,
+  length: number,
+
+  signOutAuthState: (
+    message?: string,
+    needRedirection?: boolean,
+    needRefresh?: boolean
+  ) => void
 ): Promise<any> => {
   return new Promise((resolve, reject) => {
-    const url = "https://api.shipit.cl/v/rates";
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/vnd.shipit.v4",
-        "X-Shipit-Email": process.env.NEXT_PUBLIC_USER,
-        "X-Shipit-Access-Token": process.env.NEXT_PUBLIC_TOKEN,
-      },
-    };
+    postJWTAccessTokenInPage()
+      .then((token) => {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `JWT ${token}`,
+          },
+        };
 
-    const originId = parseInt(
-      process.env.NEXT_PUBLIC_SENDER_COMMUNE_ID || "308"
-    );
+        const shipitFormData = new FormData();
+        shipitFormData.append("length", String(length));
+        shipitFormData.append("height", String(height));
+        shipitFormData.append("width", String(width));
+        shipitFormData.append("weight", String(weight));
+        shipitFormData.append("destiny_id", String(destiny_id));
 
-    const body = {
-      parcel: {
-        length: largo,
-        height: alto,
-        width: ancho,
-        weight: peso,
-        origin_id: originId,
-        destiny_id: countyCode,
-        type_of_destiny: "domicilio",
-        algorithm: 1,
-      },
-    };
-
-    axios
-      .post(url, body, config)
-      .then((res) => {
-        // console.log("resShipit: ", res);
-        return resolve(res.data.prices);
+        axios
+          .post(
+            `${process.env.NEXT_PUBLIC_URL_PRO}/api/delivery/post/shipit`,
+            shipitFormData,
+            config
+          )
+          .then((res) => {
+            console.log("response list: ", res.data);
+            return resolve(res.data);
+          })
+          .catch((err) => {
+            return reject(
+              err?.response?.data?.detail ||
+                "Unexpected error, please try again"
+            );
+          });
       })
       .catch((err) => {
-        return reject(err.response.data.message);
+        signOutAuthState(err, true, false);
+        return reject(err);
       });
   });
 };
 
 export const postDeliveryCotization = (
   items: ProductType[],
+  signOutAuthState: (
+    message?: string,
+    needRedirection?: boolean,
+    needRefresh?: boolean
+  ) => void,
+
   countyCode?: string,
   countyName?: string
 ): Promise<any> => {
@@ -428,47 +194,14 @@ export const postDeliveryCotization = (
       return reject("No products in your shopping cart");
     }
 
-    /*console.log("peso: ", peso);
-    console.log("alto: ", alto);
-    console.log("largo: ", ancho);
-    console.log("ancho: ", largo);
-    console.log("subtotal: ", subtotal);*/
-
-    postShipit(parseInt(countyCode), peso, alto, ancho, largo)
+    postShipit(parseInt(countyCode), peso, alto, ancho, largo, signOutAuthState)
       .then((res) => {
-        // console.log("ShipitRes: ", res);
+        console.log("ShipitRes: ", res);
         return resolve(res);
       })
       .catch((err) => {
-        // console.log("ShipitErr: ", err);
+        console.log("ShipitErr: ", err);
         return reject(err);
       });
-
-    /*postChilexpress(
-      countyCode,
-      peso.toString(),
-      alto.toString(),
-      ancho.toString(),
-      largo.toString(),
-      subtotal.toString()
-    ).then((chilexpressCourierOptions) => {
-      chilexpressCourierOptions.forEach((courier: any) => {
-        courierServiceOptions.push(courier);
-      });
-
-      postCorreosChile(
-        countyName,
-        peso.toString(),
-        alto.toString(),
-        ancho.toString(),
-        largo.toString(),
-        subtotal.toString()
-      ).then((correoschileCourierOptions) => {
-        correoschileCourierOptions.forEach((courier: any) => {
-          courierServiceOptions.push(courier);
-        });
-        console.log("courierServiceOptions: ", courierServiceOptions);
-      });
-    });*/
   });
 };

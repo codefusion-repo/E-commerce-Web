@@ -19,5 +19,5 @@ class UserCouponSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             "coupon",
-            "isUsed"
+            "status"
         ]

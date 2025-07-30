@@ -1,5 +1,6 @@
 from django.db import models
 from apps.shop.models import Product
+from apps.coupons.models import UserCoupon
 from django.contrib.auth import get_user_model
 import uuid
 User = get_user_model()
@@ -14,8 +15,9 @@ PURCHASE_STATUS = {
 class Purchase(models.Model):
     id = models.CharField(max_length=300, primary_key=True, unique=True, default=uuid.uuid4, editable=False)
     code            = models.CharField(max_length=150)
-    user            = models.ForeignKey(User, on_delete=models.CASCADE)
+    user            = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_purchase")
     discount        = models.IntegerField(default=0)
+    coupon          = models.OneToOneField(UserCoupon, related_name="coupon_applied", blank=True, null=True, on_delete=models.CASCADE)
     subtotal        = models.IntegerField(default=0)
     deliveryCost    = models.IntegerField(default=0)
     total           = models.IntegerField(default=0)

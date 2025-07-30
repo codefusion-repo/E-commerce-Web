@@ -230,9 +230,7 @@ export default function Shopcart() {
           >
             <h3>
               {items && items.length > 1
-                ? `You have ${
-                    items && items.length
-                  } items in your shopping cart`
+                ? `You have ${items.length} items in your shopping cart`
                 : items && items.length === 0
                 ? `There are no products in your shopping cart`
                 : `You have ${

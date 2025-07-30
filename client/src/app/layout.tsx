@@ -10,7 +10,7 @@ import Modal from "../components/modal/modal";
 import Messages from "../components/messages/messages";
 import "../style/new-general-style.css";
 // import "../style/general-style.css";
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { cookies } from "next/headers";
 import { db } from "../context/firebase/firebaseInit";
 import { MobileProvider } from "../context/mobile/mobileContext";
@@ -196,10 +196,59 @@ async function getDocFromFirestore(cartId: string) {
     return await defaultCartReturn();
   }
 }
+
+// Nueva función para manejar el carrito de compras
+async function fetchShopcart(user: any, isAuthenticated: boolean) {
+  if (isAuthenticated) {
+    const docRef = doc(db, "carts", user?.id);
+    console.log("cartRef: ", docRef);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  } else {
+    console.log("Not autheticated!");
+  }
+}
 // Función para obtener un carro de compras
-async function getFirebaseShopcart(areCookiesActive: boolean) {
+async function getFirebaseShopcart(
+  areCookiesActive: boolean,
+  user: any,
+  isAuthenticated: boolean
+) {
   try {
-    const Cookies = cookies();
+    console.log("isAuthenticated: ", isAuthenticated);
+    if (isAuthenticated) {
+      console.log("user: ", user);
+      console.log("user_id: ", user?.id);
+
+      const cartRef = doc(db, "shoppingCart", user?.id);
+      console.log("cartRef: ", cartRef);
+      const cartSnap = await getDoc(cartRef);
+
+      console.log("cartSnap: ", cartSnap);
+
+      if (cartSnap.exists()) {
+        const cartData = cartSnap.data();
+        console.log("descargado: ", cartData);
+        return await defaultCartReturn();
+      } else {
+        const docRef = await setDoc(doc(db, "shoppingCart", user?.id), {
+          items: [],
+          coupon: {},
+        });
+
+        console.log("creado: ", docRef);
+        return await defaultCartReturn();
+      }
+    }
+    console.log("No autenticado");
+    return await defaultCartReturn();
+    /*const Cookies = cookies();
     if (areCookiesActive) {
       const cartId = Cookies.get("shopcartId")?.value;
       if (cartId) {
@@ -209,8 +258,9 @@ async function getFirebaseShopcart(areCookiesActive: boolean) {
       }
     } else {
       return await defaultCartReturn();
-    }
+    }*/
   } catch {
+    console.log("Error111");
     return await defaultCartReturn();
   }
 }
@@ -244,8 +294,8 @@ async function getShopData() {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_URL_DOCKER}/api/shop/get/categories`,
-      { cache: "no-store" }
-      // { next: { revalidate: 1600 } }
+      // { cache: "no-store" }
+      { next: { revalidate: 1600 } }
     );
     if (res.status === 200) {
       const data = await res.json();
@@ -258,8 +308,8 @@ async function getShopData() {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_URL_DOCKER}/api/shop/get/products`,
-      { cache: "no-store" }
-      // { next: { revalidate: 1600 } }
+      // { cache: "no-store" }
+      { next: { revalidate: 1600 } }
     );
     if (res.status === 200) {
       const data = await res.json();
@@ -283,7 +333,7 @@ export default async function RootLayout({
 
   const shopData = await getShopData();
 
-  const cartData = await getFirebaseShopcart(settingsData.areCookiesActive);
+  // const cartData = await fetchShopcart(authData.user, authData.isAuthenticated);
 
   return (
     <html lang="en">
@@ -295,7 +345,7 @@ export default async function RootLayout({
                 <AuthProvider authData={authData}>
                   <ShopProvider shopData={shopData}>
                     <CheckoutProvider>
-                      <ShopcartProvider cartData={cartData}>
+                      <ShopcartProvider>
                         <ModalProvider>
                           {children}
                           <Modal />

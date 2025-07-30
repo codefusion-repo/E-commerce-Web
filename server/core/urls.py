@@ -25,7 +25,7 @@ urlpatterns = [
     # path("", nextjs_page(), name="nextjs_home_page"),
     # path("/shop", nextjs_page(), name="nextjs_shop_page"),
 
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api/my/auth/', include('apps.myAuth.urls')),
     path('api/user/', include('apps.user.urls')),
     path('api/shop/', include('apps.shop.urls')),

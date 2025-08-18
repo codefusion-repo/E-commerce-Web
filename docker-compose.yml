@@ -56,7 +56,7 @@ services:
     container_name: ecw-nginx
     build:
       context: ./nginx
-    image: hellocodefusion/ecw-nginx:pv3
+    image: hellocodefusion/ecw-nginx:pv4
     ports:
       - 80
     depends_on:

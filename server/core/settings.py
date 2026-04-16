@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from core.firebase import init_firebase
 import firebase_admin
 from firebase_admin import credentials
 from cryptography.fernet import Fernet
@@ -36,6 +37,8 @@ CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST_PRO')
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS_PRO')
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS_PRO')
 CORS_ALLOW_METHODS = env.list('CORS_ALLOW_METHODS')
+
+APP = init_firebase()
 
 GOOGLE_APP_CREDENTIAL = env('GOOGLE_APP_CREDENTIAL')
 GOOGLE_APP_ENCRYPTION_KEY = env('GOOGLE_APP_ENCRYPTION_KEY')

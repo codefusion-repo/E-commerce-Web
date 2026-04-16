@@ -41,14 +41,13 @@ CORS_ALLOW_METHODS = env.list('CORS_ALLOW_METHODS')
 GOOGLE_APP_CREDENTIAL = env('GOOGLE_APP_CREDENTIAL')
 GOOGLE_APP_ENCRYPTION_KEY = env('GOOGLE_APP_ENCRYPTION_KEY')
 
-APP = init_firebase()
 
 #LEER CLAVE DE CIFRADO
-""""cipher_suite = Fernet(GOOGLE_APP_ENCRYPTION_KEY)
+cipher_suite = Fernet(GOOGLE_APP_ENCRYPTION_KEY)
 
 GOOGLE_APP_CREDENTIAL_PATH = os.path.join(os.path.dirname(__file__), GOOGLE_APP_CREDENTIAL)
 
-#LEER ARCHIVO CIFRADI
+#LEER ARCHIVO CIFRADO
 with open(GOOGLE_APP_CREDENTIAL_PATH, 'rb') as encrypted_file:
     encrypted_data = encrypted_file.read()
 
@@ -56,7 +55,9 @@ with open(GOOGLE_APP_CREDENTIAL_PATH, 'rb') as encrypted_file:
 decrypted_data = cipher_suite.decrypt(encrypted_data)
 
 #LEER LAS CREDENCIALES
-cred = credentials.Certificate(json.loads(decrypted_data))"""
+cred = credentials.Certificate(json.loads(decrypted_data))
+
+APP = firebase_admin.initialize_app(cred)
 
 # Application definition
 DJANGO_APPS = [

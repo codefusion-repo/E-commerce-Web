@@ -1,9 +1,12 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { browserLocalPersistence } from "firebase/auth";
+"use client";
 
-// Configuración de Firebase
+import { getApp, getApps, initializeApp } from "firebase/app";
+import {
+  browserLocalPersistence,
+  getAuth,
+  setPersistence,
+} from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY_FIREBASE,
@@ -15,22 +18,16 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID_FIREBASE,
 };
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-/*const firebaseConfig = {
-  apiKey: "AIzaSyDFvPIl5-Ry_b4MeAURHADmFRTSzZYdHF8",
-  authDomain: "e-commerce-web-681dc.firebaseapp.com",
-  projectId: "e-commerce-web-681dc",
-  storageBucket: "e-commerce-web-681dc.appspot.com",
-  messagingSenderId: "834902306683",
-  appId: "1:834902306683:web:e82a70433c5fb4ee4f97de",
-  measurementId: "G-C8E52M4FPS",
-};*/
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
-// Inicializa Firebase
-const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-auth.setPersistence(browserLocalPersistence);
-auth.useDeviceLanguage();
+
+if (typeof window !== "undefined") {
+  setPersistence(auth, browserLocalPersistence).catch((err) => {
+    console.error("Firebase persistence error:", err);
+  });
+  auth.useDeviceLanguage();
+}
 
 const db = getFirestore(app);
 

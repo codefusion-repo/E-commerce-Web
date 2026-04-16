@@ -76,12 +76,23 @@ class Command(BaseCommand):
                 self.seed_order(customer_user, products, coupons)
 
         self.stdout.write(self.style.SUCCESS("Seed e-commerce completado correctamente."))
-        self.stdout.write(
-            self.style.WARNING(
-                "Usuarios demo creados. Si quieres contraseñas utilizables, define "
-                "SUPER_PASSWORD y DEMO_PASSWORD antes de ejecutar el comando."
+
+        super_password_defined = bool(os.getenv("SUPER_PASSWORD"))
+        demo_password_defined = bool(os.getenv("DEMO_PASSWORD"))
+
+        if super_password_defined and demo_password_defined:
+            self.stdout.write(
+                self.style.SUCCESS(
+                    "Usuarios demo creados con contraseñas definidas desde variables de entorno."
+                )
             )
-        )
+        else:
+            self.stdout.write(
+                self.style.WARNING(
+                    "Usuarios demo creados. Si quieres contraseñas utilizables, define "
+                    "SUPER_PASSWORD y DEMO_PASSWORD antes de ejecutar el comando."
+                )
+            )
 
     def require_placeholder(self, filename: str) -> Path:
         path = self.placeholder_dir / filename

@@ -62,7 +62,12 @@ class CategoryViewCount(models.Model):
         return f'Vista de la categoría {self.category.name}.'
 
 def product_image_directory(instance, filename):
-    return 'store/products/{0}/{1}'.format(instance.slug, filename)
+    if hasattr(instance, 'slug'):
+        slug = instance.slug
+    else:
+        slug = instance.product.slug
+
+    return f'store/products/{slug}/{filename}'
 
 class Product(models.Model):
     class Meta:
@@ -135,13 +140,13 @@ class ProductImages(models.Model):
     def __str__(self):
         return f'Imagen del producto {self.product.name}.'
 
-STARS = {
+STARS = [
     (1, "1 estrella"),
     (2, "2 estrellas"),
     (3, "3 estrellas"),
     (4, "4 estrellas"),
     (5, "5 estrellas"),
-}
+]
 
 class ProductComment(models.Model):
     id = models.CharField(max_length=300, primary_key=True, unique=True, default=uuid.uuid4, editable=False)

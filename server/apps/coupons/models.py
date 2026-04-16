@@ -4,11 +4,11 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-options_type = {
+options_type = [
     ('percent', 'percent'),
     ('value', 'value'),
-    ('free_delivery', 'free_delivery')
-}
+    ('free_delivery', 'free_delivery'),
+]
 
 class Coupon(models.Model):
     id = models.CharField(max_length=300, primary_key=True, unique=True, default=uuid.uuid4, editable=False) 
@@ -31,12 +31,12 @@ class UserCoupon(models.Model):
     user    = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_coupons")
     coupon  = models.ForeignKey(Coupon, on_delete=models.CASCADE)
 
-    COUPON_STATUS = {
+    COUPON_STATUS = [
         ("is_used", "Used"),
         ("is_applied", "Applied"),
         ("is_claimed", "Claimed"),
         ("is_expired", "Expired"),
-    }
+    ]
     status = models.CharField(choices=COUPON_STATUS, default="is_claimed", max_length=30)
 
     creationDate = models.DateTimeField(auto_now_add=True)

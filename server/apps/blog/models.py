@@ -88,13 +88,13 @@ class PostViewCount(models.Model):
     def __str__(self):
         return f'Vista del post {self.post.title}.'
     
-STARS = {
+STARS = [
     (1, "1 estrella"),
     (2, "2 estrellas"),
     (3, "3 estrellas"),
     (4, "4 estrellas"),
     (5, "5 estrellas"),
-}
+]
 
 class PostComment(models.Model):
     id = models.CharField(max_length=300, primary_key=True, unique=True, default=uuid.uuid4, editable=False)

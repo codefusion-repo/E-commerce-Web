@@ -5,12 +5,12 @@ from django.contrib.auth import get_user_model
 import uuid
 User = get_user_model()
 
-PURCHASE_STATUS = {
+PURCHASE_STATUS = [
     ("created", "creada"),
     ("uncompleted", "incompleta"),
     ("payed", "pagada"),
     ("delivered", "entregada"),
-}
+]
 
 class Purchase(models.Model):
     id = models.CharField(max_length=300, primary_key=True, unique=True, default=uuid.uuid4, editable=False)

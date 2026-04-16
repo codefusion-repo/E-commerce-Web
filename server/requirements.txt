@@ -1,4 +1,4 @@
-django==3.2                                       # Framework web de Python para el desarrollo rápido y limpio de aplicaciones.
+django==4.2,<5.0                                       # Framework web de Python para el desarrollo rápido y limpio de aplicaciones.
 django-environ==0.11.2                              # Simplifica la gestión de configuraciones utilizando variables de entorno en entornos Django.
 dj-database-url==2.1.0                              # Una utilidad de Django que te permite utilizar la variable de entorno DATABASE_URL para configurar tu aplicación.
 django-cors-headers==3.10.1                          # Habilita el soporte para Cross-Origin Resource Sharing (CORS) en aplicaciones Django, permitiendo solicitudes desde diferentes dominios.

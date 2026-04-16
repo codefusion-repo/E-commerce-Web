@@ -1,6 +1,5 @@
 from pathlib import Path
 
-from core.firebase import init_firebase
 import firebase_admin
 from firebase_admin import credentials
 from cryptography.fernet import Fernet
@@ -16,7 +15,6 @@ environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -40,7 +38,6 @@ CORS_ALLOW_METHODS = env.list('CORS_ALLOW_METHODS')
 
 GOOGLE_APP_CREDENTIAL = env('GOOGLE_APP_CREDENTIAL')
 GOOGLE_APP_ENCRYPTION_KEY = env('GOOGLE_APP_ENCRYPTION_KEY')
-
 
 #LEER CLAVE DE CIFRADO
 cipher_suite = Fernet(GOOGLE_APP_ENCRYPTION_KEY)

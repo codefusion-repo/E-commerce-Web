@@ -12,9 +12,9 @@ django-tinymce==3.6.1                              # Un widget de Django para ca
 # django-nextjs==3.2.0 HERE
 
 argon2-cffi==21.3.0                                 # Implementa Argon2 utilizando CFFI, proporcionando una forma segura y eficiente de manejar contraseñas en Python.
-psycopg2-binary==2.9.11                                 # Adaptador de PostgreSQL para Python, versión construida desde el código fuente, más segura y compatible que la versión binaria.
+psycopg2-binary==2.9.9                                  # Adaptador de PostgreSQL para Python, versión construida desde el código fuente, más segura y compatible que la versión binaria.
 
-Pillow==12.2.0                                    # Biblioteca de procesamiento de imágenes en Python que agrega soporte para abrir, manipular y guardar varios formatos de imágenes.
+Pillow==10.4.0                                    # Biblioteca de procesamiento de imágenes en Python que agrega soporte para abrir, manipular y guardar varios formatos de imágenes.
 phonenumbers==8.13.28                               # Una biblioteca de Python para analizar, formatear y validar números de teléfono internacionalmente.
 humanize==3.14.0                                     # Una biblioteca de Python que te ayuda a formatear números, fechas, tiempos y tamaños de archivos de una manera más legible para los humanos.
 #slugify==0.0.1                                      # Una utilidad genérica para crear 'slugs' inspirada en el filtro de plantilla slugify de Django.

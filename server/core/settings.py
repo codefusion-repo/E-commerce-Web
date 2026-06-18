@@ -4,11 +4,10 @@ import firebase_admin
 from firebase_admin import credentials
 from cryptography.fernet import Fernet
 import json
-
 import os
 from datetime import timedelta
 import dj_database_url
-
+from django.core.exceptions import ImproperlyConfigured
 import environ
 env = environ.Env()
 environ.Env.read_env()
@@ -27,7 +26,7 @@ SHIPIT_TOKEN = env("SHIPIT_TOKEN")
 SHIPIT_SENDER_COMMUNE_ID = env("SHIPIT_SENDER_COMMUNE_ID")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS_PRO')
 
@@ -125,25 +124,36 @@ ASGI_APPLICATION = 'core.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-database_url = env('DATABASE_URL', default=None)
+
+database_url = env("DATABASE_URL", default=None)
 
 if database_url:
     DATABASES = {
-        'default': dj_database_url.parse(
+        "default": dj_database_url.parse(
             database_url,
             conn_max_age=0,
             ssl_require=True,
         )
     }
+
     DATABASES["default"]["OPTIONS"] = {
+        **DATABASES["default"].get("OPTIONS", {}),
         "sslmode": "require",
         "connect_timeout": 10,
     }
+
+    # Recomendado si usas Supabase Pooler / Supavisor en transaction mode.
+    if "pooler.supabase.com" in database_url:
+        DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
+
+elif not DEBUG:
+    raise ImproperlyConfigured("DATABASE_URL is required when DEBUG=False")
+
 else:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 

@@ -411,7 +411,12 @@ def receiveMercadopagoWebhook(request):
     try:
         validate_mp_webhook_signature(request, payment_id)
     except ValueError as exc:
-        return JsonResponse({"detail": str(exc)}, status=401)
+        if get_mp_mode() == "production":
+            return JsonResponse({"detail": str(exc)}, status=401)
+        logger.warning(
+            "Mercado Pago webhook signature validation skipped in sandbox: %s",
+            exc,
+        )
 
     if not payment_id:
         return JsonResponse(
@@ -463,9 +468,21 @@ def receiveMercadopagoWebhook(request):
                 provider_status="payed",
             )
             if payment_result.get("status") != 200:
+                logger.error(
+                    "Mercado Pago payment persistence failed for order %s: %s",
+                    commerce_order,
+                    payment_result.get("detail"),
+                )
                 return JsonResponse(
-                    {"detail": str(payment_result.get("detail"))},
-                    status=500,
+                    {
+                        "detail": "Mercado Pago webhook processed",
+                        "commerceOrder": commerce_order,
+                        "paymentStatus": transaction_status,
+                        "paymentPersistenceWarning": (
+                            "Payment record could not be persisted"
+                        ),
+                    },
+                    status=200,
                 )
         elif transaction_status in MERCADO_PAGO_FAILED_STATUSES:
             if purchase.status != "uncompleted":

@@ -18,6 +18,11 @@ import time
 
 User = get_user_model()
 
+def get_payment_error_detail(response):
+    if isinstance(response, dict):
+        return response.get("detail") or "Payment could not be created"
+    return str(response)
+
 def applyCoupon(coupon_code, purchase_id, user_id):
     try:
         if Coupon.objects.filter(code=coupon_code).exists():
@@ -105,11 +110,13 @@ class ResendPurchase(APIView):
                 res, code = create_flow_payment(purchase.id, request.user)
             elif method == "mp":
                 res, code = create_mercadopago_payment(purchase.id, request.user)
+            else:
+                raise ValueError("Payment method not supported")
 
             if code == 200:
                 return Response(res, status=status.HTTP_200_OK)    
             else:
-                raise ValueError(res)                      
+                raise ValueError(get_payment_error_detail(res))                      
         except ValueError as e:
             print(e)
             return Response({
@@ -184,11 +191,13 @@ class CreatePurchase(APIView):
                 res, code = create_flow_payment(purchase.id, request.user)
             elif method == "mp":
                 res, code = create_mercadopago_payment(purchase.id, request.user)
+            else:
+                raise ValueError("Payment method not supported")
 
             if code == 200:
                 return Response(res, status=status.HTTP_200_OK)    
             else:
-                raise ValueError(res)                           
+                raise ValueError(get_payment_error_detail(res))                           
         except ValueError as e:
             print(f"error in create: {e}")
             return Response({

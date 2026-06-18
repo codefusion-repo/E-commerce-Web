@@ -1,61 +1,114 @@
-from .models import Payment
 from apps.myAuth.utils import SendEmail
-from django.conf import settings
-# Función para crear un pago de una solicitud desde Flow
-def createBaseFlowPayment(purchase, response_data):
+
+from .models import Payment
+
+
+def send_payment_email_once(purchase, created):
+    if not created:
+        return
+
+    SendEmail(
+        email=purchase.user.email,
+        name=purchase.user.first_name,
+        templateId=6533966,
+        subject=f"Purchase order: {purchase.code} paid | CodeFusion.cl",
+        variables={
+            "name": purchase.user.first_name,
+            "order_id": purchase.code,
+            "total_price": purchase.total,
+            "url": f"https://e-commerce-web.store/profile/purchases/purchase/{purchase.code}",
+        },
+    )
+
+
+def get_or_create_payment(purchase, method, provider_payment_id):
+    payment = Payment.objects.filter(purchase=purchase, method=method).first()
+    if payment:
+        return payment, False
+
+    payment = Payment.objects.create(
+        id=str(provider_payment_id),
+        user=purchase.user,
+        purchase=purchase,
+        method=method,
+    )
+    return payment, True
+
+
+def createBaseFlowPayment(purchase, response_data, provider_status="payed"):
     try:
-        updated, created = Payment.objects.update_or_create(user=purchase.user, purchase=purchase, defaults={
-            'id': response_data['flowOrder'],
-            'method': 'flow',
+        flow_order = str(response_data["flowOrder"])
+        payment_data = response_data.get("paymentData") or {}
+        payment, created = get_or_create_payment(
+            purchase=purchase,
+            method="flow",
+            provider_payment_id=flow_order,
+        )
 
-            'media': response_data['paymentData']['media'],
-            'payerEmail': response_data['payer'],
+        payment.provider_payment_id = flow_order
+        payment.provider_order_id = str(response_data.get("commerceOrder") or purchase.code)
+        payment.status = provider_status
+        payment.media = payment_data.get("media") or "flow"
+        payment.payerEmail = response_data.get("payer") or purchase.user.email
+        payment.currency = response_data.get("currency") or "CLP"
+        payment.amount = float(response_data.get("amount") or purchase.total)
+        payment.fee = float(payment_data.get("fee") or 0)
+        payment.taxes = float(payment_data.get("taxes") or 0)
+        payment.received = float(payment_data.get("balance") or payment.amount)
+        payment.save()
 
-            'currency': response_data['currency'],
+        send_payment_email_once(purchase, created)
 
-            'amount': float(response_data['amount']),
-            'fee': float(response_data['paymentData']['fee']),
-            'taxes': float(response_data['paymentData']['taxes']),
-            'received': float(response_data['paymentData']['balance']),
-        })  
-        if created: 
-            SendEmail(email=purchase.user.email, name=purchase.user.first_name, templateId=6533966, subject=f"Purchase order: {purchase.code} paid | CodeFusion.cl", variables={ 'name': purchase.user.first_name, 'order_id': purchase.code, 'total_price': purchase.total, 'url': f"https://e-commerce-web.store/profile/purchases/purchase/{purchase.code}" })
-        
         return {
-            'status': 200
+            "status": 200,
         }
     except Exception as e:
         return {
-            'status': 401,
-            'detail': e
+            "status": 401,
+            "detail": str(e),
         }
 
-# Función para crear un pago de una solicitud desde Mercado Pago
-def createBaseMercadopagoPayment(purchase, payment, paymentId):
+
+def createBaseMercadopagoPayment(purchase, payment, paymentId, provider_status="payed"):
     try:
-        updated, created = Payment.objects.update_or_create(user=purchase.user, purchase=purchase, defaults={
-            'id': paymentId,
-            'method': 'mercadopago',
+        payment_response = payment["response"]
+        metadata = payment_response.get("metadata") or {}
+        total_amount = (
+            metadata.get("total_amount")
+            or payment_response.get("transaction_amount")
+            or purchase.total
+        )
 
-            'media': "mercadopago",
-            'payerEmail': payment['response']['payer']['email'],
+        updated_payment, created = get_or_create_payment(
+            purchase=purchase,
+            method="mercadopago",
+            provider_payment_id=paymentId,
+        )
 
-            'currency': "CLP",
+        updated_payment.provider_payment_id = str(paymentId)
+        updated_payment.provider_order_id = str(
+            payment_response.get("external_reference") or purchase.code
+        )
+        updated_payment.status = provider_status
+        updated_payment.media = "mercadopago"
+        updated_payment.payerEmail = (
+            (payment_response.get("payer") or {}).get("email")
+            or purchase.user.email
+        )
+        updated_payment.currency = "CLP"
+        updated_payment.amount = float(total_amount)
+        updated_payment.fee = 0
+        updated_payment.taxes = 0
+        updated_payment.received = float(total_amount)
+        updated_payment.save()
 
-            'amount': float(payment['response']['metadata']['total_amount']),
-            'fee': 0,
-            'taxes': 0,
-            'received': float(payment['response']['metadata']['total_amount']),
-        })  
+        send_payment_email_once(purchase, created)
 
-        if created: 
-            SendEmail(email=purchase.user.email, name=purchase.user.first_name, templateId=6533966, subject=f"Purchase order: {purchase.code} paid | CodeFusion.cl", variables={ 'name': purchase.user.first_name, 'order_id': purchase.code, 'total_price': purchase.total, 'url': f"https://e-commerce-web.store/profile/purchases/purchase/{purchase.code}" })
-        
         return {
-            'status': 200
+            "status": 200,
         }
     except Exception as e:
-        return  {
-            'status': 401,
-            'detail': e
+        return {
+            "status": 401,
+            "detail": str(e),
         }

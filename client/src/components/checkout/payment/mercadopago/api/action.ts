@@ -1,20 +1,19 @@
 // `components/checkout/payment/mercadopago/api/action.ts`
 
-import { stringify } from "querystring";
-import { postCreatePurchaseOrder } from "../../../../../components/profile/purchases/api/action";
-import { postJWTAccessTokenInPage } from "../../../../../context/auth/api/action";
+import {
+  postCreatePurchaseOrder,
+  postResendPurchaseOrder,
+} from "../../../../../components/profile/purchases/api/action";
 import {
   AddressType,
   PurchaseItemType,
 } from "../../../../../interfaces/auth/authInterface";
 import { ProductType } from "../../../../../interfaces/shop/shopInterface";
-import axios from "axios";
 
 export const postCreateMercadopago = (
   items: ProductType[] | undefined,
   selectedCourier: any | undefined,
   selectedAddress: AddressType | undefined,
-
   signOutAuthState: (
     message?: string,
     needRedirection?: boolean,
@@ -22,180 +21,26 @@ export const postCreateMercadopago = (
   ) => void,
   couponCode?: string
 ): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    postCreatePurchaseOrder(
-      items,
-      selectedCourier,
-      selectedAddress?.id,
-      "mp",
-      signOutAuthState,
-      couponCode
-    )
-      .then((url) => {
-        console.log("url: ", url);
-        /*postJWTAccessTokenInPage()
-          .then((token) => {
-            const config = {
-              headers: {
-                Authorization: `JWT ${token}`,
-                Accept: "application/json",
-              },
-            };
-
-            let products: any[] = [];
-            let total_amount: number = 0;
-
-            if (purchase.coupon) {
-              let discountItem = {
-                id: "discount",
-                title: "discount",
-                description: "",
-                picture_url: "",
-                category_id: "",
-                quantity: 1,
-                currency_id: "CLP",
-                unit_price: -purchase.discount,
-              };
-
-              products.push(discountItem);
-            }
-
-            purchase.items &&
-              purchase.items.forEach((i) => {
-                let item = {
-                  id: i.product.id,
-                  title: i.product.name,
-                  description: "",
-                  picture_url: i.product.thumbnail,
-                  category_id: "",
-                  quantity: i.quantity,
-                  currency_id: "CLP",
-                  unit_price: i.product.price,
-                };
-                total_amount += i.quantity * i.product.price;
-                products.push(item);
-              });
-
-            const paymentFormData = new FormData();
-            paymentFormData.append("commerceOrder", purchase.code);
-            paymentFormData.append("items", JSON.stringify(products));
-            paymentFormData.append(
-              "deliveryCost",
-              String(purchase.deliveryCost)
-            );
-            paymentFormData.append("total_amount", String(purchase.total));
-
-            axios
-              .post(
-                `${process.env.NEXT_PUBLIC_URL_PRO}/api/payment/create/mercadopago`,
-                paymentFormData,
-                config
-              )
-              .then((res) => {
-                return resolve(res.data.url);
-              })
-              .catch((err) => {
-                return reject(
-                  err?.response?.data?.detail ||
-                    "Unexpected error, please try again"
-                );
-              });
-          })
-          .catch((err) => {
-            signOutAuthState(err, true, false);
-            return reject(err);
-          });*/
-      })
-      .catch((err) => {
-        return reject(err);
-      });
-  });
+  return postCreatePurchaseOrder(
+    items,
+    selectedCourier,
+    selectedAddress?.id,
+    "mp",
+    signOutAuthState,
+    couponCode
+  );
 };
 
 export const postResendMercadopago = (
   commerceOrder: string,
-  items: PurchaseItemType[],
-  deliveryCost: number,
-  discount: number,
-
+  _items: PurchaseItemType[],
+  _deliveryCost: number,
+  _discount: number,
   signOutAuthState: (
     message?: string,
     needRedirection?: boolean,
     needRefresh?: boolean
   ) => void
 ): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    postJWTAccessTokenInPage()
-      .then((token) => {
-        const config = {
-          headers: {
-            Authorization: `JWT ${token}`,
-            Accept: "application/json",
-          },
-        };
-
-        let products: any[] = [];
-        let total_amount: number = 0;
-
-        if (discount > 0) {
-          let discountItem = {
-            id: "discount",
-            title: "discount",
-            description: "",
-            picture_url: "",
-            category_id: "",
-            quantity: 1,
-            currency_id: "CLP",
-            unit_price: -discount,
-          };
-
-          products.push(discountItem);
-        }
-
-        items &&
-          items.forEach((product) => {
-            let item = {
-              id: product.id,
-              title: product.product.name,
-              description: "",
-              picture_url: product.product.thumbnail,
-              category_id: "",
-              quantity: product.quantity,
-              currency_id: "CLP",
-              unit_price: product.product.price,
-            };
-            total_amount += product.quantity * product.product.price;
-            products.push(item);
-          });
-
-        total_amount += deliveryCost;
-        total_amount -= discount;
-
-        const paymentFormData = new FormData();
-        paymentFormData.append("commerceOrder", commerceOrder);
-        paymentFormData.append("items", JSON.stringify(products));
-        paymentFormData.append("deliveryCost", deliveryCost.toString());
-        paymentFormData.append("total_amount", total_amount.toString());
-
-        axios
-          .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/payment/create/mercadopago`,
-            paymentFormData,
-            config
-          )
-          .then((res) => {
-            return resolve(res.data.url);
-          })
-          .catch((err) => {
-            return reject(
-              err?.response?.data?.detail ||
-                "Unexpected error, please try again"
-            );
-          });
-      })
-      .catch((err) => {
-        signOutAuthState(err, true, false);
-        return reject(err);
-      });
-  });
+  return postResendPurchaseOrder(commerceOrder, "mp", signOutAuthState);
 };

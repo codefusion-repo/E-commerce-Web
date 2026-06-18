@@ -210,7 +210,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static-ecw/static')
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static-ecw', 'media')
 MEDIA_URL = '/media/'
 
 if not DEBUG:

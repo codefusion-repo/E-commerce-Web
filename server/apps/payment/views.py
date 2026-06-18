@@ -16,6 +16,19 @@ import hashlib
 import requests
 from django.shortcuts import redirect
 
+def get_mp_init_point(preference):
+    mode = os.environ.get('MERCADO_PAGO_MODE', 'sandbox').lower()
+    if mode == 'production':
+        return preference.get('init_point') or preference.get('sandbox_init_point')
+    return preference.get('sandbox_init_point') or preference.get('init_point')
+
+
+def get_flow_base_url():
+    mode = os.environ.get('FLOW_MODE', 'sandbox').lower()
+    if mode == 'production':
+        return 'https://flow.cl'
+    return 'https://sandbox.flow.cl'
+
 User = get_user_model()
 
 def create_mercadopago_payment(purchase_id, user):
@@ -85,7 +98,9 @@ def create_mercadopago_payment(purchase_id, user):
 
             preference = preference_response["response"]
 
-            return {'url': preference['sandbox_init_point']}, 200
+            init_point = get_mp_init_point(preference)
+
+            return {'url': init_point}, 200
         else:
             raise ValueError("Unexpected error, please try again")
         
@@ -145,73 +160,84 @@ class CreateMercadoPagoPayment(APIView):
             preference_response = sdk.preference().create(preference_data)
             preference = preference_response["response"]
 
-            return Response ({'url': preference['sandbox_init_point']}, status=status.HTTP_200_OK)
+            init_point = get_mp_init_point(preference)
+
+            return Response ({'url': init_point}, status=status.HTTP_200_OK)
         except ValueError as e: 
             return Response({
                 'detail': e
             }, status=status.HTTP_400_BAD_REQUEST)
 
-# Función para recibir un pago desde mercado pago    
+# Función para recibir un pago desde mercado pago
 class ReceiveMercadoPagoPayment(APIView):
     #authentication_classes = [JWTAuthentication]
     permission_classes=(permissions.AllowAny,)
     def post(self, request, format=None):
-        try: 
-            data = json.loads(request.body)
+        try:
+            # Accept JSON body, form data or query params
+            try:
+                data = json.loads(request.body) if request.body else request.data
+            except Exception:
+                data = request.data if request.data else {}
 
-            if "preference_id" not in data:
-                return ValueError("Payment failed, please try again")
-            
-            if "collection_status" not in data:
-                return ValueError("Payment failed, please try again")
+            pref_id = data.get('preference_id') if isinstance(data, dict) else None
+            collection_status = data.get('collection_status') if isinstance(data, dict) else None
+
+            # check query params
+            if hasattr(request, 'query_params'):
+                if not pref_id:
+                    pref_id = request.query_params.get('preference_id')
+                if not collection_status:
+                    collection_status = request.query_params.get('collection_status')
 
             sdk = mercadopago.SDK(os.environ.get("MERCADO_PAGO_ACCESS_TOKEN"))
 
-            preference = sdk.preference().get(data['preference_id'])
+            # If webhook sent a collection_id (payment id), fetch payment to get preference
+            if not pref_id and isinstance(data, dict) and data.get('collection_id'):
+                payment = sdk.payment().get(data.get('collection_id'))
+                pref_id = payment['response'].get('preference_id')
+                collection_status = collection_status or payment['response'].get('status')
 
-            transaction_status = data['collection_status']
-            commerceOrder = preference['response']['metadata']['commerceOrder']
+            if not pref_id:
+                raise ValueError("Payment information not received")
 
-            if preference['response']['expires'] == True:
-                if preference['response']['metadata']['transaction_status'] == "approved":
-                    detail = 'Payment made correctly'
-                else:
-                    detail = 'Payment failed, please try again'
-                return Response ({'detail': detail, 'commerceOrder': commerceOrder}, status=status.HTTP_200_OK)
+            preference = sdk.preference().get(pref_id)
 
-            request = {
+            transaction_status = collection_status or preference['response'].get('status') or preference['response'].get('metadata', {}).get('transaction_status')
+            commerceOrder = preference['response'].get('metadata', {}).get('commerceOrder') or preference['response'].get('external_reference')
+
+            # Update preference metadata to store transaction status and mark expires
+            update_req = {
                 "metadata": {
                     'transaction_status': transaction_status
                 },
                 "expires": True,
             }
+            sdk.preference().update(pref_id, update_req)
 
-            sdk.preference().update(data['preference_id'], request)
+            if not commerceOrder:
+                raise ValueError("Order number not found in preference metadata")
 
-            if Purchase.objects.filter(code=commerceOrder).exists():
-                purchase = Purchase.objects.get(code=commerceOrder)
-            else:
+            if not Purchase.objects.filter(code=commerceOrder).exists():
                 raise ValueError("Order number not found")
+
+            purchase = Purchase.objects.get(code=commerceOrder)
 
             if transaction_status == 'approved':
                 purchase.status = 'payed'
                 purchase.save()
 
-                res = createBaseMercadopagoPayment(purchase=purchase, payment=preference, paymentId=data['preference_id'])
-                if res['status'] != 200:
-                    print(res['detail'])
+                res = createBaseMercadopagoPayment(purchase=purchase, payment=preference, paymentId=pref_id)
+                if res.get('status') != 200:
+                    print(res.get('detail'))
 
-                return Response ({'detail': 'Payment made correctly', 'commerceOrder': commerceOrder}, status=status.HTTP_200_OK)
-                
+                return Response({'detail': 'Payment made correctly', 'commerceOrder': commerceOrder}, status=status.HTTP_200_OK)
             else:
                 purchase.status = 'uncompleted'
                 purchase.save()
-                return Response ({'detail': 'Something went wrong with the payment, try again', 'commerceOrder': commerceOrder}, status=status.HTTP_400_BAD_REQUEST)            
-
-        except ValueError as e:
-            return Response({
-                'detail': e
-            }, status=status.HTTP_400_BAD_REQUEST)   
+                return Response({'detail': 'Something went wrong with the payment, try again', 'commerceOrder': commerceOrder}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)   
 
 # Función para recibir un pago desde un webhook de mercado pago 
 @csrf_exempt
@@ -221,10 +247,13 @@ def receiveMercadopagoWebhook(request):
             data = request.data 
             sdk = mercadopago.SDK(os.environ.get("MERCADO_PAGO_ACCESS_TOKEN"))
 
-            payment = sdk.payment().get(data['payment_id'])
+            payment = sdk.payment().get(data.get('payment_id') or data.get('id'))
             
-            transaction_status = payment['response']['status']
-            commerceOrder = payment['response']['metadata']['commerce_order']
+            transaction_status = payment['response'].get('status')
+            commerceOrder = payment['response'].get('metadata', {}).get('commerceOrder') or payment['response'].get('metadata', {}).get('commerce_order') or payment['response'].get('external_reference')
+
+            if not commerceOrder:
+                raise ValueError("Order number not found in payment metadata")
 
             if Purchase.objects.filter(code=commerceOrder).exists():
                 purchase = Purchase.objects.get(code=commerceOrder)
@@ -235,15 +264,19 @@ def receiveMercadopagoWebhook(request):
                 purchase.status = 'payed'
                 purchase.save()
 
-                res = createBaseMercadopagoPayment(purchase=purchase, payment=payment, paymentId=data['payment_id'])
-                if res['status'] != 200:
-                    print(res['detail'])
+                res = createBaseMercadopagoPayment(purchase=purchase, payment=payment, paymentId=data.get('payment_id') or data.get('id'))
+                if res.get('status') != 200:
+                    print(res.get('detail'))
                 return Response ({'detail': 'Payment made correctly', 'commerceOrder': commerceOrder}, status=status.HTTP_200_OK)
                 
             else:
                 purchase.status = 'uncompleted'
                 purchase.save()
-                return Response ({'detail': 'Something went wrong with the payment', 'commerceOrder': commerceOrder}, status=status.HTTP_400_BAD_REQUEST)            
+                return Response ({'detail': 'Something went wrong with the payment', 'commerceOrder': commerceOrder}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            print(e)
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    return Response(status=status.HTTP_200_OK)
 
         except ValueError as e:
             return Response({
@@ -257,6 +290,9 @@ def create_flow_payment(purchase_id, user):
 
             apiKey = os.environ.get('API_KEY_FLOW')
             secretKey = os.environ.get('SECRET_KEY_FLOW')     
+
+            if not apiKey or not secretKey:
+                raise ValueError('Flow API keys not configured')
 
             optional = {}
 
@@ -273,7 +309,7 @@ def create_flow_payment(purchase_id, user):
                 'amount': purchase.total,
                 'email': user.email,
                 'paymentMethod': 9, 
-                'urlConfirmation': f"{os.environ.get('BACK_URL')}/api/payment/receive/flow/webwook",
+                'urlConfirmation': f"{os.environ.get('BACK_URL')}/api/payment/receive/flow/webhook",
                 'urlReturn': f"{os.environ.get('BACK_URL')}/api/payment/receive/flow/redirect",
                 'optional': json.dumps(optional),
                 'timeout': 1800,
@@ -284,7 +320,7 @@ def create_flow_payment(purchase_id, user):
             signature = hmac.new(secretKey.encode('utf-8'), stringToSign.encode('utf-8'), hashlib.sha256).hexdigest()
             data['s'] = signature
 
-            url = 'https://sandbox.flow.cl/api/payment/create'
+            url = f"{get_flow_base_url()}/api/payment/create"
 
             headers = {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -316,6 +352,9 @@ class CreateFlowPayment(APIView):
             apiKey = os.environ.get('API_KEY_FLOW')
             secretKey = os.environ.get('SECRET_KEY_FLOW')
 
+            if not apiKey or not secretKey:
+                raise ValueError('Flow API keys not configured')
+
             data = {
                 'apiKey': apiKey,
                 'commerceOrder': js_params['commerceOrder'],
@@ -335,7 +374,7 @@ class CreateFlowPayment(APIView):
             signature = hmac.new(secretKey.encode('utf-8'), stringToSign.encode('utf-8'), hashlib.sha256).hexdigest()
             data['s'] = signature
 
-            url = 'https://sandbox.flow.cl/api/payment/create'
+            url = f"{get_flow_base_url()}/api/payment/create"
 
             headers = {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -369,9 +408,12 @@ class ReceiveFlowPayment(APIView):
             
             token = data['token']
 
-            url = 'https://sandbox.flow.cl/api/payment/getStatus'
+            url = f"{get_flow_base_url()}/api/payment/getStatus"
             apiKey = os.environ.get('API_KEY_FLOW')
             secretKey = os.environ.get('SECRET_KEY_FLOW')
+
+            if not apiKey or not secretKey:
+                raise ValueError('Flow API keys not configured')
             flow_data = {
                 "apiKey": apiKey,
                 "token": token
@@ -423,9 +465,13 @@ def receiveFlowWebhook(request):
         try: 
             data = request.data 
             token = data['token']
-            url = 'https://sandbox.flow.cl/api/payment/getStatus'
+            url = f"{get_flow_base_url()}/api/payment/getStatus"
             apiKey = os.environ.get('API_KEY_FLOW')
             secretKey = os.environ.get('SECRET_KEY_FLOW')
+
+            if not apiKey or not secretKey:
+                raise ValueError('Flow API keys not configured')
+
             flow_data = {
                 "apiKey": apiKey,
                 "token": token

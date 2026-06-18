@@ -11,6 +11,7 @@ db.sqlite3
 db.sqlite3-journal
 media/
 media_root/
+static-ecw/media/
 static_root/
 e-commerce-web-681dc-e69ba54da0fd.json
 e-commerce-web-681dc-firebase-adminsdk-jdnc8-7ac2a382bb.json

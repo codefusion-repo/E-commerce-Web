@@ -29,6 +29,58 @@ def get_flow_base_url():
         return 'https://flow.cl'
     return 'https://sandbox.flow.cl'
 
+
+def parse_mp_signature(signature_header):
+    signature_data = {}
+    for item in signature_header.split(','):
+        if '=' not in item:
+            continue
+        key, value = item.split('=', 1)
+        signature_data[key.strip()] = value.strip()
+    return signature_data
+
+
+def build_mp_webhook_manifest(data_id, request_id, timestamp):
+    return f"id:{data_id};request-id:{request_id};ts:{timestamp};"
+
+
+def validate_mp_webhook_signature(request):
+    secret = os.environ.get('MERCADO_PAGO_WEBHOOK_SECRET')
+    if not secret:
+        raise ValueError('Mercado Pago webhook secret not configured')
+
+    signature_header = request.headers.get('x-signature')
+    request_id = request.headers.get('x-request-id')
+    data_id = request.GET.get('data.id') or request.GET.get('data_id')
+
+    if not signature_header:
+        raise ValueError('Mercado Pago webhook signature not received')
+    if not request_id:
+        raise ValueError('Mercado Pago webhook request id not received')
+    if not data_id:
+        raise ValueError('Mercado Pago webhook data id not received')
+
+    signature_data = parse_mp_signature(signature_header)
+    timestamp = signature_data.get('ts')
+    signature = signature_data.get('v1')
+
+    if not timestamp:
+        raise ValueError('Mercado Pago webhook timestamp not received')
+    if not signature:
+        raise ValueError('Mercado Pago webhook signature hash not received')
+
+    manifest = build_mp_webhook_manifest(data_id=data_id, request_id=request_id, timestamp=timestamp)
+    expected_signature = hmac.new(
+        secret.encode('utf-8'),
+        manifest.encode('utf-8'),
+        hashlib.sha256,
+    ).hexdigest()
+
+    if not hmac.compare_digest(expected_signature, signature):
+        raise ValueError('Invalid Mercado Pago webhook signature')
+
+    return True
+
 User = get_user_model()
 
 def create_mercadopago_payment(purchase_id, user):
@@ -192,7 +244,7 @@ class ReceiveMercadoPagoPayment(APIView):
 
             sdk = mercadopago.SDK(os.environ.get("MERCADO_PAGO_ACCESS_TOKEN"))
 
-            # If webhook sent a collection_id (payment id), fetch payment to get preference
+            # Browser returns are informational only; state changes happen from the signed webhook.
             if not pref_id and isinstance(data, dict) and data.get('collection_id'):
                 payment = sdk.payment().get(data.get('collection_id'))
                 pref_id = payment['response'].get('preference_id')
@@ -206,36 +258,14 @@ class ReceiveMercadoPagoPayment(APIView):
             transaction_status = collection_status or preference['response'].get('status') or preference['response'].get('metadata', {}).get('transaction_status')
             commerceOrder = preference['response'].get('metadata', {}).get('commerceOrder') or preference['response'].get('external_reference')
 
-            # Update preference metadata to store transaction status and mark expires
-            update_req = {
-                "metadata": {
-                    'transaction_status': transaction_status
-                },
-                "expires": True,
-            }
-            sdk.preference().update(pref_id, update_req)
-
             if not commerceOrder:
                 raise ValueError("Order number not found in preference metadata")
 
-            if not Purchase.objects.filter(code=commerceOrder).exists():
-                raise ValueError("Order number not found")
-
-            purchase = Purchase.objects.get(code=commerceOrder)
-
-            if transaction_status == 'approved':
-                purchase.status = 'payed'
-                purchase.save()
-
-                res = createBaseMercadopagoPayment(purchase=purchase, payment=preference, paymentId=pref_id)
-                if res.get('status') != 200:
-                    print(res.get('detail'))
-
-                return Response({'detail': 'Payment made correctly', 'commerceOrder': commerceOrder}, status=status.HTTP_200_OK)
-            else:
-                purchase.status = 'uncompleted'
-                purchase.save()
-                return Response({'detail': 'Something went wrong with the payment, try again', 'commerceOrder': commerceOrder}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                'detail': 'Payment return received',
+                'commerceOrder': commerceOrder,
+                'paymentStatus': transaction_status,
+            }, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)   
 
@@ -244,10 +274,20 @@ class ReceiveMercadoPagoPayment(APIView):
 def receiveMercadopagoWebhook(request):
     if request.method == 'POST':         
         try: 
-            data = request.data 
+            validate_mp_webhook_signature(request)
+
+            try:
+                data = json.loads(request.body.decode('utf-8')) if request.body else {}
+            except json.JSONDecodeError:
+                data = request.POST.dict()
+
             sdk = mercadopago.SDK(os.environ.get("MERCADO_PAGO_ACCESS_TOKEN"))
 
-            payment = sdk.payment().get(data.get('payment_id') or data.get('id'))
+            payment_id = data.get('payment_id') or data.get('id') or request.GET.get('id')
+            if not payment_id:
+                raise ValueError('Mercado Pago payment id not received')
+
+            payment = sdk.payment().get(payment_id)
             
             transaction_status = payment['response'].get('status')
             commerceOrder = payment['response'].get('metadata', {}).get('commerceOrder') or payment['response'].get('metadata', {}).get('commerce_order') or payment['response'].get('external_reference')
@@ -264,7 +304,7 @@ def receiveMercadopagoWebhook(request):
                 purchase.status = 'payed'
                 purchase.save()
 
-                res = createBaseMercadopagoPayment(purchase=purchase, payment=payment, paymentId=data.get('payment_id') or data.get('id'))
+                res = createBaseMercadopagoPayment(purchase=purchase, payment=payment, paymentId=payment_id)
                 if res.get('status') != 200:
                     print(res.get('detail'))
                 return Response ({'detail': 'Payment made correctly', 'commerceOrder': commerceOrder}, status=status.HTTP_200_OK)
@@ -277,11 +317,6 @@ def receiveMercadopagoWebhook(request):
             print(e)
             return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_200_OK)
-
-        except ValueError as e:
-            return Response({
-                'detail': e
-            }, status=status.HTTP_400_BAD_REQUEST)          
 
 def create_flow_payment(purchase_id, user):
     try:
@@ -433,24 +468,11 @@ class ReceiveFlowPayment(APIView):
             transaction_status = response_data['status']
             commerceOrder = response_data['commerceOrder']
 
-            if Purchase.objects.filter(code=commerceOrder).exists():
-                purchase = Purchase.objects.get(code=commerceOrder)
-            else:
-                raise ValueError("Order number not found")
-
-            if transaction_status == 2:
-                purchase.status = 'payed'
-                purchase.save()
-
-                res = createBaseFlowPayment(purchase=purchase, response_data=response_data)
-                if res['status'] != 200:
-                    print(res['detail'])
-                return Response ({'detail': 'Payment made correctly', 'commerceOrder': commerceOrder}, status=status.HTTP_200_OK)
-            else:
-                purchase.status = 'uncompleted'
-                purchase.save()
-
-                return Response ({'detail': 'Payment failed, please try again', 'commerceOrder': commerceOrder}, status=status.HTTP_200_OK)            
+            return Response({
+                'detail': 'Payment return received',
+                'commerceOrder': commerceOrder,
+                'paymentStatus': transaction_status,
+            }, status=status.HTTP_200_OK)
 
         except ValueError as e:
             print('e: ', e)
@@ -463,8 +485,15 @@ class ReceiveFlowPayment(APIView):
 def receiveFlowWebhook(request):
     if request.method == 'POST':         
         try: 
-            data = request.data 
-            token = data['token']
+            try:
+                data = json.loads(request.body.decode('utf-8')) if request.body else {}
+            except json.JSONDecodeError:
+                data = request.POST.dict()
+
+            token = data.get('token')
+            if not token:
+                raise ValueError('Flow token not received')
+
             url = f"{get_flow_base_url()}/api/payment/getStatus"
             apiKey = os.environ.get('API_KEY_FLOW')
             secretKey = os.environ.get('SECRET_KEY_FLOW')
@@ -503,17 +532,18 @@ def receiveFlowWebhook(request):
                 res = createBaseFlowPayment(purchase=purchase, response_data=response_data)
                 if res['status'] != 200:
                     print(res['detail'])
-                # return Response ({'detail': 'Pago realizado correctamente', 'commerceOrder': commerceOrder}, status=status.HTTP_200_OK)
-                
             else:
                 purchase.status = 'uncompleted'
                 purchase.save()
-                # return Response ({'detail': 'Error con el pago, por favor intentalo nuevamente', 'commerceOrder': commerceOrder}, status=status.HTTP_200_OK)            
+
+            return Response({
+                'detail': 'Flow webhook processed',
+                'commerceOrder': commerceOrder,
+                'paymentStatus': transaction_status,
+            }, status=status.HTTP_200_OK)
         except ValueError as e:
             print(e)
-            # return Response({
-            #   'detail': e
-            # }, status=status.HTTP_400_BAD_REQUEST)    
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     return Response(status=status.HTTP_200_OK)
 
 @csrf_exempt

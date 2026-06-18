@@ -4,6 +4,8 @@
 //import "./payment.css";
 import { useAuth } from "../../../context/auth/authContext";
 import { useEffect, useState } from "react";
+import Flow from "./flow/flow";
+import FlowIcon from "../../../assets/paymentsLogo/FlowIcon.png";
 import Mercadopago from "./mercadopago/mercadopago";
 import MercadopagoIcon from "../../../assets/paymentsLogo/MercadopagoIcon.png";
 import Image from "next/image";
@@ -60,6 +62,32 @@ export default function Payment() {
                 : "box-xxl column gap-s margin-t-s margin-b-s"
             } a-center`}
           >
+            <div
+              className={`flex ${
+                device > 0 ? "box-m" : "box-xl"
+              } column gap-xs padding-s`}
+            >
+              <div className="flex box-xxl column a-center gap-xs">
+                <Image
+                  className={`${
+                    device > 0
+                      ? "f-width-ml f-height-xs"
+                      : "f-width-m f-height-xs"
+                  }`}
+                  src={FlowIcon}
+                  alt="FlowIcon"
+                />
+                <h5>Pay with a secure link through Flow.</h5>
+              </div>
+
+              <div className="flex box-xxl a-center j-center">
+                <Flow
+                  setError={setError}
+                  setLoading={setLoading}
+                  loading={loading}
+                />
+              </div>
+            </div>
             <div
               className={`flex ${
                 device > 0 ? "box-m" : "box-xl"

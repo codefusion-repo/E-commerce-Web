@@ -6,6 +6,7 @@ import "./purchase.css";
 import { useAuth } from "../../../../context/auth/authContext";
 import Image from "next/image";
 import loadingGif from "../../../../assets/cargando/loading2.gif";
+import ResendFlow from "../../../../components/checkout/payment/flow/resendFlow";
 import ResendMercadopago from "../../../../components/checkout/payment/mercadopago/resendMercadopago";
 import { FiPackage } from "react-icons/fi";
 import { LuPackageOpen } from "react-icons/lu";
@@ -14,6 +15,7 @@ import { FaPersonCircleCheck } from "react-icons/fa6";
 import { postUnapplyCouponFromPurchase } from "./api/action";
 import { useRouter } from "next/navigation";
 import { useModal } from "../../../../context/modal/modalContext";
+import FlowIcon from "../../../../assets/paymentsLogo/FlowIcon.png";
 import MercadopagoIcon from "../../../../assets/paymentsLogo/MercadopagoIcon.png";
 import {
   PurchaseItemType,
@@ -270,6 +272,36 @@ export default function Purchase({ code }: { code: string }) {
                 : "box-xxl column gap-s margin-t-s margin-b-s"
             } a-center`}
           >
+            <div
+              className={`flex ${
+                device > 0 ? "box-m" : "box-xl"
+              } column gap-xs padding-s`}
+            >
+              <div className="flex box-xxl column a-center gap-xs">
+                <Image
+                  className={`${
+                    device > 0
+                      ? "f-width-ml f-height-xs"
+                      : "f-width-m f-height-xs"
+                  }`}
+                  src={FlowIcon}
+                  alt="FlowIcon"
+                />
+                <h5>Pay with a secure link through Flow</h5>
+              </div>
+
+              <div className="flex box-xxl a-center j-center">
+                <ResendFlow
+                  setError={setError}
+                  setLoading={setLoading}
+                  loading={loading}
+                  commerceOrder={order.code}
+                  items={order.items}
+                  deliveryCost={order.deliveryCost}
+                  discount={order.discount}
+                />
+              </div>
+            </div>
             <div
               className={`flex ${
                 device > 0 ? "box-m" : "box-xl"

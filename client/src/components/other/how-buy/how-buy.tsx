@@ -81,9 +81,10 @@ export default function HowBuy() {
         <h4>Select the shipping method.</h4>
         <h2>4. Payment</h2>
         <h4>
-          We use Mercado Pago so you can pay securely by card.
+          We use Mercado Pago and Flow so you can pay securely by card.
         </h4>
         <h4>- Mercado Pago</h4>
+        <h4>- Flow</h4>
         <Image
           className={`${device > 2 ? "box-xxl" : "box-xxl"} padding-l-xxs`}
           src={PaymentMethods}

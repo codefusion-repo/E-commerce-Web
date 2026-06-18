@@ -486,7 +486,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                       </h1>
                       <div className="flex box-xxl column a-center j-center">
                         <h2>Payment methods</h2>
-                        <h4>Mercado Pago</h4>
+                        <h4>Mercado Pago - Flow</h4>
                       </div>
                       <Link href={"/faqs/payment-methods"} className="btn-span">
                         <h5>Learn more...</h5>

@@ -64,15 +64,47 @@ def get_public_https_url(name):
     return value
 
 
+def get_mp_mode():
+    mode = os.environ.get("MERCADO_PAGO_MODE", "sandbox").strip().lower()
+    if mode not in {"sandbox", "production"}:
+        raise ValueError("MERCADO_PAGO_MODE must be sandbox or production")
+    return mode
+
+
+def get_mp_access_token():
+    token = get_required_env("MERCADO_PAGO_ACCESS_TOKEN")
+    mode = get_mp_mode()
+
+    if mode == "sandbox" and not token.startswith("TEST-"):
+        raise ValueError(
+            "MERCADO_PAGO_ACCESS_TOKEN must be a TEST access token when "
+            "MERCADO_PAGO_MODE=sandbox"
+        )
+
+    if mode == "production" and token.startswith("TEST-"):
+        raise ValueError(
+            "MERCADO_PAGO_ACCESS_TOKEN must be a production access token when "
+            "MERCADO_PAGO_MODE=production"
+        )
+
+    return token
+
+
+def get_mp_client_url():
+    if get_mp_mode() == "production":
+        return get_public_https_url("CLIENT_URL_PRO")
+    return get_public_https_url("CLIENT_URL_SANDBOX")
+
+
 def get_mp_init_point(preference):
-    mode = os.environ.get("MERCADO_PAGO_MODE", "sandbox").lower()
+    mode = get_mp_mode()
     if mode == "production":
         return preference.get("init_point") or preference.get("sandbox_init_point")
     return preference.get("sandbox_init_point") or preference.get("init_point")
 
 
 def get_mp_sdk():
-    return mercadopago.SDK(get_required_env("MERCADO_PAGO_ACCESS_TOKEN"))
+    return mercadopago.SDK(get_mp_access_token())
 
 
 def get_flow_base_url():
@@ -187,7 +219,8 @@ def get_mp_response(sdk_response, action, ok_statuses=(200, 201)):
 
 
 def build_mercadopago_preference(purchase, user):
-    client_url = get_public_https_url("CLIENT_URL_PRO")
+    client_url = get_mp_client_url()
+    back_url = get_public_https_url("BACK_URL")
 
     return {
         "items": [
@@ -204,6 +237,7 @@ def build_mercadopago_preference(purchase, user):
             "pending": f"{client_url}/receive/mercadopago",
             "success": f"{client_url}/receive/mercadopago",
         },
+        "notification_url": f"{back_url}/api/payment/receive/mercadopago/webhook",
         "auto_return": "approved",
         "external_reference": purchase.code,
         "metadata": {

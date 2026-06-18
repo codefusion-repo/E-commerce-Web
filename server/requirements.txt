@@ -7,6 +7,8 @@ djangorestframework-simplejwt==5.3.1               # Extensión para Django REST
 django-storages==1.12.3                             # Facilita el manejo del almacenamiento en la web, permitiendo la conexión a varios servicios de almacenamiento en la nube.
 django-cleanup==8.0.0                               # Ofrece funciones para limpiar y borrar automáticamente archivos de imágenes antiguos o no utilizados del servidor, optimizando el espacio.
 django-tinymce==3.6.1                              # Un widget de Django para campos de texto con el editor WYSIWYG TinyMCE.
+drf-spectacular==0.29.0                             # Genera schema OpenAPI y UI Swagger/ReDoc para DRF.
+drf-spectacular-sidecar==2026.6.1                   # Sirve los assets locales de Swagger UI y ReDoc.
 
 # django-channels==0.7.0 HERE
 # django-nextjs==3.2.0 HERE

@@ -26,7 +26,7 @@ def get_mp_init_point(preference):
 def get_flow_base_url():
     mode = os.environ.get('FLOW_MODE', 'sandbox').lower()
     if mode == 'production':
-        return 'https://flow.cl'
+        return 'https://www.flow.cl'
     return 'https://sandbox.flow.cl'
 
 
@@ -333,6 +333,7 @@ def create_flow_payment(purchase_id, user):
 
             for i in PurchaseItem.objects.filter(purchase=purchase):
                 optional[i.product.name] = i.quantity 
+            optional_json = json.dumps(optional, separators=(',', ':'))
 
             print(f"{user.email}: user")
 
@@ -346,7 +347,7 @@ def create_flow_payment(purchase_id, user):
                 'paymentMethod': 9, 
                 'urlConfirmation': f"{os.environ.get('BACK_URL')}/api/payment/receive/flow/webhook",
                 'urlReturn': f"{os.environ.get('BACK_URL')}/api/payment/receive/flow/redirect",
-                'optional': json.dumps(optional),
+                'optional': optional_json,
                 'timeout': 1800,
             }
 
@@ -548,7 +549,9 @@ def receiveFlowWebhook(request):
 
 @csrf_exempt
 def receiveFlowRedirect(request):
-    if request.method == 'POST':
-        token = request.POST.get('token')
+    if request.method in ['GET', 'POST']:
+        token = request.GET.get('token') or request.POST.get('token')
+        if not token:
+            return Response({'detail': 'Flow token not received'}, status=status.HTTP_400_BAD_REQUEST)
         redirect_url = f"{os.environ.get('CLIENT_URL_PRO')}/receive/flow?token={token}"
-        return redirect(redirect_url) 
+        return redirect(redirect_url)

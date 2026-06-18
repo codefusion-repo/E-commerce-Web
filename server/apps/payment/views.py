@@ -13,10 +13,14 @@ from .utils import createBaseFlowPayment, createBaseMercadopagoPayment
 import hashlib
 import hmac
 import json
+import logging
 import os
 
 import mercadopago
 import requests
+
+
+logger = logging.getLogger(__name__)
 
 
 FLOW_STATUS_MAP = {
@@ -72,26 +76,24 @@ def get_mp_mode():
 
 
 def get_mp_access_token():
-    token = get_required_env("MERCADO_PAGO_ACCESS_TOKEN")
-    mode = get_mp_mode()
-
-    if mode == "sandbox" and not token.startswith("TEST-"):
-        raise ValueError(
-            "MERCADO_PAGO_ACCESS_TOKEN must be a TEST access token when "
-            "MERCADO_PAGO_MODE=sandbox"
-        )
-
-    if mode == "production" and token.startswith("TEST-"):
-        raise ValueError(
-            "MERCADO_PAGO_ACCESS_TOKEN must be a production access token when "
-            "MERCADO_PAGO_MODE=production"
-        )
-
-    return token
+    return get_required_env("MERCADO_PAGO_ACCESS_TOKEN")
 
 
 def get_mp_client_url():
     if get_mp_mode() == "production":
+        return get_public_https_url("CLIENT_URL_PRO")
+    return get_public_https_url("CLIENT_URL_SANDBOX")
+
+
+def get_flow_mode():
+    mode = os.environ.get("FLOW_MODE", "sandbox").strip().lower()
+    if mode not in {"sandbox", "production"}:
+        raise ValueError("FLOW_MODE must be sandbox or production")
+    return mode
+
+
+def get_flow_client_url():
+    if get_flow_mode() == "production":
         return get_public_https_url("CLIENT_URL_PRO")
     return get_public_https_url("CLIENT_URL_SANDBOX")
 
@@ -108,7 +110,7 @@ def get_mp_sdk():
 
 
 def get_flow_base_url():
-    mode = os.environ.get("FLOW_MODE", "sandbox").lower()
+    mode = get_flow_mode()
     if mode == "production":
         return "https://www.flow.cl"
     return "https://sandbox.flow.cl"
@@ -551,6 +553,54 @@ def normalize_flow_status(flow_status):
     return status_code, FLOW_STATUS_MAP.get(status_code, "unknown")
 
 
+def process_flow_status_response(response_data):
+    status_code, status_name = normalize_flow_status(response_data.get("status"))
+    commerce_order = response_data.get("commerceOrder")
+
+    if not commerce_order:
+        raise ValueError("Order number not found in Flow response")
+
+    result = {
+        "commerceOrder": commerce_order,
+        "paymentStatus": status_name,
+        "paymentStatusCode": status_code,
+        "purchaseProcessed": False,
+        "paymentPersisted": None,
+    }
+
+    purchase = Purchase.objects.filter(code=commerce_order).first()
+    if not purchase:
+        logger.error("Flow confirmation received for unknown order %s", commerce_order)
+        result["detail"] = "Flow confirmation received for unknown order"
+        return result
+
+    purchase_status = FLOW_PURCHASE_STATUS_MAP.get(status_code)
+    if purchase_status and purchase.status != purchase_status:
+        purchase.status = purchase_status
+        purchase.save(update_fields=["status"])
+
+    result["purchaseProcessed"] = True
+
+    if status_code == 2:
+        payment_result = createBaseFlowPayment(
+            purchase=purchase,
+            response_data=response_data,
+            provider_status=status_name,
+        )
+        if payment_result.get("status") == 200:
+            result["paymentPersisted"] = True
+        else:
+            result["paymentPersisted"] = False
+            result["paymentPersistenceWarning"] = "Payment record could not be persisted"
+            logger.error(
+                "Flow payment persistence failed for order %s: %s",
+                commerce_order,
+                payment_result.get("detail"),
+            )
+
+    return result
+
+
 def build_flow_payment_data(purchase, user):
     api_key, secret_key = get_flow_credentials()
     back_url = get_public_https_url("BACK_URL")
@@ -635,18 +685,12 @@ class ReceiveFlowPayment(APIView):
                 raise ValueError("Flow token not received")
 
             response_data = get_flow_payment_status(token)
-            status_code, status_name = normalize_flow_status(response_data.get("status"))
-            commerce_order = response_data.get("commerceOrder")
-
-            if not commerce_order:
-                raise ValueError("Order number not found in Flow response")
+            flow_result = process_flow_status_response(response_data)
 
             return Response(
                 {
                     "detail": "Payment return received",
-                    "commerceOrder": commerce_order,
-                    "paymentStatus": status_name,
-                    "paymentStatusCode": status_code,
+                    **flow_result,
                 },
                 status=status.HTTP_200_OK,
             )
@@ -668,39 +712,12 @@ def receiveFlowWebhook(request):
             raise ValueError("Flow token not received")
 
         response_data = get_flow_payment_status(token)
-        status_code, status_name = normalize_flow_status(response_data.get("status"))
-        commerce_order = response_data.get("commerceOrder")
-
-        if not commerce_order:
-            raise ValueError("Order number not found in Flow response")
-
-        purchase = Purchase.objects.filter(code=commerce_order).first()
-        if not purchase:
-            raise ValueError("Order number not found")
-
-        purchase_status = FLOW_PURCHASE_STATUS_MAP.get(status_code)
-        if purchase_status and purchase.status != purchase_status:
-            purchase.status = purchase_status
-            purchase.save(update_fields=["status"])
-
-        if status_code == 2:
-            payment_result = createBaseFlowPayment(
-                purchase=purchase,
-                response_data=response_data,
-                provider_status=status_name,
-            )
-            if payment_result.get("status") != 200:
-                return JsonResponse(
-                    {"detail": str(payment_result.get("detail"))},
-                    status=500,
-                )
+        flow_result = process_flow_status_response(response_data)
 
         return JsonResponse(
             {
                 "detail": "Flow webhook processed",
-                "commerceOrder": commerce_order,
-                "paymentStatus": status_name,
-                "paymentStatusCode": status_code,
+                **flow_result,
             },
             status=200,
         )
@@ -720,7 +737,7 @@ def receiveFlowRedirect(request):
         return JsonResponse({"detail": "Flow token not received"}, status=400)
 
     try:
-        client_url = get_public_https_url("CLIENT_URL_PRO")
+        client_url = get_flow_client_url()
     except ValueError as exc:
         return JsonResponse({"detail": str(exc)}, status=400)
 

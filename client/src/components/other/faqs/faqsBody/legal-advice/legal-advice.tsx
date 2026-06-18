@@ -14,7 +14,7 @@ export default function LegalAdvice() {
       <div className="flex column box-xxl a-start padding-s gap-s">
         <h2>1. IDENTIFICATION DATA</h2>
         <h4>
-          The ownership of https://www.e-commerce-web.store belongs to:
+          The ownership of https://ecommerce-demo.codefusion.cl belongs to:
           e-commerce-web Spa RUT: 76.694.991-6
         </h4>
         <h2>2. INTELLECTUAL PROPERTY OF THE WEBSITE</h2>
@@ -92,10 +92,10 @@ export default function LegalAdvice() {
           responsibility for the information contained in third-party websites
           that can be accessed through links or search engines from the website
           <Link
-            href={"https://e-commerce-web.store/"}
+            href={"https://ecommerce-demo.codefusion.cl/"}
             className="second-color cursor-pointer"
           >
-            https://e-commerce-web.store/
+            https://ecommerce-demo.codefusion.cl/
           </Link>
         </h4>
         <h2>5. USE OF COOKIES</h2>
@@ -189,7 +189,7 @@ export default function LegalAdvice() {
           tobacco. Selling seeds to minors under 18 years of age. In accordance
           with the provisions of article 22.2 of Law 34/2002, of 11 July, on
           Information Society Services and Electronic Commerce (LSSI-CE) in
-          force, e-commerce-web.store complies with its obligations to provide
+          force, ecommerce-demo.codefusion.cl complies with its obligations to provide
           information on the cookies it uses and their purposes. Users of our
           website are aware of all of the above and accept it voluntarily. If
           you wish to make any comments or suggestions, you can use our email:

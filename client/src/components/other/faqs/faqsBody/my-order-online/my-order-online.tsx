@@ -28,7 +28,7 @@ export default function MyOrderOnline() {
           department as soon as possible by WhatsApp or email. possible by
           WhatsApp or email. In these cases we recommend that you contact us to
           proceed to make the necessary changes as soon as possible.
-          modifications as soon as possible. From e-commerce-web.store we make
+          modifications as soon as possible. From ecommerce-demo.codefusion.cl we make
           every effort to send your shipment as quickly as possible.
         </h4>
         <h2>How can I make an online purchase or order?</h2>
@@ -44,14 +44,14 @@ export default function MyOrderOnline() {
         <h4>No, we only ship within Chile.</h4>
         <h2>How long will it take for my order to arrive?</h2>
         <h4>
-          From e-commerce-web.store our commitment is to always have in stock
+          From ecommerce-demo.codefusion.cl our commitment is to always have in stock
           all our catalog, so that at the time you finalize your order our
           catalog, so that when you finalize your order, we can send it
           immediately, we can send it immediately.
         </h4>
         <h2>What time will my order arrive?</h2>
         <h4>
-          This will depend on the transport company. From e-commerce-web.store
+          This will depend on the transport company. From ecommerce-demo.codefusion.cl
           we recommend that you keep an eye on your phone. Please, in the
           shipping information, please put an address where you can be sure that
           someone will be present to that there will be someone present to pick
@@ -63,7 +63,7 @@ export default function MyOrderOnline() {
         </h2>
         <h4>
           They are not obliged to advise when your order will be delivered. In
-          e-commerce-web.store we have contracted with our transporters a double
+          ecommerce-demo.codefusion.cl we have contracted with our transporters a double
           delivery attempt, so they will certainly try to deliver it a second
           time in case they cannot try to deliver it a second time in case they
           can not find you in the first first delivery. For this reason, it is
@@ -80,7 +80,7 @@ export default function MyOrderOnline() {
         <h4>YES, always.</h4>
         <h2>What if it was not there when you tried to deliver it to me?</h2>
         <h4>
-          From e-commerce-web.store we count on the contracting of a second
+          From ecommerce-demo.codefusion.cl we count on the contracting of a second
           delivery attempt by the carrier company. delivery by the carrier
           company. In the event that the second attempt cannot be carried out,
           you will have to go to a corresponding branch to branch to pick up

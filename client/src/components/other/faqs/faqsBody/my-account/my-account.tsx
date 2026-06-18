@@ -11,7 +11,7 @@ export default function MyAccount() {
         <h1>Faqs My account</h1>
       </div>
       <div className="flex column box-xxl a-start padding-s gap-s">
-        <h2>How to create an account on e-commerce-web.store?</h2>
+        <h2>How to create an account on ecommerce-demo.codefusion.cl?</h2>
         <h4>
           1. In the upper right corner, click on the person emoticon on our
           website.
@@ -23,7 +23,7 @@ export default function MyAccount() {
         </h4>
         <h4>
           3. Confirm your email and you will be able to access your
-          e-commerce-web.store account.
+          ecommerce-demo.codefusion.cl account.
         </h4>
         <h2>How do I retrieve my password to access my account?</h2>
         <h4>1. Go to 'Sign in' on our website </h4>.

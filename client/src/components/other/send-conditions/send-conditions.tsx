@@ -21,7 +21,7 @@ export default function SendConditions() {
         <h2>Terms and Conditions of Sale</h2>
         <h4>
           In E-commerce-web we make sales through the web page
-          www.e-commerce-web.store, where we ship to all Chile. Our Our packages
+          ecommerce-demo.codefusion.cl, where we ship to all Chile. Our Our packages
           are sent through Shipit, being these companies chosen for their
           responsibility, punctuality and the best service they offer to our
           customers. offer to our customers.
@@ -57,9 +57,8 @@ export default function SendConditions() {
         <h4>Lack of information in the dispatch data </h4>.
         <h2>Payment methods</h2>.
         <h4>
-          Payment is made through our website, using the following system
-          Mercado Pago or Flow, by credit or debit card. Payments by credit or
-          debit card card payments are confirmed immediately.
+          Payment is made through our website using Mercado Pago, by credit or
+          debit card. Card payments are confirmed immediately.
         </h4>
         <h2>Warranty</h2>
         <h4>

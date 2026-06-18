@@ -16,7 +16,7 @@ def send_payment_email_once(purchase, created):
             "name": purchase.user.first_name,
             "order_id": purchase.code,
             "total_price": purchase.total,
-            "url": f"https://e-commerce-web.store/profile/purchases/purchase/{purchase.code}",
+            "url": f"https://ecommerce-demo.codefusion.cl/profile/purchases/purchase/{purchase.code}",
         },
     )
 

@@ -65,8 +65,8 @@ services:
       - nginx-proxy
       - letsencrypt
     environment:
-      - VIRTUAL_HOST=e-commerce-web.store,www.e-commerce-web.store
-      - LETSENCRYPT_HOST=e-commerce-web.store,www.e-commerce-web.store
+      - VIRTUAL_HOST=ecommerce-demo.codefusion.cl
+      - LETSENCRYPT_HOST=ecommerce-demo.codefusion.cl
     restart: always
     networks:
       - ecw-red

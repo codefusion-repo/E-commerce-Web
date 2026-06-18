@@ -79,7 +79,7 @@ export default function InfoOnline() {
           coupon. Contact email hellocodefusion@gmail.com.
         </h4>
         <h2>
-          What is the warranty for products purchased on e-commerce-web.store?
+          What is the warranty for products purchased on ecommerce-demo.codefusion.cl?
         </h2>
         <h4>
           All products we offer on our website have a commercial guarantee from

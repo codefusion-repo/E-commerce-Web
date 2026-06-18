@@ -481,6 +481,15 @@ def call_flow_api(method, endpoint, params, secret_key):
             or response.text[:300]
             or "The Flow request could not be processed"
         )
+        if (
+            response.status_code == 401
+            and os.environ.get("FLOW_MODE", "sandbox").lower() == "sandbox"
+            and "apikey not found" in str(detail).lower()
+        ):
+            raise ValueError(
+                "Flow sandbox API key not found. Configure API_KEY_FLOW and "
+                "SECRET_KEY_FLOW with sandbox credentials, not production credentials."
+            )
         raise ValueError(f"Flow request failed ({response.status_code}): {detail}")
 
     return response_data

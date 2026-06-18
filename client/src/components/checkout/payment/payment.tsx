@@ -6,10 +6,8 @@ import { useAuth } from "../../../context/auth/authContext";
 import { useEffect, useState } from "react";
 import Mercadopago from "./mercadopago/mercadopago";
 import MercadopagoIcon from "../../../assets/paymentsLogo/MercadopagoIcon.png";
-import FlowIcon from "../../../assets/paymentsLogo/FlowIcon.png";
 import Image from "next/image";
 import loadingGif from "../../../assets/cargando/loading2.gif";
-import Flow from "./flow/flow";
 import { useRouter } from "next/navigation";
 import { useModal } from "../../../context/modal/modalContext";
 import { useCheckout } from "../../../context/checkout/checkoutContext";
@@ -82,32 +80,6 @@ export default function Payment() {
 
               <div className="flex box-xxl a-center j-center">
                 <Mercadopago
-                  setError={setError}
-                  setLoading={setLoading}
-                  loading={loading}
-                />
-              </div>
-            </div>
-            <div
-              className={`flex ${
-                device > 0 ? "box-m" : "box-xl"
-              } column gap-xs padding-s`}
-            >
-              <div className="flex box-xxl column a-center gap-xs">
-                <Image
-                  className={`${
-                    device > 0
-                      ? "f-width-ml f-height-xs"
-                      : "f-width-m f-height-xs"
-                  }`}
-                  src={FlowIcon}
-                  alt="FlowIcon"
-                />
-                <h5>Pay with a secure link via Flow</h5>
-              </div>
-
-              <div className="flex box-xxl a-center j-center">
-                <Flow
                   setError={setError}
                   setLoading={setLoading}
                   loading={loading}

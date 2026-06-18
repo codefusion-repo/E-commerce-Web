@@ -30,7 +30,7 @@ export default function CookiesPolicy() {
           collect information. They are used, for example, to keep the user
           authenticated in an account like the ones above without having to
           authenticate each time they access their account. At
-          e-commerce-web.store we use the following types of cookies:
+          ecommerce-demo.codefusion.cl we use the following types of cookies:
         </h4>
         <h4>
           - First-party cookies: these are strictly necessary cookies. They

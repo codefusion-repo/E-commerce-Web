@@ -4,6 +4,26 @@ import { postJWTAccessTokenInPage } from "../../../../context/auth/api/action";
 import { ProductType } from "../../../../interfaces/shop/shopInterface";
 import axios from "axios";
 
+const getApiErrorMessage = (err: any): string => {
+  const detail = err?.response?.data?.detail;
+  if (typeof detail === "string" && detail.trim().length > 0) {
+    return detail;
+  }
+  if (detail) {
+    return String(detail);
+  }
+  if (err?.response?.status) {
+    return `Request failed with status ${err.response.status}`;
+  }
+  if (err?.code === "ECONNABORTED") {
+    return "The payment request timed out. Please try again.";
+  }
+  if (err?.request) {
+    return "The backend did not respond. Check API URL, CORS, or network configuration.";
+  }
+  return err?.message || "Unexpected error, please try again";
+};
+
 export const postResendPurchaseOrder = (
   commerceOrder: string,
   method: string,
@@ -22,6 +42,7 @@ export const postResendPurchaseOrder = (
             Authorization: `JWT ${token}`,
             Accept: "application/json",
           },
+          timeout: 30000,
         };
 
         const purchaseFormData = new FormData();
@@ -39,10 +60,8 @@ export const postResendPurchaseOrder = (
             return resolve(res.data.url);
           })
           .catch((err) => {
-            return reject(
-              err?.response?.data?.detail ||
-                "Unexpected error, please try again"
-            );
+            console.error("postResendPurchaseOrder failed", err);
+            return reject(getApiErrorMessage(err));
           });
       })
       .catch((err) => {
@@ -82,6 +101,7 @@ export const postCreatePurchaseOrder = (
             Authorization: `JWT ${token}`,
             Accept: "application/json",
           },
+          timeout: 30000,
         };
 
         const purchaseFormData = new FormData();
@@ -107,10 +127,8 @@ export const postCreatePurchaseOrder = (
             return resolve(res.data.url);
           })
           .catch((err) => {
-            return reject(
-              err?.response?.data?.detail ||
-                "Unexpected error, please try again"
-            );
+            console.error("postCreatePurchaseOrder failed", err);
+            return reject(getApiErrorMessage(err));
           });
       })
       .catch((err) => {

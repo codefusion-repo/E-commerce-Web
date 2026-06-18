@@ -43,7 +43,7 @@ export default function Home({ banners }: { banners: BannerType[] }) {
       >
         <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
           <h1>
-            E-Commerce developed by CodeFusion.cl | www.e-commerce-web.store
+            E-Commerce developed by CodeFusion.cl | ecommerce-demo.codefusion.cl
           </h1>
         </div>
 

@@ -120,7 +120,7 @@ export default function Footer() {
         </Link>
       </div>
       <div className="flex box-xxl a-center j-center gap-m padding-m base-border-t">
-        <h4>www.e-commerce-web.store develop by codefusion</h4>
+        <h4>ecommerce-demo.codefusion.cl develop by codefusion</h4>
       </div>
     </div>
   );

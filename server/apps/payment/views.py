@@ -175,6 +175,19 @@ def extract_mp_webhook_payment_id(request, data):
     return None
 
 
+def is_mp_dashboard_test_webhook(data, payment_id):
+    if not isinstance(data, dict):
+        return False
+
+    return (
+        str(payment_id) == "123456"
+        and str(data.get("id")) == "123456"
+        and data.get("live_mode") is False
+        and data.get("type") == "payment"
+        and data.get("action") == "payment.updated"
+    )
+
+
 def validate_mp_webhook_signature(request, data_id):
     secret = get_required_env("MERCADO_PAGO_WEBHOOK_SECRET")
     signature_header = request.headers.get("x-signature")
@@ -385,6 +398,15 @@ def receiveMercadopagoWebhook(request):
 
     data = parse_request_data(request)
     payment_id = extract_mp_webhook_payment_id(request, data)
+
+    if is_mp_dashboard_test_webhook(data, payment_id):
+        return JsonResponse(
+            {
+                "detail": "Mercado Pago dashboard webhook test received",
+                "paymentId": payment_id,
+            },
+            status=200,
+        )
 
     try:
         validate_mp_webhook_signature(request, payment_id)

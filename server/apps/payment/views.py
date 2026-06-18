@@ -13,29 +13,11 @@ from .utils import createBaseFlowPayment, createBaseMercadopagoPayment
 import hashlib
 import hmac
 import json
-import logging
 import os
 
 import mercadopago
 import requests
 
-
-logger = logging.getLogger(__name__)
-
-
-FLOW_STATUS_MAP = {
-    1: "pending",
-    2: "payed",
-    3: "rejected",
-    4: "annulled",
-}
-
-FLOW_PURCHASE_STATUS_MAP = {
-    1: "created",
-    2: "payed",
-    3: "uncompleted",
-    4: "uncompleted",
-}
 
 MERCADO_PAGO_FAILED_STATUSES = {
     "cancelled",
@@ -45,83 +27,46 @@ MERCADO_PAGO_FAILED_STATUSES = {
 }
 
 
-def get_payment_provider_timeout():
-    try:
-        return float(os.environ.get("PAYMENT_PROVIDER_TIMEOUT", "15"))
-    except ValueError:
-        return 15
+def get_public_url(name):
+    return os.environ.get(name, "").rstrip("/")
 
 
-def get_required_env(name):
-    value = os.environ.get(name)
-    if not value:
-        raise ValueError(f"{name} not configured")
-    return value
-
-
-def get_public_https_url(name):
-    value = get_required_env(name).rstrip("/")
-    if not value.startswith("https://"):
-        raise ValueError(f"{name} must be a public HTTPS URL")
-    if "localhost" in value or "127.0.0.1" in value:
-        raise ValueError(f"{name} must not point to localhost")
-    return value
-
-
-def get_mp_mode():
-    mode = os.environ.get("MERCADO_PAGO_MODE", "sandbox").strip().lower()
-    if mode not in {"sandbox", "production"}:
-        raise ValueError("MERCADO_PAGO_MODE must be sandbox or production")
-    return mode
-
-
-def get_mp_access_token():
-    return get_required_env("MERCADO_PAGO_ACCESS_TOKEN")
-
-
-def get_mp_client_url():
-    if get_mp_mode() == "production":
-        return get_public_https_url("CLIENT_URL_PRO")
-    return get_public_https_url("CLIENT_URL_SANDBOX")
-
-
-def get_flow_mode():
-    mode = os.environ.get("FLOW_MODE", "sandbox").strip().lower()
-    if mode not in {"sandbox", "production"}:
-        raise ValueError("FLOW_MODE must be sandbox or production")
-    return mode
+def get_client_url():
+    if os.environ.get("MERCADO_PAGO_MODE", "sandbox").lower() == "production":
+        return get_public_url("CLIENT_URL_PRO")
+    return get_public_url("CLIENT_URL_SANDBOX") or get_public_url("CLIENT_URL_PRO")
 
 
 def get_flow_client_url():
-    if get_flow_mode() == "production":
-        return get_public_https_url("CLIENT_URL_PRO")
-    return get_public_https_url("CLIENT_URL_SANDBOX")
+    if os.environ.get("FLOW_MODE", "sandbox").lower() == "production":
+        return get_public_url("CLIENT_URL_PRO")
+    return get_public_url("CLIENT_URL_SANDBOX") or get_public_url("CLIENT_URL_PRO")
+
+
+def get_back_url():
+    return get_public_url("BACK_URL")
+
+
+def get_flow_api_url(endpoint):
+    if os.environ.get("FLOW_MODE", "sandbox").lower() == "production":
+        base_url = "https://www.flow.cl/api"
+    else:
+        base_url = "https://sandbox.flow.cl/api"
+    return f"{base_url}/{endpoint.lstrip('/')}"
 
 
 def get_mp_init_point(preference):
-    mode = get_mp_mode()
-    if mode == "production":
+    if os.environ.get("MERCADO_PAGO_MODE", "sandbox").lower() == "production":
         return preference.get("init_point") or preference.get("sandbox_init_point")
     return preference.get("sandbox_init_point") or preference.get("init_point")
 
 
-def get_mp_sdk():
-    return mercadopago.SDK(get_mp_access_token())
-
-
-def get_flow_base_url():
-    mode = get_flow_mode()
-    if mode == "production":
-        return "https://www.flow.cl"
-    return "https://sandbox.flow.cl"
-
-
 def parse_request_data(request):
-    request_data = getattr(request, "data", None)
-    if request_data:
-        if hasattr(request_data, "dict"):
-            return request_data.dict()
-        return dict(request_data)
+    if hasattr(request, "data"):
+        data = request.data
+        if hasattr(data, "dict"):
+            return data.dict()
+        return dict(data)
 
     if request.body:
         try:
@@ -129,7 +74,7 @@ def parse_request_data(request):
         except (UnicodeDecodeError, json.JSONDecodeError):
             pass
 
-    if getattr(request, "POST", None):
+    if request.POST:
         return request.POST.dict()
 
     return {}
@@ -142,43 +87,114 @@ def get_query_param(request, name):
     return request.GET.get(name)
 
 
-def parse_mp_signature(signature_header):
-    signature_data = {}
-    for item in signature_header.split(","):
-        if "=" not in item:
-            continue
-        key, value = item.split("=", 1)
-        signature_data[key.strip()] = value.strip()
-    return signature_data
+def sign_flow_params(params, secret_key):
+    keys = sorted(key for key in params.keys() if key != "s")
+    string_to_sign = "".join([f"{key}{params[key]}" for key in keys])
+    return hmac.new(
+        secret_key.encode("utf-8"),
+        string_to_sign.encode("utf-8"),
+        hashlib.sha256,
+    ).hexdigest()
 
 
-def build_mp_webhook_manifest(data_id, request_id, timestamp):
-    parts = []
-    if data_id:
-        parts.append(f"id:{str(data_id).lower()}")
-    if request_id:
-        parts.append(f"request-id:{request_id}")
-    parts.append(f"ts:{timestamp}")
-    return ";".join(parts) + ";"
+def call_flow_api(method, endpoint, params):
+    secret_key = os.environ.get("SECRET_KEY_FLOW")
+    signed_params = params.copy()
+    signed_params["s"] = sign_flow_params(signed_params, secret_key)
+    url = get_flow_api_url(endpoint)
+
+    headers = {
+        "Accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+
+    if method == "post":
+        response = requests.post(url, data=signed_params, headers=headers, timeout=15)
+    else:
+        response = requests.get(url, params=signed_params, headers=headers, timeout=15)
+
+    if response.status_code != 200:
+        try:
+            response_data = response.json()
+            detail = response_data.get("message") or response_data.get("error")
+        except ValueError:
+            detail = response.text
+        raise ValueError(detail or "The request could not be sent")
+
+    return response.json()
 
 
-def extract_mp_webhook_payment_id(request, data):
-    data_id = get_query_param(request, "data.id") or get_query_param(request, "data_id")
-    if data_id:
-        return str(data_id)
+def get_flow_status(token):
+    return call_flow_api(
+        "get",
+        "payment/getStatus",
+        {
+            "apiKey": os.environ.get("API_KEY_FLOW"),
+            "token": token,
+        },
+    )
 
-    if isinstance(data, dict):
-        nested_data = data.get("data")
-        if isinstance(nested_data, dict) and nested_data.get("id"):
-            return str(nested_data["id"])
+
+def update_purchase_from_flow_status(response_data):
+    transaction_status = int(response_data["status"])
+    commerce_order = response_data["commerceOrder"]
+    purchase = Purchase.objects.get(code=commerce_order)
+
+    if transaction_status == 2:
+        purchase.status = "payed"
+        purchase.save(update_fields=["status"])
+
+        payment_result = createBaseFlowPayment(
+            purchase=purchase,
+            response_data=response_data,
+        )
+        if payment_result.get("status") != 200:
+            print(payment_result.get("detail"))
+
+        return {
+            "detail": "Payment made correctly",
+            "commerceOrder": commerce_order,
+            "paymentStatus": transaction_status,
+        }
+
+    purchase.status = "uncompleted"
+    purchase.save(update_fields=["status"])
+    return {
+        "detail": "Payment failed, please try again",
+        "commerceOrder": commerce_order,
+        "paymentStatus": transaction_status,
+    }
+
+
+def extract_mp_payment_id(request, data):
+    payment_id = (
+        data.get("payment_id")
+        or data.get("id")
+        or get_query_param(request, "payment_id")
+        or get_query_param(request, "id")
+        or get_query_param(request, "data.id")
+    )
+    if payment_id:
+        return str(payment_id)
+
+    nested_data = data.get("data")
+    if isinstance(nested_data, dict) and nested_data.get("id"):
+        return str(nested_data["id"])
 
     return None
 
 
-def is_mp_dashboard_test_webhook(data, payment_id):
-    if not isinstance(data, dict):
-        return False
+def get_mp_commerce_order(payment):
+    metadata = payment.get("metadata") or {}
+    return (
+        metadata.get("commerce_order")
+        or metadata.get("commerceOrder")
+        or metadata.get("commerceorder")
+        or payment.get("external_reference")
+    )
 
+
+def is_mp_dashboard_test_webhook(data, payment_id):
     return (
         str(payment_id) == "123456"
         and str(data.get("id")) == "123456"
@@ -188,110 +204,86 @@ def is_mp_dashboard_test_webhook(data, payment_id):
     )
 
 
-def validate_mp_webhook_signature(request, data_id):
-    secret = get_required_env("MERCADO_PAGO_WEBHOOK_SECRET")
-    signature_header = request.headers.get("x-signature")
-    request_id = request.headers.get("x-request-id")
-
-    if not signature_header:
-        raise ValueError("Mercado Pago webhook signature not received")
-
-    signature_data = parse_mp_signature(signature_header)
-    timestamp = signature_data.get("ts")
-    signature = signature_data.get("v1")
-
-    if not timestamp:
-        raise ValueError("Mercado Pago webhook timestamp not received")
-    if not signature:
-        raise ValueError("Mercado Pago webhook signature hash not received")
-
-    manifest = build_mp_webhook_manifest(
-        data_id=data_id,
-        request_id=request_id,
-        timestamp=timestamp,
-    )
-    expected_signature = hmac.new(
-        secret.encode("utf-8"),
-        manifest.encode("utf-8"),
-        hashlib.sha256,
-    ).hexdigest()
-
-    if not hmac.compare_digest(expected_signature, signature):
-        raise ValueError("Invalid Mercado Pago webhook signature")
-
-    return True
-
-
-def get_mp_response(sdk_response, action, ok_statuses=(200, 201)):
-    http_status = sdk_response.get("status")
-    response = sdk_response.get("response") or {}
-
-    if http_status not in ok_statuses:
-        detail = response.get("message") or response.get("error") or response
-        raise ValueError(f"Mercado Pago {action} failed ({http_status}): {detail}")
-
-    return response
-
-
-def build_mercadopago_preference(purchase, user):
-    client_url = get_mp_client_url()
-    back_url = get_public_https_url("BACK_URL")
-
-    return {
-        "items": [
-            {
-                "id": purchase.code,
-                "title": f"Order {purchase.code}",
-                "quantity": 1,
-                "currency_id": "CLP",
-                "unit_price": float(purchase.total),
-            }
-        ],
-        "back_urls": {
-            "failure": f"{client_url}/receive/mercadopago",
-            "pending": f"{client_url}/receive/mercadopago",
-            "success": f"{client_url}/receive/mercadopago",
-        },
-        "notification_url": f"{back_url}/api/payment/receive/mercadopago/webhook",
-        "auto_return": "approved",
-        "external_reference": purchase.code,
-        "metadata": {
-            "commerceOrder": purchase.code,
-            "commerce_order": purchase.code,
-            "total_amount": float(purchase.total),
-        },
-    }
-
-
-def get_mp_commerce_order(payment_data):
-    metadata = payment_data.get("metadata") or {}
-    return (
-        metadata.get("commerceOrder")
-        or metadata.get("commerce_order")
-        or metadata.get("commerceorder")
-        or payment_data.get("external_reference")
-    )
-
-
 def create_mercadopago_payment(purchase_id, user):
     try:
         purchase = Purchase.objects.get(id=purchase_id)
-        sdk = get_mp_sdk()
-        preference_data = build_mercadopago_preference(purchase, user)
+        products = []
+
+        if purchase.coupon:
+            products.append(
+                {
+                    "id": "discount",
+                    "title": "discount",
+                    "description": "",
+                    "picture_url": "",
+                    "category_id": "",
+                    "quantity": 1,
+                    "currency_id": "CLP",
+                    "unit_price": -purchase.discount,
+                }
+            )
+
+        for purchase_item in PurchaseItem.objects.filter(purchase=purchase):
+            products.append(
+                {
+                    "id": purchase_item.product.id,
+                    "title": purchase_item.product.name,
+                    "description": "",
+                    "picture_url": str(purchase_item.product.thumbnail),
+                    "category_id": "",
+                    "quantity": purchase_item.quantity,
+                    "currency_id": "CLP",
+                    "unit_price": purchase_item.product.price,
+                }
+            )
+
+        client_url = get_client_url()
+        back_url = get_back_url()
+        preference_data = {
+            "purpose": "wallet_purchase",
+            "items": products,
+            "shipments": {
+                "cost": float(purchase.deliveryCost),
+            },
+            "payer": {
+                "name": user.first_name,
+                "surname": user.last_name,
+                "email": user.email,
+                "identification": {
+                    "type": "DNI",
+                    "number": user.rut,
+                },
+            },
+            "back_urls": {
+                "failure": f"{client_url}/receive/mercadopago",
+                "pending": f"{client_url}/receive/mercadopago",
+                "success": f"{client_url}/receive/mercadopago",
+            },
+            "notification_url": (
+                f"{back_url}/api/payment/receive/mercadopago/webhook"
+            ),
+            "auto_return": "approved",
+            "external_reference": purchase.code,
+            "metadata": {
+                "commerceOrder": purchase.code,
+                "commerce_order": purchase.code,
+                "total_amount": purchase.total,
+            },
+        }
+
+        sdk = mercadopago.SDK(os.environ.get("MERCADO_PAGO_ACCESS_TOKEN"))
         preference_response = sdk.preference().create(preference_data)
-        preference = get_mp_response(preference_response, "preference creation")
+        preference = preference_response["response"]
         init_point = get_mp_init_point(preference)
 
         if not init_point:
             raise ValueError("Mercado Pago did not return a payment URL")
 
-        return {"url": init_point}, status.HTTP_200_OK
+        return {"url": init_point}, 200
     except Purchase.DoesNotExist:
-        return {"detail": "Purchase not found"}, status.HTTP_404_NOT_FOUND
-    except ValueError as exc:
-        return {"detail": str(exc)}, status.HTTP_400_BAD_REQUEST
+        return {"detail": "Purchase not found"}, 404
     except Exception as exc:
-        return {"detail": str(exc)}, status.HTTP_502_BAD_GATEWAY
+        return {"detail": str(exc)}, 500
 
 
 class CreateMercadoPagoPayment(APIView):
@@ -325,70 +317,50 @@ class ReceiveMercadoPagoPayment(APIView):
     def post(self, request, format=None):
         try:
             data = parse_request_data(request)
+            preference_id = data.get("preference_id")
+            collection_status = data.get("collection_status") or data.get("status")
 
-            preference_id = data.get("preference_id") or get_query_param(
-                request,
-                "preference_id",
-            )
-            payment_id = (
-                data.get("payment_id")
-                or data.get("collection_id")
-                or get_query_param(request, "payment_id")
-                or get_query_param(request, "collection_id")
-            )
-            transaction_status = (
-                data.get("status")
-                or data.get("collection_status")
-                or get_query_param(request, "status")
-                or get_query_param(request, "collection_status")
-            )
-            commerce_order = data.get("external_reference") or get_query_param(
-                request,
-                "external_reference",
-            )
+            if not preference_id:
+                raise ValueError("Payment failed, please try again")
 
-            sdk = None
-            if not commerce_order and payment_id:
-                sdk = get_mp_sdk()
-                payment = get_mp_response(
-                    sdk.payment().get(payment_id),
-                    "payment lookup",
-                    ok_statuses=(200,),
-                )
-                commerce_order = get_mp_commerce_order(payment)
-                transaction_status = transaction_status or payment.get("status")
-                preference_id = preference_id or payment.get("preference_id")
-
-            if not commerce_order and preference_id:
-                sdk = sdk or get_mp_sdk()
-                preference = get_mp_response(
-                    sdk.preference().get(preference_id),
-                    "preference lookup",
-                    ok_statuses=(200,),
-                )
-                metadata = preference.get("metadata") or {}
-                commerce_order = (
-                    metadata.get("commerceOrder")
-                    or metadata.get("commerce_order")
-                    or metadata.get("commerceorder")
-                    or preference.get("external_reference")
-                )
+            sdk = mercadopago.SDK(os.environ.get("MERCADO_PAGO_ACCESS_TOKEN"))
+            preference = sdk.preference().get(preference_id)
+            preference_data = preference["response"]
+            metadata = preference_data.get("metadata") or {}
+            commerce_order = (
+                metadata.get("commerceOrder")
+                or metadata.get("commerce_order")
+                or preference_data.get("external_reference")
+            )
 
             if not commerce_order:
-                raise ValueError("Order number not found in Mercado Pago return")
+                raise ValueError("Order number not found")
+
+            purchase = Purchase.objects.get(code=commerce_order)
+
+            if collection_status == "approved":
+                purchase.status = "payed"
+                purchase.save(update_fields=["status"])
+                createBaseMercadopagoPayment(
+                    purchase=purchase,
+                    payment=preference,
+                    paymentId=preference_id,
+                )
+                detail = "Payment made correctly"
+            else:
+                purchase.status = "uncompleted"
+                purchase.save(update_fields=["status"])
+                detail = "Something went wrong with the payment, try again"
 
             return Response(
-                {
-                    "detail": "Payment return received",
-                    "commerceOrder": commerce_order,
-                    "paymentStatus": transaction_status,
-                },
+                {"detail": detail, "commerceOrder": commerce_order},
                 status=status.HTTP_200_OK,
             )
-        except ValueError as exc:
-            return Response({"detail": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as exc:
-            return Response({"detail": str(exc)}, status=status.HTTP_502_BAD_GATEWAY)
+            return Response(
+                {"detail": str(exc)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 @csrf_exempt
@@ -396,42 +368,28 @@ def receiveMercadopagoWebhook(request):
     if request.method != "POST":
         return HttpResponse(status=200)
 
-    data = parse_request_data(request)
-    payment_id = extract_mp_webhook_payment_id(request, data)
-
-    if is_mp_dashboard_test_webhook(data, payment_id):
-        return JsonResponse(
-            {
-                "detail": "Mercado Pago dashboard webhook test received",
-                "paymentId": payment_id,
-            },
-            status=200,
-        )
-
     try:
-        validate_mp_webhook_signature(request, payment_id)
-    except ValueError as exc:
-        if get_mp_mode() == "production":
-            return JsonResponse({"detail": str(exc)}, status=401)
-        logger.warning(
-            "Mercado Pago webhook signature validation skipped in sandbox: %s",
-            exc,
-        )
+        data = parse_request_data(request)
+        payment_id = extract_mp_payment_id(request, data)
 
-    if not payment_id:
-        return JsonResponse(
-            {"detail": "Mercado Pago payment data.id not received"},
-            status=400,
-        )
+        if is_mp_dashboard_test_webhook(data, payment_id):
+            return JsonResponse(
+                {
+                    "detail": "Mercado Pago dashboard webhook test received",
+                    "paymentId": payment_id,
+                },
+                status=200,
+            )
 
-    try:
-        sdk = get_mp_sdk()
+        if not payment_id:
+            return JsonResponse(
+                {"detail": "Mercado Pago payment id not received"},
+                status=400,
+            )
+
+        sdk = mercadopago.SDK(os.environ.get("MERCADO_PAGO_ACCESS_TOKEN"))
         payment_response = sdk.payment().get(payment_id)
-        payment = get_mp_response(
-            payment_response,
-            "payment lookup",
-            ok_statuses=(200,),
-        )
+        payment = payment_response["response"]
 
         transaction_status = payment.get("status")
         commerce_order = get_mp_commerce_order(payment)
@@ -457,37 +415,18 @@ def receiveMercadopagoWebhook(request):
             )
 
         if transaction_status == "approved":
-            if purchase.status != "payed":
-                purchase.status = "payed"
-                purchase.save(update_fields=["status"])
-
+            purchase.status = "payed"
+            purchase.save(update_fields=["status"])
             payment_result = createBaseMercadopagoPayment(
                 purchase=purchase,
-                payment={"response": payment},
+                payment=payment_response,
                 paymentId=str(payment_id),
-                provider_status="payed",
             )
             if payment_result.get("status") != 200:
-                logger.error(
-                    "Mercado Pago payment persistence failed for order %s: %s",
-                    commerce_order,
-                    payment_result.get("detail"),
-                )
-                return JsonResponse(
-                    {
-                        "detail": "Mercado Pago webhook processed",
-                        "commerceOrder": commerce_order,
-                        "paymentStatus": transaction_status,
-                        "paymentPersistenceWarning": (
-                            "Payment record could not be persisted"
-                        ),
-                    },
-                    status=200,
-                )
+                print(payment_result.get("detail"))
         elif transaction_status in MERCADO_PAGO_FAILED_STATUSES:
-            if purchase.status != "uncompleted":
-                purchase.status = "uncompleted"
-                purchase.save(update_fields=["status"])
+            purchase.status = "uncompleted"
+            purchase.save(update_fields=["status"])
 
         return JsonResponse(
             {
@@ -497,226 +436,43 @@ def receiveMercadopagoWebhook(request):
             },
             status=200,
         )
-    except ValueError as exc:
+    except Exception as exc:
+        print(exc)
         return JsonResponse({"detail": str(exc)}, status=400)
-    except Exception as exc:
-        return JsonResponse({"detail": str(exc)}, status=502)
 
 
-def sign_flow_params(params, secret_key):
-    keys = sorted(key for key in params.keys() if key != "s")
-    string_to_sign = "".join([f"{key}{params[key]}" for key in keys])
-    return hmac.new(
-        secret_key.encode("utf-8"),
-        string_to_sign.encode("utf-8"),
-        hashlib.sha256,
-    ).hexdigest()
-
-
-def call_flow_api(method, endpoint, params, secret_key):
-    signed_params = params.copy()
-    signed_params["s"] = sign_flow_params(signed_params, secret_key)
-    url = f"{get_flow_base_url()}/api/{endpoint.lstrip('/')}"
-    timeout = get_payment_provider_timeout()
-
+def create_flow_payment(purchase_id, user):
     try:
-        if method == "post":
-            response = requests.post(
-                url,
-                data=signed_params,
-                headers={
-                    "Accept": "application/json",
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                timeout=timeout,
-            )
-        else:
-            response = requests.get(
-                url,
-                params=signed_params,
-                headers={"Accept": "application/json"},
-                timeout=timeout,
-            )
-    except requests.Timeout:
-        raise ValueError("Flow request timed out")
-    except requests.RequestException as exc:
-        raise ValueError(f"Flow request failed: {exc}")
+        purchase = Purchase.objects.get(id=purchase_id)
+        optional = {}
 
-    try:
-        response_data = response.json()
-    except ValueError:
-        if response.status_code == 200:
-            raise ValueError("Flow returned invalid JSON")
-        response_data = {}
+        for purchase_item in PurchaseItem.objects.filter(purchase=purchase):
+            optional[purchase_item.product.name] = purchase_item.quantity
 
-    if response.status_code != 200:
-        detail = (
-            response_data.get("message")
-            or response_data.get("error")
-            or response.text[:300]
-            or "The Flow request could not be processed"
-        )
-        if (
-            response.status_code == 401
-            and os.environ.get("FLOW_MODE", "sandbox").lower() == "sandbox"
-            and "apikey not found" in str(detail).lower()
-        ):
-            raise ValueError(
-                "Flow sandbox API key not found. Configure API_KEY_FLOW and "
-                "SECRET_KEY_FLOW with sandbox credentials, not production credentials."
-            )
-        raise ValueError(f"Flow request failed ({response.status_code}): {detail}")
-
-    return response_data
-
-
-def get_flow_credentials():
-    return get_required_env("API_KEY_FLOW"), get_required_env("SECRET_KEY_FLOW")
-
-
-def get_flow_payment_status(token):
-    api_key, secret_key = get_flow_credentials()
-    flow_data = {
-        "apiKey": api_key,
-        "token": token,
-    }
-    return call_flow_api("get", "payment/getStatus", flow_data, secret_key)
-
-
-def normalize_flow_status(flow_status):
-    try:
-        status_code = int(flow_status)
-    except (TypeError, ValueError):
-        return None, str(flow_status or "unknown")
-
-    return status_code, FLOW_STATUS_MAP.get(status_code, "unknown")
-
-
-def process_flow_status_response(response_data):
-    status_code, status_name = normalize_flow_status(response_data.get("status"))
-    commerce_order = response_data.get("commerceOrder")
-
-    if not commerce_order:
-        raise ValueError("Order number not found in Flow response")
-
-    result = {
-        "commerceOrder": commerce_order,
-        "paymentStatus": status_name,
-        "paymentStatusCode": status_code,
-        "purchaseProcessed": False,
-        "paymentPersisted": None,
-    }
-
-    purchase = Purchase.objects.filter(code=commerce_order).first()
-    if not purchase:
-        logger.error("Flow confirmation received for unknown order %s", commerce_order)
-        result["detail"] = "Flow confirmation received for unknown order"
-        return result
-
-    purchase_status = FLOW_PURCHASE_STATUS_MAP.get(status_code)
-    if purchase_status and purchase.status != purchase_status:
-        purchase.status = purchase_status
-        purchase.save(update_fields=["status"])
-
-    result["purchaseProcessed"] = True
-
-    if status_code == 2:
-        payment_result = createBaseFlowPayment(
-            purchase=purchase,
-            response_data=response_data,
-            provider_status=status_name,
-        )
-        if payment_result.get("status") == 200:
-            result["paymentPersisted"] = True
-        else:
-            result["paymentPersisted"] = False
-            result["paymentPersistenceWarning"] = "Payment record could not be persisted"
-            logger.error(
-                "Flow payment persistence failed for order %s: %s",
-                commerce_order,
-                payment_result.get("detail"),
-            )
-
-    return result
-
-
-def build_flow_return_response(response_data, detail):
-    try:
-        flow_result = process_flow_status_response(response_data)
-    except Exception as exc:
-        commerce_order = response_data.get("commerceOrder") if response_data else None
-        if not commerce_order:
-            raise
-
-        logger.exception(
-            "Flow status was received but local processing failed for order %s",
-            commerce_order,
-        )
-        status_code, status_name = normalize_flow_status(response_data.get("status"))
-        flow_result = {
-            "commerceOrder": commerce_order,
-            "paymentStatus": status_name,
-            "paymentStatusCode": status_code,
-            "purchaseProcessed": False,
-            "paymentPersisted": False,
-            "paymentPersistenceWarning": "Flow status received, local processing failed",
-        }
-
-    return {
-        "detail": detail,
-        **flow_result,
-    }
-
-
-def build_flow_payment_data(purchase, user):
-    api_key, secret_key = get_flow_credentials()
-    back_url = get_public_https_url("BACK_URL")
-
-    optional = {}
-    for purchase_item in PurchaseItem.objects.filter(purchase=purchase):
-        optional[purchase_item.product.name] = purchase_item.quantity
-
-    return (
-        {
-            "apiKey": api_key,
+        back_url = get_back_url()
+        data = {
+            "apiKey": os.environ.get("API_KEY_FLOW"),
             "commerceOrder": purchase.code,
             "subject": "Order payment",
             "currency": "CLP",
             "amount": purchase.total,
             "email": user.email,
             "paymentMethod": 9,
-            "urlConfirmation": f"{back_url}/api/payment/receive/flow/webhook",
+            "urlConfirmation": (
+                f"{back_url}/api/payment/receive/flow/webhook"
+            ),
             "urlReturn": f"{back_url}/api/payment/receive/flow/redirect",
-            "optional": json.dumps(optional, separators=(",", ":")),
+            "optional": json.dumps(optional),
             "timeout": 1800,
-        },
-        secret_key,
-    )
+        }
 
-
-def create_flow_payment(purchase_id, user):
-    try:
-        purchase = Purchase.objects.get(id=purchase_id)
-        flow_data, secret_key = build_flow_payment_data(purchase, user)
-        response_data = call_flow_api(
-            "post",
-            "payment/create",
-            flow_data,
-            secret_key,
-        )
-
-        url = response_data.get("url")
-        token = response_data.get("token")
-        if not url or not token:
-            raise ValueError("Flow did not return a payment URL")
-
-        return {"url": f"{url}?token={token}"}, status.HTTP_200_OK
+        response_data = call_flow_api("post", "payment/create", data)
+        redirect_url = response_data["url"] + "?token=" + response_data["token"]
+        return {"url": redirect_url}, 200
     except Purchase.DoesNotExist:
-        return {"detail": "Purchase not found"}, status.HTTP_404_NOT_FOUND
-    except ValueError as exc:
-        return {"detail": str(exc)}, status.HTTP_400_BAD_REQUEST
+        return {"detail": "Purchase not found"}, 404
     except Exception as exc:
-        return {"detail": str(exc)}, status.HTTP_502_BAD_GATEWAY
+        return {"detail": str(exc)}, 500
 
 
 class CreateFlowPayment(APIView):
@@ -730,7 +486,10 @@ class CreateFlowPayment(APIView):
                 raise ValueError("Order number not received")
 
             purchase = Purchase.objects.get(code=commerce_order, user=request.user)
-            response_data, response_status = create_flow_payment(purchase.id, request.user)
+            response_data, response_status = create_flow_payment(
+                purchase.id,
+                request.user,
+            )
             return Response(response_data, status=response_status)
         except Purchase.DoesNotExist:
             return Response(
@@ -749,19 +508,15 @@ class ReceiveFlowPayment(APIView):
             data = parse_request_data(request)
             token = data.get("token") or get_query_param(request, "token")
             if not token:
-                raise ValueError("Flow token not received")
+                raise ValueError("Payment failed, please try again")
 
-            response_data = get_flow_payment_status(token)
-            return Response(
-                build_flow_return_response(response_data, "Payment return received"),
-                status=status.HTTP_200_OK,
-            )
-        except ValueError as exc:
-            return Response({"detail": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+            response_data = get_flow_status(token)
+            result = update_purchase_from_flow_status(response_data)
+            return Response(result, status=status.HTTP_200_OK)
         except Exception as exc:
-            logger.exception("Unexpected Flow return error")
+            print(exc)
             return Response(
-                {"detail": "Flow return could not be processed"},
+                {"detail": str(exc)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
@@ -774,20 +529,13 @@ def receiveFlowWebhook(request):
     try:
         data = parse_request_data(request)
         token = data.get("token") or request.POST.get("token")
-        if not token:
-            raise ValueError("Flow token not received")
-
-        response_data = get_flow_payment_status(token)
-
-        return JsonResponse(
-            build_flow_return_response(response_data, "Flow webhook processed"),
-            status=200,
-        )
-    except ValueError as exc:
-        return JsonResponse({"detail": str(exc)}, status=400)
+        if token:
+            response_data = get_flow_status(token)
+            update_purchase_from_flow_status(response_data)
     except Exception as exc:
-        logger.exception("Unexpected Flow webhook error")
-        return JsonResponse({"detail": "Flow webhook could not be processed"}, status=400)
+        print(exc)
+
+    return HttpResponse(status=200)
 
 
 @csrf_exempt
@@ -799,9 +547,4 @@ def receiveFlowRedirect(request):
     if not token:
         return JsonResponse({"detail": "Flow token not received"}, status=400)
 
-    try:
-        client_url = get_flow_client_url()
-    except ValueError as exc:
-        return JsonResponse({"detail": str(exc)}, status=400)
-
-    return redirect(f"{client_url}/receive/flow?token={token}")
+    return redirect(f"{get_flow_client_url()}/receive/flow?token={token}")

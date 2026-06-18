@@ -10,6 +10,7 @@ async function receiveFlowPayment(token: string) {
         method: "POST",
         headers: {
           Accept: "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ token: token }),
         cache: "no-store",

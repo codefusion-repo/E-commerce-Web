@@ -601,6 +601,34 @@ def process_flow_status_response(response_data):
     return result
 
 
+def build_flow_return_response(response_data, detail):
+    try:
+        flow_result = process_flow_status_response(response_data)
+    except Exception as exc:
+        commerce_order = response_data.get("commerceOrder") if response_data else None
+        if not commerce_order:
+            raise
+
+        logger.exception(
+            "Flow status was received but local processing failed for order %s",
+            commerce_order,
+        )
+        status_code, status_name = normalize_flow_status(response_data.get("status"))
+        flow_result = {
+            "commerceOrder": commerce_order,
+            "paymentStatus": status_name,
+            "paymentStatusCode": status_code,
+            "purchaseProcessed": False,
+            "paymentPersisted": False,
+            "paymentPersistenceWarning": "Flow status received, local processing failed",
+        }
+
+    return {
+        "detail": detail,
+        **flow_result,
+    }
+
+
 def build_flow_payment_data(purchase, user):
     api_key, secret_key = get_flow_credentials()
     back_url = get_public_https_url("BACK_URL")
@@ -685,19 +713,18 @@ class ReceiveFlowPayment(APIView):
                 raise ValueError("Flow token not received")
 
             response_data = get_flow_payment_status(token)
-            flow_result = process_flow_status_response(response_data)
-
             return Response(
-                {
-                    "detail": "Payment return received",
-                    **flow_result,
-                },
+                build_flow_return_response(response_data, "Payment return received"),
                 status=status.HTTP_200_OK,
             )
         except ValueError as exc:
             return Response({"detail": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as exc:
-            return Response({"detail": str(exc)}, status=status.HTTP_502_BAD_GATEWAY)
+            logger.exception("Unexpected Flow return error")
+            return Response(
+                {"detail": "Flow return could not be processed"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 @csrf_exempt
@@ -712,19 +739,16 @@ def receiveFlowWebhook(request):
             raise ValueError("Flow token not received")
 
         response_data = get_flow_payment_status(token)
-        flow_result = process_flow_status_response(response_data)
 
         return JsonResponse(
-            {
-                "detail": "Flow webhook processed",
-                **flow_result,
-            },
+            build_flow_return_response(response_data, "Flow webhook processed"),
             status=200,
         )
     except ValueError as exc:
         return JsonResponse({"detail": str(exc)}, status=400)
     except Exception as exc:
-        return JsonResponse({"detail": str(exc)}, status=502)
+        logger.exception("Unexpected Flow webhook error")
+        return JsonResponse({"detail": "Flow webhook could not be processed"}, status=400)
 
 
 @csrf_exempt

@@ -26,7 +26,7 @@ SHIPIT_TOKEN = env("SHIPIT_TOKEN")
 SHIPIT_SENDER_COMMUNE_ID = env("SHIPIT_SENDER_COMMUNE_ID")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG")
+DEBUG = env.bool("DEBUG")
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS_PRO')
 

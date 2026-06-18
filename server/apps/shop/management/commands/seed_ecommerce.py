@@ -143,8 +143,8 @@ class Command(BaseCommand):
         )
 
     def ensure_admin_user(self):
-        username = os.getenv("SUPER_USERNAME", "admin")
-        email = os.getenv("SUPER_EMAIL", "admin@codefusion.cl")
+        username = os.getenv("SUPER_USERNAME", "support-cf")
+        email = os.getenv("SUPER_EMAIL", "support@codefusion.cl")
         password = os.getenv("SUPER_PASSWORD")
 
         user = User.objects.filter(email=email).first()
@@ -153,11 +153,11 @@ class Command(BaseCommand):
                 username=username,
                 email=email,
                 password=password,
-                first_name="Admin",
+                first_name="support",
                 last_name="CodeFusion",
             )
         user.username = username
-        user.first_name = user.first_name or "Admin"
+        user.first_name = user.first_name or "support"
         user.last_name = user.last_name or "CodeFusion"
         user.is_active = True
         user.is_staff = True

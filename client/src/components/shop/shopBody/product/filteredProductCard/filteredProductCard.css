@@ -144,6 +144,15 @@
     .filtered-product-card.reveal--slide-up:not(.is-visible) {
         transform: translate3d(0, 6px, 0);
     }
+    /* Mobile cards must remain visible even if IntersectionObserver misses an entry. */
+    .filtered-product-card.reveal,
+    .filtered-product-card.reveal--slide-up,
+    .filtered-product-card.reveal--slide-up:not(.is-visible) {
+        opacity: 1;
+        transform: none;
+        transition-delay: 0ms, 0ms, 0ms, 0ms;
+        will-change: auto;
+    }
     .filtered-product-card__image-link {
         flex: 0 0 auto;
         height: clamp(118px, 31vw, 152px);

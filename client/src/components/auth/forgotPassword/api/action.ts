@@ -1,6 +1,7 @@
 // `components/auth/forgotPassowrd/api/action.ts`
 
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 
 // Función para validar la contraseña
 const verifyPassword = (
@@ -45,7 +46,7 @@ export const postForgotPassword = (email: string): Promise<any> => {
 
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/forgot/password`,
+        clientApiUrl(`/api/user/forgot/password`),
         setForgotPasswordFormData,
         config
       )
@@ -90,7 +91,7 @@ export const postChangeForgotPassword = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/receive/change/forgot/password`,
+            clientApiUrl(`/api/user/receive/change/forgot/password`),
             changeForgotPasswordFormData,
             config
           )

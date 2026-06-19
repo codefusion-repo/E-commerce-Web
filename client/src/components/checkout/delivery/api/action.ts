@@ -3,6 +3,7 @@
 import { postJWTAccessTokenInPage } from "../../../../context/auth/api/action";
 import { ProductType } from "../../../../interfaces/shop/shopInterface";
 import axios from "axios";
+import { clientApiUrl } from "../../../../utils/api";
 
 export const postValidateAddress = (
   streetName: string,
@@ -12,7 +13,6 @@ export const postValidateAddress = (
   previousResponseId: string
 ): Promise<any> => {
   return new Promise((resolve, reject) => {
-    console.log("previousId: ", previousResponseId);
     const address = {
       regionCode: "CL",
       addressLines: [
@@ -31,8 +31,6 @@ export const postValidateAddress = (
     axios
       .post(url, body)
       .then((res) => {
-        console.log("res: ", res);
-
         const addressComponents =
           res?.data?.result?.address?.addressComponents || [];
 
@@ -118,12 +116,11 @@ const postShipit = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/delivery/post/shipit`,
+            clientApiUrl("/api/delivery/post/shipit"),
             shipitFormData,
             config
           )
           .then((res) => {
-            console.log("response list: ", res.data);
             return resolve(res.data);
           })
           .catch((err) => {
@@ -196,11 +193,9 @@ export const postDeliveryCotization = (
 
     postShipit(parseInt(countyCode), peso, alto, ancho, largo, signOutAuthState)
       .then((res) => {
-        console.log("ShipitRes: ", res);
         return resolve(res);
       })
       .catch((err) => {
-        console.log("ShipitErr: ", err);
         return reject(err);
       });
   });

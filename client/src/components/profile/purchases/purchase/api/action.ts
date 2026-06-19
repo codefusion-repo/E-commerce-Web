@@ -3,6 +3,7 @@
 import { postJWTAccessTokenInPage } from "../../../../../context/auth/api/action";
 import { PurchaseType } from "../../../../../interfaces/auth/authInterface";
 import axios from "axios";
+import { clientApiUrl } from "../../../../../utils/api";
 
 export const getPurchase = (
   code: string,
@@ -24,10 +25,7 @@ export const getPurchase = (
         };
 
         axios
-          .get(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/purchase/get/${code}`,
-            config
-          )
+          .get(clientApiUrl(`/api/purchase/get/${code}`), config)
           .then((res) => {
             return resolve(res.data.order);
           })
@@ -52,7 +50,7 @@ export const getPurchase = (
         },
       };
       axios
-        .get(`${process.env.NEXT_PUBLIC_URL_PRO}/api/purchase/get/${code}`, config)
+        .get(clientApiUrl(`/api/purchase/get/${code}`), config)
         .then((res) => {
           return resolve(res.data.order);
         })
@@ -95,7 +93,7 @@ export const postUnapplyCouponFromPurchase = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/coupons/post/unapply/coupon/from/purchase`,
+            clientApiUrl("/api/coupons/post/unapply/coupon/from/purchase"),
             formData,
             config
           )
@@ -127,7 +125,7 @@ export const postUnapplyCouponFromPurchase = (
       formData.append("commerceOrder", commerceOrder);
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_URL_PRO}/api/coupons/post/unapply/coupon/from/purchase`,
+          clientApiUrl(`/api/coupons/post/unapply/coupon/from/purchase`),
           formData,
           config
         )

@@ -94,7 +94,7 @@ export default function Login() {
           onClick={() => handleDontHaveAccount()}
           disabled={loading}
         >
-          <h5>Don't have an account? Register here</h5>
+          <h5>Don&apos;t have an account? Register here</h5>
         </button>
       </div>
 

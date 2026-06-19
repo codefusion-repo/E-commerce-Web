@@ -1,6 +1,7 @@
 // `components/auth/verifyEmail/api/action.ts`
 
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 
 export const postVerifyEmailNumber = async (
   token: string,
@@ -34,7 +35,7 @@ export const postVerifyEmailNumber = async (
 
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/my/auth/verify/email`,
+        clientApiUrl(`/api/my/auth/verify/email`),
         verifyEmailFormData,
         config
       )

@@ -4,6 +4,7 @@ import { UserType } from "@/interfaces/auth/authInterface";
 import { postJWTAccessTokenInPage } from "../../../../context/auth/api/action";
 import { CouponType } from "../../../../interfaces/shop/shopInterface";
 import axios from "axios";
+import { clientApiUrl } from "../../../../utils/api";
 
 // Función para aplicar cupón
 export const postClaimCoupon = (
@@ -28,13 +29,8 @@ export const postClaimCoupon = (
         couponFormData.append("coupon_code", coupon_code);
 
         axios
-          .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/coupons/claim`,
-            couponFormData,
-            config
-          )
+          .post(clientApiUrl("/api/coupons/claim"), couponFormData, config)
           .then((res) => {
-            console.log("res: ", res);
             return resolve(res.data);
           })
           .catch((err) => {
@@ -76,7 +72,7 @@ export const postApplyCoupon = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/coupons/post/apply/coupon`,
+            clientApiUrl("/api/coupons/post/apply/coupon"),
             couponFormData,
             config
           )
@@ -108,7 +104,7 @@ export const postApplyCoupon = (
 
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_URL_PRO}/api/coupons/post/apply/coupon`,
+          clientApiUrl(`/api/coupons/post/apply/coupon`),
           couponFormData,
           config
         )
@@ -153,7 +149,7 @@ export const postUnpplyCoupon = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/coupons/post/unapply/coupon`,
+            clientApiUrl("/api/coupons/post/unapply/coupon"),
             couponFormData,
             config
           )
@@ -185,7 +181,7 @@ export const postUnpplyCoupon = (
 
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_URL_PRO}/api/coupons/post/unapply/coupon`,
+          clientApiUrl(`/api/coupons/post/unapply/coupon`),
           couponFormData,
           config
         )
@@ -230,7 +226,7 @@ export const verifyCoupon = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/coupons/post/verify/coupon`,
+            clientApiUrl("/api/coupons/post/verify/coupon"),
             verifyCouponFormData,
             config
           )
@@ -263,7 +259,7 @@ export const verifyCoupon = (
 
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_URL_PRO}/api/coupons/post/verify/coupon`,
+          clientApiUrl(`/api/coupons/post/verify/coupon`),
           verifyCouponFormData,
           config
         )

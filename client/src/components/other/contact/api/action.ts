@@ -1,6 +1,7 @@
 // `components/other/contact/api/action.ts`
 
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 
 export const postSendMessage = (
   email: string,
@@ -20,7 +21,7 @@ export const postSendMessage = (
     MessageFormData.append("message", message);
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/contact/send/message`,
+        clientApiUrl(`/api/contact/send/message`),
         MessageFormData,
         config
       )

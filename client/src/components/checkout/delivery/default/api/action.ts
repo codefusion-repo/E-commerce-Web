@@ -2,6 +2,7 @@
 
 import { postJWTAccessTokenInPage } from "../../../../../context/auth/api/action";
 import axios from "axios";
+import { clientApiUrl } from "../../../../../utils/api";
 
 export const setDefaultAddress = (
   id: string,
@@ -27,7 +28,7 @@ export const setDefaultAddress = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/delivery/set/default/address`,
+            clientApiUrl("/api/delivery/set/default/address"),
             setDefaultAddressFormData,
             config
           )
@@ -59,7 +60,7 @@ export const setDefaultAddress = (
 
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_URL_PRO}/api/delivery/set/default/address`,
+          clientApiUrl(`/api/delivery/set/default/address`),
           setDefaultAddressFormData,
           config
         )

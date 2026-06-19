@@ -3,5 +3,5 @@
 import Shop from "../../../components/shop/shop";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <Shop children={children} />;
+  return <Shop>{children}</Shop>;
 }

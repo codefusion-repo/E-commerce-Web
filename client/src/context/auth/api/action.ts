@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import Cookies from "js-cookie";
+import { clientApiUrl } from "../../../utils/api";
 
 // Función para verificar el token de firebase en el cliente
 export const postVerifyFirebaseIdToken = (
@@ -20,7 +21,7 @@ export const postVerifyFirebaseIdToken = (
 
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/my/auth/verify/firebase/id/token`,
+        clientApiUrl("/api/my/auth/verify/firebase/id/token"),
         verifyTokenFormData,
         config
       )
@@ -50,11 +51,7 @@ const postJWTRefreshTokenInPage = (): Promise<string> => {
     const body = JSON.stringify({ refresh: Cookies.get("refresh") });
 
     axios
-      .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/my/auth/refresh`,
-        body,
-        config
-      )
+      .post(clientApiUrl("/api/my/auth/refresh"), body, config)
       .then((res) => {
         Cookies.set("access", res.data.access);
         Cookies.set("refresh", res.data.refresh);
@@ -86,11 +83,7 @@ export const postJWTAccessTokenInPage = (): Promise<string> => {
     const body = JSON.stringify({ token: token });
 
     axios
-      .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/my/auth/verify`,
-        body,
-        config
-      )
+      .post(clientApiUrl("/api/my/auth/verify"), body, config)
       .then(() => {
         return resolve(token);
       })

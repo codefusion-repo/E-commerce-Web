@@ -42,7 +42,7 @@ export default function LegalAdvice() {
           content available through the services provided, including designs,
           text, graphics, images, video, information, applications, software,
           music, sound and other files, as well as their selection and
-          arrangement (the "Content") are the exclusive property of
+          arrangement (the &quot;Content&quot;) are the exclusive property of
           e-commerce-web Spa, or its licensors, with all rights reserved. No
           part of the Content of the website may be modified, copied,
           distributed, framed, reproduced, republished, downloaded, extracted,
@@ -113,7 +113,7 @@ export default function LegalAdvice() {
           This Website makes available to users technical linking devices
           (links, banners, buttons), directories and search tools that allow
           users to access websites belonging to third parties. These links have
-          the sole purpose of facilitating users' access to other content and
+          the sole purpose of facilitating users&apos; access to other content and
           information available on the Internet. José Olguín does not become the
           editor of said content nor does he previously control, approve,
           monitor or make it his own. The user must therefore exercise extreme
@@ -148,8 +148,8 @@ export default function LegalAdvice() {
           In compliance with Organic Law 15/1999 of December 13 on the
           protection of personal data, e-commerce-web Spa. informs you that the
           personal data that may be provided through the contact form on this
-          website are included in an automated file called "Clients and/or
-          suppliers" owned by e-commerce-web Spa., registered with the AEPD,
+          website are included in an automated file called &quot;Clients and/or
+          suppliers&quot; owned by e-commerce-web Spa., registered with the AEPD,
           that its sole purpose is the management of clients and commercial
           communication actions, that they will not be transferred to third
           parties and that you have the possibility of exercising the rights of
@@ -172,7 +172,7 @@ export default function LegalAdvice() {
         <h4>
           The parties submit, at their choice, for the resolution of conflicts
           and waiving any other jurisdiction, to the courts and tribunals of the
-          user's domicile.
+          user&apos;s domicile.
         </h4>
         <h2>11. APPLICABLE LEGISLATION AND JURISDICTION</h2>
         <h4>

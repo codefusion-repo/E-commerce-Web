@@ -3,6 +3,7 @@
 import { postJWTAccessTokenInPage } from "../../../../context/auth/api/action";
 import { ProductType } from "../../../../interfaces/shop/shopInterface";
 import axios from "axios";
+import { clientApiUrl } from "../../../../utils/api";
 
 const getApiErrorMessage = (err: any): string => {
   const detail = err?.response?.data?.detail;
@@ -50,17 +51,11 @@ export const postResendPurchaseOrder = (
         purchaseFormData.append("method", method);
 
         axios
-          .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/purchase/resend`,
-            purchaseFormData,
-            config
-          )
+          .post(clientApiUrl("/api/purchase/resend"), purchaseFormData, config)
           .then((res) => {
-            console.log("purchase_response", res);
             return resolve(res.data.url);
           })
           .catch((err) => {
-            console.error("postResendPurchaseOrder failed", err);
             return reject(getApiErrorMessage(err));
           });
       })
@@ -118,16 +113,11 @@ export const postCreatePurchaseOrder = (
         }
 
         axios
-          .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/purchase/create`,
-            purchaseFormData,
-            config
-          )
+          .post(clientApiUrl("/api/purchase/create"), purchaseFormData, config)
           .then((res) => {
             return resolve(res.data.url);
           })
           .catch((err) => {
-            console.error("postCreatePurchaseOrder failed", err);
             return reject(getApiErrorMessage(err));
           });
       })

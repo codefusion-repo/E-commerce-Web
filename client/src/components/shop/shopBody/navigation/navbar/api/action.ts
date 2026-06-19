@@ -1,6 +1,7 @@
 // `components/shop/navigation/navbar/api/action.ts`
 
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 
 // Función para concatenar la url de parametros de busqueda
 export const chainUrlString = (
@@ -86,7 +87,7 @@ export const postProductsFilters = (
     };
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/shop/on/change/filter`,
+        clientApiUrl(`/api/shop/on/change/filter`),
         filterFormData,
         config
       )

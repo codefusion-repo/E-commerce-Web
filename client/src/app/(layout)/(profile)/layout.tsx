@@ -3,5 +3,5 @@
 import Profile from "../../../components/profile/profile";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <Profile children={children} />;
+  return <Profile>{children}</Profile>;
 }

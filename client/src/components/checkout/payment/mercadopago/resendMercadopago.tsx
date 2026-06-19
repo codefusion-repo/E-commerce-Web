@@ -33,7 +33,6 @@ export default function ResendMercadopago({
     postResendPurchaseOrder(commerceOrder, "mp", signOutAuthState)
       .then((url) => {
         setLoading(false);
-        console.log("url: ", url);
         router.push(url);
       })
       .catch((err) => {

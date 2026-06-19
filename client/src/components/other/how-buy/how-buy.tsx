@@ -40,7 +40,7 @@ export default function HowBuy() {
         />
 
         <h4>
-          We are going to place an example order with the "1-Sample product"
+          We are going to place an example order with the &quot;1-Sample product&quot;
         </h4>
         <Image
           className={`${device > 2 ? "f-width-l" : "box-xxl"} padding-l-s`}
@@ -61,7 +61,7 @@ export default function HowBuy() {
           alt="ShopcartNoEmpty"
         />
         <h4>
-          If everything is correct, click "Buy". Next, we explain the steps to
+          If everything is correct, click &quot;Buy&quot;. Next, we explain the steps to
           carry out the ordered correctly.
         </h4>
 
@@ -121,7 +121,7 @@ export default function HowBuy() {
         </h4>
         <h2>8. Leave us a message or comment</h2>
         <h4>
-          Clicking on 'Shipping Method' at the bottom will bring up a box in
+          Clicking on &apos;Shipping Method&apos; at the bottom will bring up a box in
           which you can leave us any type of information relevant to your order
           so that we take it into account when its preparation or shipment. As
           well as any communication that helps us to improve our service.

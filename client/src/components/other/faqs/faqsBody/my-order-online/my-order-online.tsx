@@ -17,9 +17,9 @@ export default function MyOrderOnline() {
           soon as your order leaves our facilities. as soon as your order leaves
           our facilities. We will We will send you an assigned tracking number
           by e-mail. You will be able to check your order on our website in the
-          section 'PURCHASES' located in your customer your customer account.
+          section &apos;PURCHASES&apos; located in your customer your customer account.
           You can also check the status of your order with your tracking number
-          on the courier company's website.
+          on the courier company&apos;s website.
         </h4>
         <h2>How can I modify, cancel or return my order?</h2>
         <h4>

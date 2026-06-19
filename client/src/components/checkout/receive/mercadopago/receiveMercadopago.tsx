@@ -14,9 +14,11 @@ import { useShopcart } from "../../../../context/shopcart/shopcartContext";
 export default function ReceiveMercadopago({
   receive,
   detail,
+  paymentState,
 }: {
   receive: string;
   detail: string;
+  paymentState: string;
 }) {
   const { setUser, signOutAuthState } = useAuth();
   const { addMessage } = useMessages();
@@ -33,7 +35,9 @@ export default function ReceiveMercadopago({
       .then((res) => {
         setUser(res.data.user);
 
-        clearShop();
+        if (paymentState === "paid") {
+          clearShop();
+        }
 
         if (detail && receive) {
           setError(detail);
@@ -46,7 +50,7 @@ export default function ReceiveMercadopago({
         setInfo("Redirecting...");
         setError(err);
       });
-  }, [detail, receive]);
+  }, [detail, paymentState, receive]);
 
   return (
     <>

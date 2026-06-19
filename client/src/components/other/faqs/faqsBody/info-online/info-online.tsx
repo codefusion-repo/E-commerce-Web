@@ -60,7 +60,7 @@ export default function InfoOnline() {
           debit card, since payment is confirmed instantly and we can proceed
           with the processing and preparation of your order.
         </h4>
-        <h2>Why do I get 'payment rejected'?</h2>
+        <h2>Why do I get &apos;payment rejected&apos;?</h2>
         <h4>
           Normally this situation is due to various problems with the bank. If
           you receive this message, please contact us immediately by phone or

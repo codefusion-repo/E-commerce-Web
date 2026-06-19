@@ -17,6 +17,7 @@ import { MobileProvider } from "../context/mobile/mobileContext";
 import { ShopcartProvider } from "../context/shopcart/shopcartContext";
 import { CheckoutProvider } from "../context/checkout/checkoutContext";
 import type { Metadata } from "next";
+import { serverApiUrl } from "../utils/api";
 
 export const metadata: Metadata = {
   title: "E-commerce-Web",
@@ -64,18 +65,15 @@ async function postJWTRefreshToken() {
     if (!Cookies.get("refresh")) {
       return await defaultAuthReturn();
     }
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_DOCKER}/api/my/auth/refresh`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ refresh: Cookies.get("refresh")?.value }),
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(serverApiUrl("/api/my/auth/refresh"), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ refresh: Cookies.get("refresh")?.value }),
+      cache: "no-store",
+    });
     if (res.status === 200) {
       const data = await res.json();
       const user = await getUser(data.access);
@@ -99,18 +97,15 @@ async function postJWTVerifyToken() {
     if (!Cookies.get("access")) {
       return await defaultAuthReturn();
     }
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_DOCKER}/api/my/auth/verify`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token: Cookies.get("access")?.value }),
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(serverApiUrl("/api/my/auth/verify"), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token: Cookies.get("access")?.value }),
+      cache: "no-store",
+    });
     if (res.status === 200) {
       const user = await getUser(Cookies.get("access")?.value);
       return {
@@ -132,17 +127,14 @@ async function getUser(access: string | undefined) {
     if (!access) {
       return undefined;
     }
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_DOCKER}/api/user/get/profile`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `JWT ${access}`,
-          Accept: "application/json",
-        },
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(serverApiUrl("/api/user/get/profile"), {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${access}`,
+        Accept: "application/json",
+      },
+      cache: "no-store",
+    });
     if (res.status === 200) {
       const data = await res.json();
       return data.user;
@@ -201,17 +193,14 @@ async function getDocFromFirestore(cartId: string) {
 async function fetchShopcart(user: any, isAuthenticated: boolean) {
   if (isAuthenticated) {
     const docRef = doc(db, "carts", user?.id);
-    console.log("cartRef: ", docRef);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
+      return;
     } else {
       // docSnap.data() will be undefined in this case
-      console.log("No such document!");
+      return;
     }
-  } else {
-    console.log("Not autheticated!");
   }
 }
 // Función para obtener un carro de compras
@@ -221,32 +210,21 @@ async function getFirebaseShopcart(
   isAuthenticated: boolean
 ) {
   try {
-    console.log("isAuthenticated: ", isAuthenticated);
     if (isAuthenticated) {
-      console.log("user: ", user);
-      console.log("user_id: ", user?.id);
-
       const cartRef = doc(db, "shoppingCart", user?.id);
-      console.log("cartRef: ", cartRef);
       const cartSnap = await getDoc(cartRef);
 
-      console.log("cartSnap: ", cartSnap);
-
       if (cartSnap.exists()) {
-        const cartData = cartSnap.data();
-        console.log("descargado: ", cartData);
         return await defaultCartReturn();
       } else {
-        const docRef = await setDoc(doc(db, "shoppingCart", user?.id), {
+        await setDoc(doc(db, "shoppingCart", user?.id), {
           items: [],
           coupon: {},
         });
 
-        console.log("creado: ", docRef);
         return await defaultCartReturn();
       }
     }
-    console.log("No autenticado");
     return await defaultCartReturn();
     /*const Cookies = cookies();
     if (areCookiesActive) {
@@ -260,7 +238,6 @@ async function getFirebaseShopcart(
       return await defaultCartReturn();
     }*/
   } catch {
-    console.log("Error111");
     return await defaultCartReturn();
   }
 }
@@ -292,11 +269,9 @@ async function getShopData() {
   };
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_DOCKER}/api/shop/get/categories`,
-      // { cache: "no-store" }
-      { next: { revalidate: 1600 } }
-    );
+    const res = await fetch(serverApiUrl("/api/shop/get/categories"), {
+      next: { revalidate: 1600 },
+    });
     if (res.status === 200) {
       const data = await res.json();
       shopData.categories = data.categories;
@@ -306,11 +281,9 @@ async function getShopData() {
   }
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_DOCKER}/api/shop/get/products`,
-      // { cache: "no-store" }
-      { next: { revalidate: 1600 } }
-    );
+    const res = await fetch(serverApiUrl("/api/shop/get/products"), {
+      next: { revalidate: 1600 },
+    });
     if (res.status === 200) {
       const data = await res.json();
       shopData.products = data.products;

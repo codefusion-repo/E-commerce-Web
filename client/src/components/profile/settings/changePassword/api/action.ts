@@ -2,6 +2,7 @@
 
 import { postJWTAccessTokenInPage } from "../../../../../context/auth/api/action";
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 import {
   EmailAuthProvider,
   reauthenticateWithCredential,
@@ -73,7 +74,7 @@ export const postChangePassword = (
 
                 axios
                   .post(
-                    `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/set/password`,
+                    clientApiUrl(`/api/user/set/password`),
                     setPasswordFormData,
                     config
                   )
@@ -126,7 +127,7 @@ export const postChangePassword = (
               };
               axios
                 .post(
-                  `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/set/password`,
+                  clientApiUrl(`/api/user/set/password`),
                   setPasswordFormData,
                   config
                 )
@@ -174,7 +175,7 @@ export const postChangePassword = (
     };
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/forgot/password`,
+        clientApiUrl(`/api/user/forgot/password`),
         setForgotPasswordFormData,
         config
       )
@@ -214,7 +215,7 @@ export const postForgotPasswordCode = (
 
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/receive/code/forgot/password`,
+        clientApiUrl(`/api/user/receive/code/forgot/password`),
         setForgotPasswordCodeFormData,
         config
       )
@@ -247,7 +248,7 @@ export const postChangeForgottenPassword = (
         };
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/change/forgotten/password`,
+            clientApiUrl(`/api/user/change/forgotten/password`),
             setPasswordFormData,
             config
           )

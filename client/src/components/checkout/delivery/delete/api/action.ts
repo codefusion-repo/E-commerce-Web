@@ -2,6 +2,7 @@
 
 import { postJWTAccessTokenInPage } from "../../../../../context/auth/api/action";
 import axios from "axios";
+import { clientApiUrl } from "../../../../../utils/api";
 
 // Función para borrar una dirección
 export const postDeleteAddress = (
@@ -28,7 +29,7 @@ export const postDeleteAddress = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/delivery/delete/address`,
+            clientApiUrl("/api/delivery/delete/address"),
             deleteAddressFormData,
             config
           )
@@ -61,7 +62,7 @@ export const postDeleteAddress = (
 
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_URL_PRO}/api/delivery/delete/address`,
+          clientApiUrl(`/api/delivery/delete/address`),
           removeAddressFormData,
           config
         )

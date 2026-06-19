@@ -38,7 +38,6 @@ export default function Coupons() {
 
     postClaimCoupon(code, signOutAuthState)
       .then((user) => {
-        console.log("user: ", user);
         setUser(user);
         setLoading(false);
         setStatus("default");
@@ -58,8 +57,6 @@ export default function Coupons() {
     }
   };
   useEffect(() => {
-    console.log("user_coupons: ", user?.coupons.length);
-
     if (user && user?.coupons.length > 0) {
       setStatus("default");
     } else {

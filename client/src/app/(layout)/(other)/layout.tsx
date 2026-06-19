@@ -7,5 +7,5 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  return <Other children={children} />;
+  return <Other>{children}</Other>;
 }

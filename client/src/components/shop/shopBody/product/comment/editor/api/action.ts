@@ -2,6 +2,7 @@
 
 import { postJWTAccessTokenInPage } from "../../../../../../../context/auth/api/action";
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 
 export const postCommentEditor = (
   stars: number,
@@ -31,7 +32,7 @@ export const postCommentEditor = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/shop/edit/comment`,
+            clientApiUrl(`/api/shop/edit/comment`),
             commentEditorFormData,
             config
           )

@@ -53,10 +53,9 @@ export default function Flow({
       "f",
       signOutAuthState,
       coupon?.coupon.code
-    )
+      )
       .then((url) => {
         setLoading(false);
-        console.log("url: ", url);
         router.push(url);
       })
       .catch((err) => {

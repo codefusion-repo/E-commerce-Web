@@ -19,15 +19,15 @@ export default function MyAccount() {
         <h4>
           2. Enter your email address as well as other personal information that
           will be requested other personal information that you will be asked
-          for and then click 'Create account'.
+          for and then click &apos;Create account&apos;.
         </h4>
         <h4>
           3. Confirm your email and you will be able to access your
           ecommerce-demo.codefusion.cl account.
         </h4>
         <h2>How do I retrieve my password to access my account?</h2>
-        <h4>1. Go to 'Sign in' on our website </h4>.
-        <h4>2. You must access the 'Forgot your password' option.</h4>
+        <h4>1. Go to &apos;Sign in&apos; on our website.</h4>
+        <h4>2. You must access the &apos;Forgot your password&apos; option.</h4>
         <h4>
           3. Then, write your user e-mail and you will receive an e-mail to
           modify it.
@@ -39,16 +39,16 @@ export default function MyAccount() {
         </h4>
         <h2>Can I change my account details?</h2>
         <h4>
-          Yes, to do this you must access your account, and access the 'Personal
-          data' section on the left side of the Personal Data' section on the
+          Yes, to do this you must access your account, and access the
+          &apos;Personal data&apos; section on the left side of the Personal Data&apos; section on the
           left side of the page. Once you are inside, you will be able to modify
           the personal data you want.
         </h4>
         <h2>How can I access to my purchase history?</h2>
         <h4>
           In order to view your purchase history, you must access your profile
-          and once inside, click on the 'Purchase history' section. inside,
-          click on the 'History and details of my orders' section. orders'. You
+          and once inside, click on the &apos;Purchase history&apos; section. inside,
+          click on the &apos;History and details of my orders&apos; section. orders&apos;. You
           will be able to view your previous orders in full detail and with the
           option to reorder if you wish.
         </h4>

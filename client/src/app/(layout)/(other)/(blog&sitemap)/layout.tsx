@@ -1,6 +1,7 @@
 // `app/(layout)/(other)/(blog&sitemap)/layout.tsx`
 
 import { BlogProvider } from "../../../../context/blog/blogContext";
+import { serverApiUrl } from "../../../../utils/api";
 
 // Función para obtener información del blog
 async function getBlogData() {
@@ -9,11 +10,9 @@ async function getBlogData() {
     posts: [],
   };
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_DOCKER}/api/blog/get/categories`,
-      // { cache: "no-store" }
-      { next: { revalidate: 1600 } }
-    );
+    const res = await fetch(serverApiUrl("/api/blog/get/categories"), {
+      next: { revalidate: 1600 },
+    });
     if (res.status === 200) {
       const data = await res.json();
       blogData.categories = data.blogCategories;
@@ -23,11 +22,9 @@ async function getBlogData() {
   }
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_DOCKER}/api/blog/get/posts`,
-      // { cache: "no-store" }
-      { next: { revalidate: 1600 } }
-    );
+    const res = await fetch(serverApiUrl("/api/blog/get/posts"), {
+      next: { revalidate: 1600 },
+    });
     if (res.status === 200) {
       const data = await res.json();
       blogData.posts = data.posts;

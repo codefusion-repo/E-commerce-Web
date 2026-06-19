@@ -7,5 +7,5 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  return <Blog children={children} />;
+  return <Blog>{children}</Blog>;
 }

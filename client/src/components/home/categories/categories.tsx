@@ -30,7 +30,7 @@ export default function Categories({
         {categories.map((category) => (
           <Link
             href={`/shop/${category.slug}`}
-            className="category-card flex column f-width-m a-center t-center j-space gap-xs padding-xs"
+            className="category-card flex column f-width-m a-center t-center j-start gap-xxs padding-xs"
             key={category.id}
           >
             <img

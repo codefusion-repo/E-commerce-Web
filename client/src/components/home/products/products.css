@@ -72,7 +72,13 @@
     .product-section__select {
         width: 100%;
     }
+    .product-grid {
+        gap: .35rem;
+        padding-left: 0;
+        padding-right: 0;
+    }
     .product-grid__item {
+        padding: .35rem;
         animation-name: productCardFade;
     }
 }

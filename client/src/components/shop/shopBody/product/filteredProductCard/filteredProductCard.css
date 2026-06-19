@@ -107,21 +107,60 @@
     .filtered-product-card,
     .filtered-product-card:hover,
     .filtered-product-card:focus-within {
-        max-width: calc(100vw - 4rem);
+        width: min(calc(100vw - 2.5rem), 288px);
+        max-width: 100%;
+        height: auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
         box-shadow: 0 8px 20px rgba(0, 0, 0, .14);
         transform: none;
+    }
+    .filtered-product-card__image-link {
+        flex: 0 0 auto;
+        height: clamp(118px, 31vw, 152px);
+        min-height: 0;
+        padding: .45rem .45rem .2rem;
     }
     .filtered-product-card:hover .filtered-product-card__image,
     .filtered-product-card:focus-within .filtered-product-card__image {
         transform: none;
     }
+    .filtered-product-card__title {
+        margin-top: 0;
+        padding: .35rem .75rem .2rem;
+    }
+    .filtered-product-card__title h4 {
+        min-height: 0;
+        line-height: 1.16;
+    }
     .filtered-product-card__footer {
-        gap: .75rem;
+        gap: .45rem;
         justify-content: space-between;
+        margin-top: .25rem;
+        padding: .5rem .75rem .65rem;
+    }
+    .filtered-product-card__footer > div:first-child {
+        width: auto;
+        flex: 1 1 auto;
+        justify-content: flex-start;
+        padding: 0;
+    }
+    .filtered-product-card__footer > div:last-child {
+        width: auto;
+        flex: 0 0 auto;
+        justify-content: flex-end;
+        gap: .5rem;
+    }
+    .filtered-product-card__footer h1 {
+        font-size: 1rem;
+        line-height: 1.1;
     }
     .filtered-product-card__footer .btn-small {
-        width: 44px;
-        height: 44px;
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        min-height: 42px;
     }
     .filtered-product-card__footer .btn-small:hover,
     .filtered-product-card__footer .btn-small:focus-visible {
@@ -132,7 +171,11 @@
         transform: scale(1.08);
     }
     .filtered-product-card__toast {
-        top: .65rem;
-        right: .65rem;
+        position: static;
+        width: fit-content;
+        max-width: calc(100% - 1.5rem);
+        margin: .25rem .75rem 0;
+        padding: .22rem .48rem;
+        font-size: .72rem;
     }
 }

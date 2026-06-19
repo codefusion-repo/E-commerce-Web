@@ -74,8 +74,8 @@ export default function Home({ banners }: { banners: BannerType[] }) {
         </div>
         <div>
           <span>03</span>
-          <strong>Flow</strong>
-          <p>Dirección, envío, cupones y pago Flow en un flujo único.</p>
+          <strong>Checkout</strong>
+          <p>Dirección, envío, cupones y pago en un flujo único.</p>
         </div>
       </section>
 

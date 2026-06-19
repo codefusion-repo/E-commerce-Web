@@ -221,8 +221,10 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
                   currency: "CLP",
                 }).format(
                   Math.round(
-                    (subtotal + deliveryPrice) * coupon.coupon.discount_percent
-                  ) / 100
+                    ((subtotal + deliveryPrice) *
+                      coupon.coupon.discount_percent) /
+                      100
+                  )
                 )}`}
               {coupon.coupon.discount_type === "free_delivery" &&
                 `Discount: Free delivery/-${Intl.NumberFormat("es-CL", {

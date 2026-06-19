@@ -82,6 +82,7 @@ export interface CouponType {
   discount_percent: number;
   discount_value: number;
   discount_type: string;
+  discount_expire?: string | null;
 }
 
 // Interface para las opciones de ordenar productos en la tienda

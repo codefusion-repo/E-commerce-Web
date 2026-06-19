@@ -3,7 +3,7 @@
 
 //import "./coupons.css";
 import Image from "next/image";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import loadingGif from "../../../assets/cargando/loading2.gif";
 import { postClaimCoupon } from "./api/action";
 import { useAuth } from "../../../context/auth/authContext";
@@ -11,105 +11,161 @@ import { useShopcart } from "../../../context/shopcart/shopcartContext";
 import { UserCouponType } from "../../../interfaces/auth/authInterface";
 import { useCheckout } from "../../../context/checkout/checkoutContext";
 
+const formatCurrency = (value: number) =>
+  Intl.NumberFormat("es-CL", {
+    style: "currency",
+    currency: "CLP",
+  }).format(value);
+
+const getCouponUnavailableReason = (userCoupon: UserCouponType) => {
+  if (userCoupon.status === "is_used") {
+    return "Coupon already used";
+  }
+
+  if (userCoupon.status === "is_expired") {
+    return "Coupon expired";
+  }
+
+  if (!["is_claimed", "is_applied"].includes(userCoupon.status)) {
+    return "Coupon not available";
+  }
+
+  const expiresAt = userCoupon.coupon.discount_expire
+    ? Date.parse(userCoupon.coupon.discount_expire)
+    : null;
+
+  if (expiresAt && !Number.isNaN(expiresAt) && expiresAt < Date.now()) {
+    return "Coupon expired";
+  }
+
+  return null;
+};
+
+const getEstimatedDiscount = (
+  userCoupon: UserCouponType,
+  subtotal: number,
+  deliveryPrice: number
+) => {
+  const baseTotal = subtotal + deliveryPrice;
+  let discount = 0;
+
+  if (userCoupon.coupon.discount_type === "value") {
+    discount = Math.round(Number(userCoupon.coupon.discount_value) || 0);
+  } else if (userCoupon.coupon.discount_type === "percent") {
+    discount = Math.round(
+      (baseTotal * (Number(userCoupon.coupon.discount_percent) || 0)) / 100
+    );
+  } else if (userCoupon.coupon.discount_type === "free_delivery") {
+    discount = deliveryPrice;
+  }
+
+  return Math.max(0, Math.min(discount, baseTotal));
+};
+
+const getDiscountLabel = (
+  userCoupon: UserCouponType,
+  subtotal: number,
+  deliveryPrice: number
+) => {
+  const estimatedDiscount = getEstimatedDiscount(
+    userCoupon,
+    subtotal,
+    deliveryPrice
+  );
+
+  if (userCoupon.coupon.discount_type === "percent") {
+    return `${userCoupon.coupon.discount_percent}% / -${formatCurrency(
+      estimatedDiscount
+    )}`;
+  }
+
+  if (userCoupon.coupon.discount_type === "free_delivery") {
+    return `Free delivery / -${formatCurrency(estimatedDiscount)}`;
+  }
+
+  return `-${formatCurrency(estimatedDiscount)}`;
+};
+
 export default function Coupons() {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [code, setCode] = useState<string>("");
+  const [manualOpen, setManualOpen] = useState<boolean>(false);
 
   const { signOutAuthState, user, setUser } = useAuth();
-
-  const { items, coupon, setCoupon, subtotal } = useShopcart();
-
-  const [status, setStatus] = useState<string>("default");
-
+  const { coupon, setCoupon, subtotal } = useShopcart();
   const { deliveryPrice } = useCheckout();
+
+  const userCoupons = useMemo(() => user?.coupons || [], [user?.coupons]);
+
+  const eligibleCoupons = useMemo(
+    () => userCoupons.filter((userCoupon) => !getCouponUnavailableReason(userCoupon)),
+    [userCoupons]
+  );
+
+  const unavailableCoupons = useMemo(
+    () => userCoupons.filter((userCoupon) => getCouponUnavailableReason(userCoupon)),
+    [userCoupons]
+  );
+
+  const selectedCoupon = eligibleCoupons.find(
+    (userCoupon) => userCoupon.id === coupon?.id
+  );
+
+  useEffect(() => {
+    if (!selectedCoupon && coupon) {
+      setCoupon(undefined);
+    }
+  }, [coupon, selectedCoupon, setCoupon]);
+
+  useEffect(() => {
+    if (!user || eligibleCoupons.length === 0) {
+      setManualOpen(true);
+    }
+  }, [eligibleCoupons.length, user]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value);
   };
 
+  const handleCouponSelection = (e: ChangeEvent<HTMLSelectElement>) => {
+    const couponId = e.target.value;
+    const nextCoupon = eligibleCoupons.find(
+      (userCoupon) => userCoupon.id === couponId
+    );
+
+    setCoupon(nextCoupon);
+  };
+
   const handleClaimCoupon = (e: FormEvent) => {
     e.preventDefault();
 
-    setError(null);
-    setInfo(null);
-    setLoading(true);
-
-    postClaimCoupon(code, signOutAuthState)
-      .then((user) => {
-        setUser(user);
-        setLoading(false);
-        setStatus("default");
-      })
-      .catch((err) => {
-        setCoupon(undefined);
-        setError(err);
-        setLoading(false);
-      });
-  };
-
-  const handleClaimedCoupon = (user_coupon: UserCouponType | undefined) => {
-    if (user_coupon?.coupon.code == coupon?.coupon.code) {
-      setCoupon(undefined);
-    } else {
-      setCoupon(user_coupon);
+    const couponCode = code.trim();
+    if (!couponCode) {
+      setError("Enter a coupon code");
+      return;
     }
-  };
-  useEffect(() => {
-    if (user && user?.coupons.length > 0) {
-      setStatus("default");
-    } else {
-      setStatus("add");
-    }
-  }, [user]);
-
-  /*const handleApplyCoupon = (e: FormEvent) => {
-    e.preventDefault();
 
     setError(null);
     setInfo(null);
     setLoading(true);
 
-    postApplyCoupon(code, signOutAuthState)
-      .then((coupon) => {
-        setInfo("Coupon applied");
-
-        // updateItemsFirebase(items ? items : [], cartId ? cartId : "", coupon);
-        setCoupon(coupon);
+    postClaimCoupon(couponCode, signOutAuthState)
+      .then((updatedUser) => {
+        setUser(updatedUser);
+        setCode("");
+        setInfo("Coupon added");
         setLoading(false);
+        setManualOpen(false);
       })
       .catch((err) => {
         setCoupon(undefined);
-        setDiscount(0);
         setError(err);
         setLoading(false);
       });
   };
 
-  const handleUnapplyCoupon = (code: string) => {
-    setError(null);
-    setInfo(null);
-    setLoading(true);
-
-    postUnpplyCoupon(code, signOutAuthState)
-      .then(() => {
-        setInfo("Coupon not applied");
-
-        updateItemsFirebase(
-          items ? items : [],
-          cartId ? cartId : "",
-          undefined
-        );
-        setDiscount(0);
-        setCoupon(undefined);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setLoading(false);
-      });
-  };*/
   return (
     <div className="flex box-xxl column a-center gap-xs ">
       {loading && (
@@ -128,62 +184,73 @@ export default function Coupons() {
         </div>
       )}
 
-      {user && user.coupons && status == "default" ? (
-        <div className="flex box-xxl column gap-s">
-          <div className="flex box-xxl a-center j-space">
-            <h3>Your coupons</h3>
-            <button onClick={() => setStatus("add")} className="box-s btn-span">
-              Add coupon
-            </button>
-          </div>
-          <div className="flex box-xxl f-height-ms column gap-xs auto">
-            {user &&
-              user.coupons.map((c, index) => (
-                <button
-                  className="cursor-pointer flex box-xxl gap-s j-space a-center"
-                  onClick={() => handleClaimedCoupon(c)}
-                  key={index}
-                >
-                  <h4>Code: {c.coupon.code}</h4>
-                  <h4>
-                    {c.coupon.discount_type === "value" &&
-                      `Discount: -${Intl.NumberFormat("es-CL", {
-                        style: "currency",
-                        currency: "CLP",
-                      }).format(c.coupon.discount_value)}`}
-                    {c.coupon.discount_type === "percent" &&
-                      `Discount: ${
-                        c.coupon.discount_percent
-                      }%/-${Intl.NumberFormat("es-CL", {
-                        style: "currency",
-                        currency: "CLP",
-                      }).format(
-                        Math.round(
-                          (subtotal + deliveryPrice) * c.coupon.discount_percent
-                        ) / 100
-                      )}`}
-                    {c.coupon.discount_type === "free_delivery" &&
-                      `Discount: Free delivery/-${Intl.NumberFormat("es-CL", {
-                        style: "currency",
-                        currency: "CLP",
-                      }).format(deliveryPrice)}`}
-                  </h4>
-                  <div className="checkbox">
-                    {c.coupon.code == coupon?.coupon.code ? (
-                      <div className={"checkbox-center-active"}></div>
-                    ) : (
-                      <div className={"checkbox-center"}></div>
-                    )}
-                  </div>
-                </button>
-              ))}
-          </div>
+      <div className="flex box-xxl column gap-s">
+        <div className="flex box-xxl a-center j-space">
+          <h3>Your coupons</h3>
+          <button
+            type="button"
+            form="none"
+            onClick={() => setManualOpen((isOpen) => !isOpen)}
+            className="box-s btn-span"
+          >
+            {manualOpen ? "Hide code input" : "Enter code"}
+          </button>
         </div>
-      ) : (
-        <div></div>
-      )}
 
-      {status == "add" && (
+        <div className="flex box-xxl column gap-xs">
+          <label htmlFor="coupon-selector">
+            <h4>Choose a coupon</h4>
+          </label>
+          <select
+            id="coupon-selector"
+            className="input-middle"
+            value={selectedCoupon?.id || ""}
+            onChange={handleCouponSelection}
+          >
+            <option value="">Sin cupón</option>
+            {eligibleCoupons.map((userCoupon) => (
+              <option key={userCoupon.id} value={userCoupon.id}>
+                {userCoupon.coupon.code} -{" "}
+                {getDiscountLabel(userCoupon, subtotal, deliveryPrice)}
+              </option>
+            ))}
+          </select>
+
+          {selectedCoupon ? (
+            <div className="flex box-xxl column gap-xs padding-xxs base-border-b">
+              <h4>Selected coupon: {selectedCoupon.coupon.code}</h4>
+              <h4>
+                Estimated discount:{" "}
+                {getDiscountLabel(selectedCoupon, subtotal, deliveryPrice)}
+              </h4>
+            </div>
+          ) : (
+            <div className="flex box-xxl column gap-xs padding-xxs base-border-b">
+              <h4>No coupon selected</h4>
+              {eligibleCoupons.length === 0 && (
+                <h4>No eligible coupons available</h4>
+              )}
+            </div>
+          )}
+        </div>
+
+        {unavailableCoupons.length > 0 && (
+          <div className="flex box-xxl column gap-xs">
+            <h4>Unavailable coupons</h4>
+            {unavailableCoupons.map((userCoupon) => (
+              <div
+                className="flex box-xxl gap-s j-space a-center padding-xxs base-border-b"
+                key={userCoupon.id}
+              >
+                <h4>{userCoupon.coupon.code}</h4>
+                <h4>{getCouponUnavailableReason(userCoupon)}</h4>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {manualOpen && (
         <form
           id="coupon-form"
           action={"#"}
@@ -203,10 +270,11 @@ export default function Coupons() {
           />
 
           <div className="flex box-xxl gap-s j-center">
-            {user && user?.coupons.length > 0 && (
+            {eligibleCoupons.length > 0 && (
               <button
+                type="button"
                 form="none"
-                onClick={() => setStatus("default")}
+                onClick={() => setManualOpen(false)}
                 className="btn-span"
               >
                 <h5>Cancel</h5>
@@ -218,46 +286,6 @@ export default function Coupons() {
           </div>
         </form>
       )}
-
-      {/*!coupon?.coupon.code ? (
-        <></>
-      ) : (
-        <div className="flex box-xxl column a-center gap-s">
-          <h3>Code: {coupon.coupon.code}</h3>
-          {coupon?.coupon.code && (
-            <h3>
-              {coupon.coupon.discount_type === "value" &&
-                `Discount: -${Intl.NumberFormat("es-CL", {
-                  style: "currency",
-                  currency: "CLP",
-                }).format(coupon.coupon.discount_value)}`}
-              {coupon.coupon.discount_type === "percent" &&
-                `Discount: ${
-                  coupon.coupon.discount_percent
-                }%/-${Intl.NumberFormat("es-CL", {
-                  style: "currency",
-                  currency: "CLP",
-                }).format(
-                  Math.round(
-                    (subtotal + deliveryPrice) * coupon.coupon.discount_percent
-                  ) / 100
-                )}`}
-              {coupon.coupon.discount_type === "free_delivery" &&
-                `Discount: Free delivery/-${Intl.NumberFormat("es-CL", {
-                  style: "currency",
-                  currency: "CLP",
-                }).format(deliveryPrice)}`}
-            </h3>
-          )}
-          <button
-            form="coupon-form"
-            className="btn-span"
-            onClick={() => handleClaimedCoupon(undefined)}
-          >
-            <h5>Delete coupon</h5>
-          </button>
-        </div>
-      )*/}
     </div>
   );
 }

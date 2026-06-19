@@ -24,6 +24,8 @@ const FilteredProductCard: React.FC<{
   const [isAdded, setIsAdded] = useState(false);
   const entryRevealRef = useViewportReveal({
     visibleClassName: "filtered-product-card--entered",
+    rootMargin: "0px 0px -18% 0px",
+    threshold: 0.28,
   });
   const entryStyle = {
     "--filtered-product-card-entry-order": entryOrder % 6,

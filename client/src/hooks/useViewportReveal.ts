@@ -4,27 +4,30 @@ import { useCallback, useEffect, useRef } from "react";
 
 type RevealCallback = (entry: IntersectionObserverEntry) => void;
 
-const callbacks = new WeakMap<Element, RevealCallback>();
-let sharedObserver: IntersectionObserver | null = null;
+const DEFAULT_ROOT_MARGIN = "0px 0px -8% 0px";
+const DEFAULT_THRESHOLD = 0.12;
 
-function getSharedObserver() {
+const callbacks = new WeakMap<Element, RevealCallback>();
+const sharedObservers = new Map<string, IntersectionObserver>();
+
+function getSharedObserver(rootMargin: string, threshold: number) {
   if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
     return null;
   }
 
-  if (!sharedObserver) {
-    sharedObserver = new IntersectionObserver(
+  const key = `${rootMargin}|${threshold}`;
+  let observer = sharedObservers.get(key);
+  if (!observer) {
+    observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => callbacks.get(entry.target)?.(entry));
       },
-      {
-        rootMargin: "0px 0px -8% 0px",
-        threshold: 0.12,
-      }
+      { rootMargin, threshold }
     );
+    sharedObservers.set(key, observer);
   }
 
-  return sharedObserver;
+  return observer;
 }
 
 function prefersReducedMotion() {
@@ -38,9 +41,13 @@ function prefersReducedMotion() {
 export function useViewportReveal({
   once = true,
   visibleClassName = "is-visible",
+  rootMargin = DEFAULT_ROOT_MARGIN,
+  threshold = DEFAULT_THRESHOLD,
 }: {
   once?: boolean;
   visibleClassName?: string;
+  rootMargin?: string;
+  threshold?: number;
 } = {}) {
   const cleanupRef = useRef<() => void>();
   const revealedRef = useRef(false);
@@ -74,7 +81,7 @@ export function useViewportReveal({
 
       node.classList.remove(visibleClassName);
 
-      observer = getSharedObserver();
+      observer = getSharedObserver(rootMargin, threshold);
       if (!observer) {
         revealNode();
         return;
@@ -104,7 +111,7 @@ export function useViewportReveal({
         callbacks.delete(node);
       };
     },
-    [once, visibleClassName]
+    [once, visibleClassName, rootMargin, threshold]
   );
 
   useEffect(() => {

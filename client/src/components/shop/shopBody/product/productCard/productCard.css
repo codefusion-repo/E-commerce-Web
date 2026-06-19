@@ -1,6 +1,6 @@
 .product-card {
     --product-card-entry-order: 0;
-    --product-card-entry-y: 8px;
+    --product-card-entry-y: 14px;
     opacity: 1;
     background: var(--surface-bg);
     border: 1px solid var(--surface-border);
@@ -10,7 +10,7 @@
 }
 
 .product-card--entered {
-    animation: productCardViewportEnter .34s cubic-bezier(.2, .7, .2, 1) calc(var(--product-card-entry-order) * 46ms) backwards;
+    animation: productCardViewportEnter .48s cubic-bezier(.22, .61, .36, 1) calc(var(--product-card-entry-order) * 60ms) backwards;
 }
 
 .product-card:hover,
@@ -138,7 +138,7 @@
 
 @keyframes productCardViewportEnter {
     from {
-        opacity: .96;
+        opacity: .9;
         transform: translateY(var(--product-card-entry-y));
     }
     to {
@@ -162,7 +162,7 @@
     .product-card,
     .product-card:hover,
     .product-card:focus-within {
-        --product-card-entry-y: 4px;
+        --product-card-entry-y: 8px;
         width: min(calc(100vw - 2.5rem), 304px);
         max-width: 100%;
         height: auto;
@@ -250,8 +250,8 @@
         font-size: .72rem;
     }
     .product-card--entered {
-        animation-duration: .24s;
-        animation-delay: calc(var(--product-card-entry-order) * 24ms);
+        animation-duration: .44s;
+        animation-delay: calc(var(--product-card-entry-order) * 40ms);
     }
 }
 

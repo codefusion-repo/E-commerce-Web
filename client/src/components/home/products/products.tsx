@@ -10,7 +10,6 @@ import { useMobile } from "../../../context/mobile/mobileContext";
 import { useShop } from "../../../context/shop/shopContext";
 import { ProductType } from "../../../interfaces/shop/shopInterface";
 import { useEffect, useState } from "react";
-import { useViewportReveal } from "../../../hooks/useViewportReveal";
 
 export default function Products({
   header,
@@ -25,7 +24,6 @@ export default function Products({
 }) {
   const { device } = useMobile();
   const { availableOrderBy } = useShop();
-  const gridRevealRef = useViewportReveal();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
@@ -100,17 +98,16 @@ export default function Products({
       )}
 
       <div
-        ref={gridRevealRef}
-        className="product-grid reveal reveal--fade flex box-xxl wrap a-start j-center padding-xxs"
+        className="product-grid product-grid--motion flex box-xxl wrap a-start j-center padding-xxs"
       >
         {currentItems.length > 0 ? (
           <>
-            {currentItems.map((product, index) => (
+            {currentItems.map((product) => (
               <div key={product.id} className="product-grid__item padding-xs">
                 {!isSearch ? (
-                  <ProductCard product={product} revealOrder={index} />
+                  <ProductCard product={product} />
                 ) : (
-                  <FilteredProductCard product={product} revealOrder={index} />
+                  <FilteredProductCard product={product} />
                 )}
               </div>
             ))}

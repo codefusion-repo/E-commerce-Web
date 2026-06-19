@@ -10,22 +10,15 @@ import { useShopcart } from "../../../../../context/shopcart/shopcartContext";
 import { ProductType } from "../../../../../interfaces/shop/shopInterface";
 import { useMobile } from "../../../../../context/mobile/mobileContext";
 import { useEffect, useState } from "react";
-import type { CSSProperties } from "react";
 import fallbackProductImage from "../../../../../assets/how-buy/exampleProduct.png";
-import { useViewportReveal } from "../../../../../hooks/useViewportReveal";
 
 const FilteredProductCard: React.FC<{
   product: ProductType;
-  revealOrder?: number;
-}> = ({ product, revealOrder = 0 }) => {
+}> = ({ product }) => {
   const { device } = useMobile();
-  const revealRef = useViewportReveal({ revealOnMobile: true });
   const { setIsOpen } = useShop();
   const { addItem } = useShopcart();
   const [isAdded, setIsAdded] = useState(false);
-  const revealStyle = {
-    "--reveal-order": revealOrder % 6,
-  } as CSSProperties;
   const primaryCategory = product.categories && product.categories[0];
   const productHref = primaryCategory
     ? `/shop/${primaryCategory.slug}/${product.slug}`
@@ -47,14 +40,12 @@ const FilteredProductCard: React.FC<{
 
   return (
     <article
-      ref={revealRef}
       key={product.id}
-      className={`filtered-product-card reveal reveal--slide-up ${
+      className={`filtered-product-card ${
         device > 1
           ? "f-width-l f-height-xxl"
           : "filtered-product-card--compact f-width-xl f-height-xxl"
       } column relative hidden ${isAdded ? "filtered-product-card--added" : ""}`}
-      style={revealStyle}
     >
       <Link
         className="filtered-product-card__image-link flex box-xxl padding-xs"

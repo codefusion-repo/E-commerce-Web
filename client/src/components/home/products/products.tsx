@@ -102,12 +102,12 @@ export default function Products({
       >
         {currentItems.length > 0 ? (
           <>
-            {currentItems.map((product) => (
+            {currentItems.map((product, index) => (
               <div key={product.id} className="product-grid__item padding-xs">
                 {!isSearch ? (
-                  <ProductCard product={product} />
+                  <ProductCard product={product} entryOrder={index} />
                 ) : (
-                  <FilteredProductCard product={product} />
+                  <FilteredProductCard product={product} entryOrder={index} />
                 )}
               </div>
             ))}

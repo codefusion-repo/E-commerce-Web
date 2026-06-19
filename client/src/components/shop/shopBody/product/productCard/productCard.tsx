@@ -89,18 +89,11 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
             inCenter={false}
           />
         </div>
-        {device < 2 && (
-          <div
-            className={`flex column ${
-              device > 1 ? "box-m" : "box-xxl"
-            } a-end j-center padding-xxs gap-xxs`}
-          >
-            {product.categories &&
-              product.categories.map((category) => (
-                <Link key={category.id} href={`/shop/${category.slug}`}>
-                  <h5>{category.name}</h5>
-                </Link>
-              ))}
+        {device < 2 && primaryCategory && (
+          <div className="product-card__mobile-categories flex box-xxl a-start j-start padding-xxs gap-xxs">
+            <Link href={`/shop/${primaryCategory.slug}`}>
+              <h5>{primaryCategory.name}</h5>
+            </Link>
           </div>
         )}
       </div>
@@ -120,7 +113,11 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
           Added to cart
         </div>
       )}
-      <div className="product-card__actions flex absolute f-bottom f-right gap-s padding-r-s padding-b-s">
+      <div
+        className={`product-card__actions flex gap-s ${
+          device > 1 ? "absolute f-bottom f-right padding-r-s padding-b-s" : ""
+        }`}
+      >
         <Link
           className="btn-small btn-active product-card__button"
           href={productHref}

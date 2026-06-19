@@ -39,12 +39,12 @@ export default function Home({ banners }: { banners: BannerType[] }) {
         <div className="home-hero__content">
           <span className="home-kicker">Demo e-commerce CodeFusion</span>
           <h1 id="home-hero-title">
-            Catálogo, carrito y checkout Flow en una demo lista para probar
+            Catálogo, carrito y checkout de pagos en una demo lista para probar
           </h1>
           <p>
             Explora productos, agrega al carrito, aplica cupones y completa una
-            compra de prueba con Flow. La demo muestra una experiencia real de
-            tienda online sin depender de datos sensibles.
+            compra de prueba. La demo muestra una experiencia real de tienda
+            online sin depender de datos sensibles.
           </p>
           <div className="home-hero__actions">
             <Link href="/shop" className="btn-middle btn-active home-hero__cta">

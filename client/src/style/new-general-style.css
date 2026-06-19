@@ -1412,7 +1412,7 @@ input::-webkit-outer-spin-button {
     border: 0;
 }
 
-@media (hover: none), screen and (max-width: 640px) {
+@media (hover: none), screen and (max-width: 767px) {
     .zoom-in-xxs:hover,
     .zoom-out-xxs:hover {
         transform: scale(var(--xxs-scale));

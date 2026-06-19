@@ -30,20 +30,6 @@
     gap: .5rem;
 }
 
-.product-grid--motion {
-    opacity: 1;
-    animation: productGridEnter .22s ease both;
-}
-
-@keyframes productGridEnter {
-    from {
-        transform: translateY(4px);
-    }
-    to {
-        transform: translateY(0);
-    }
-}
-
 .product-empty-state {
     display: flex;
     flex-direction: column;
@@ -62,12 +48,6 @@
 
 .product-empty-state p {
     color: rgba(235, 235, 235, .66);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .product-grid--motion {
-        animation: none;
-    }
 }
 
 @media screen and (max-width: 767px) {

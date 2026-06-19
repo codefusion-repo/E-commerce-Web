@@ -1,7 +1,4 @@
 .product-card {
-    --product-card-entry-order: 0;
-    --product-card-entry-y: 14px;
-    opacity: 1;
     background: var(--surface-bg);
     border: 1px solid var(--surface-border);
     border-radius: 8px;
@@ -9,8 +6,25 @@
     transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 
-.product-card--entered {
-    animation: productCardViewportEnter .48s cubic-bezier(.22, .61, .36, 1) calc(var(--product-card-entry-order) * 60ms) backwards;
+/* Site-standard viewport reveal. The .product-card.reveal override re-declares
+   the transition so the global .reveal fade/slide is not lost to the base
+   .product-card transition; stagger comes from --reveal-order. Visibility is
+   driven by .is-visible (added by useViewportReveal). */
+.product-card.reveal {
+    transition:
+        opacity .36s ease,
+        transform .36s cubic-bezier(.2, .7, .2, 1),
+        border-color .2s ease,
+        box-shadow .2s ease;
+    transition-delay:
+        calc(var(--reveal-order) * 50ms),
+        calc(var(--reveal-order) * 50ms),
+        0ms,
+        0ms;
+}
+
+.product-card.reveal--slide-up:not(.is-visible) {
+    transform: translate3d(0, 14px, 0);
 }
 
 .product-card:hover,
@@ -136,17 +150,6 @@
     animation: productToast .2s ease both;
 }
 
-@keyframes productCardViewportEnter {
-    from {
-        opacity: .9;
-        transform: translateY(var(--product-card-entry-y));
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 @keyframes productToast {
     from {
         opacity: .96;
@@ -162,7 +165,6 @@
     .product-card,
     .product-card:hover,
     .product-card:focus-within {
-        --product-card-entry-y: 8px;
         width: min(calc(100vw - 2.5rem), 304px);
         max-width: 100%;
         height: auto;
@@ -249,9 +251,16 @@
         padding: .25rem .5rem;
         font-size: .72rem;
     }
-    .product-card--entered {
-        animation-duration: .44s;
-        animation-delay: calc(var(--product-card-entry-order) * 40ms);
+    .product-card.reveal {
+        transition-duration: .28s, .28s, .2s, .2s;
+        transition-delay:
+            calc(var(--reveal-order) * 28ms),
+            calc(var(--reveal-order) * 28ms),
+            0ms,
+            0ms;
+    }
+    .product-card.reveal--slide-up:not(.is-visible) {
+        transform: translate3d(0, 6px, 0);
     }
 }
 
@@ -260,11 +269,5 @@
     .product-card:hover,
     .product-card:focus-within {
         width: 284px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .product-card--entered {
-        animation: none;
     }
 }

@@ -21,13 +21,15 @@ const ProductCard: React.FC<{
   const { device } = useMobile();
   const { addItem } = useShopcart();
   const [isAdded, setIsAdded] = useState(false);
+  const [revealed, setRevealed] = useState(false);
+  // Render the reveal's visible class through React state so re-renders (e.g.
+  // the add-to-cart or breakpoint className change) never strip it and hide the
+  // card. useViewportReveal stays the site-standard reveal trigger.
   const entryRevealRef = useViewportReveal({
-    visibleClassName: "product-card--entered",
-    rootMargin: "0px 0px -18% 0px",
-    threshold: 0.28,
+    onReveal: () => setRevealed(true),
   });
   const entryStyle = {
-    "--product-card-entry-order": entryOrder % 6,
+    "--reveal-order": entryOrder % 6,
   } as CSSProperties;
 
   const primaryCategory = product.categories && product.categories[0];
@@ -54,7 +56,9 @@ const ProductCard: React.FC<{
     <article
       ref={entryRevealRef}
       key={product.id}
-      className={`product-card ${
+      className={`product-card reveal reveal--slide-up ${
+        revealed ? "is-visible" : ""
+      } ${
         device > 1
           ? "f-width-xl f-height-xxxl"
           : "product-card--compact f-width-xl f-height-xxxl"

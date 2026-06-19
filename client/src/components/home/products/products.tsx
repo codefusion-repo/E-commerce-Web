@@ -97,9 +97,7 @@ export default function Products({
         </div>
       )}
 
-      <div
-        className="product-grid product-grid--motion flex box-xxl wrap a-start j-center padding-xxs"
-      >
+      <div className="product-grid flex box-xxl wrap a-start j-center padding-xxs">
         {currentItems.length > 0 ? (
           <>
             {currentItems.map((product, index) => (

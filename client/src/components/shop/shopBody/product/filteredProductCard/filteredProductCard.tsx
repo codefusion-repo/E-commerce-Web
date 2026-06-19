@@ -22,13 +22,14 @@ const FilteredProductCard: React.FC<{
   const { setIsOpen } = useShop();
   const { addItem } = useShopcart();
   const [isAdded, setIsAdded] = useState(false);
+  const [revealed, setRevealed] = useState(false);
+  // Render the reveal's visible class through React state so re-renders never
+  // strip it and hide the card. useViewportReveal stays the standard trigger.
   const entryRevealRef = useViewportReveal({
-    visibleClassName: "filtered-product-card--entered",
-    rootMargin: "0px 0px -18% 0px",
-    threshold: 0.28,
+    onReveal: () => setRevealed(true),
   });
   const entryStyle = {
-    "--filtered-product-card-entry-order": entryOrder % 6,
+    "--reveal-order": entryOrder % 6,
   } as CSSProperties;
   const primaryCategory = product.categories && product.categories[0];
   const productHref = primaryCategory
@@ -53,7 +54,9 @@ const FilteredProductCard: React.FC<{
     <article
       ref={entryRevealRef}
       key={product.id}
-      className={`filtered-product-card ${
+      className={`filtered-product-card reveal reveal--slide-up ${
+        revealed ? "is-visible" : ""
+      } ${
         device > 1
           ? "f-width-l f-height-xxl"
           : "filtered-product-card--compact f-width-xl f-height-xxl"

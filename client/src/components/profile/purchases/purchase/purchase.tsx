@@ -7,7 +7,6 @@ import { useAuth } from "../../../../context/auth/authContext";
 import Image from "next/image";
 import loadingGif from "../../../../assets/cargando/loading2.gif";
 import ResendFlow from "../../../../components/checkout/payment/flow/resendFlow";
-import ResendMercadopago from "../../../../components/checkout/payment/mercadopago/resendMercadopago";
 import { FiPackage } from "react-icons/fi";
 import { LuPackageOpen } from "react-icons/lu";
 import { GrDeliver } from "react-icons/gr";
@@ -16,7 +15,6 @@ import { postUnapplyCouponFromPurchase } from "./api/action";
 import { useRouter } from "next/navigation";
 import { useModal } from "../../../../context/modal/modalContext";
 import FlowIcon from "../../../../assets/paymentsLogo/FlowIcon.png";
-import MercadopagoIcon from "../../../../assets/paymentsLogo/MercadopagoIcon.png";
 import {
   PurchaseItemType,
   PurchaseType,
@@ -292,36 +290,6 @@ export default function Purchase({ code }: { code: string }) {
 
               <div className="flex box-xxl a-center j-center">
                 <ResendFlow
-                  setError={setError}
-                  setLoading={setLoading}
-                  loading={loading}
-                  commerceOrder={order.code}
-                  items={order.items}
-                  deliveryCost={order.deliveryCost}
-                  discount={order.discount}
-                />
-              </div>
-            </div>
-            <div
-              className={`flex ${
-                device > 0 ? "box-m" : "box-xl"
-              } column gap-xs padding-s`}
-            >
-              <div className="flex box-xxl column a-center gap-xs">
-                <Image
-                  className={`${
-                    device > 0
-                      ? "f-width-ml f-height-xs"
-                      : "f-width-m f-height-xs"
-                  }`}
-                  src={MercadopagoIcon}
-                  alt="MercadopagoIcon"
-                />
-                <h5>Experimental Mercado Pago sandbox payment</h5>
-              </div>
-
-              <div className="flex box-xxl a-center j-center">
-                <ResendMercadopago
                   setError={setError}
                   setLoading={setLoading}
                   loading={loading}

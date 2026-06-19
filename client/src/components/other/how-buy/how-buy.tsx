@@ -8,7 +8,6 @@ import ShopcartPage from "../../../assets/how-buy/shopcart-page.png";
 import ShopcartEmpty from "../../../assets/how-buy/shopcart-empty.png";
 import ShopcartNoEmpty from "../../../assets/how-buy/shopcart-no-empty.png";
 import ExampleProduct from "../../../assets/how-buy/exampleProduct.png";
-import PaymentMethods from "../../../assets/how-buy/paymentMethods.png";
 import Image from "next/image";
 import { useMobile } from "../../../context/mobile/mobileContext";
 
@@ -81,15 +80,9 @@ export default function HowBuy() {
         <h4>Select the shipping method.</h4>
         <h2>4. Payment</h2>
         <h4>
-          We use Mercado Pago and Flow so you can pay securely by card.
+          We use Flow so you can pay securely by card.
         </h4>
-        <h4>- Mercado Pago</h4>
         <h4>- Flow</h4>
-        <Image
-          className={`${device > 2 ? "box-xxl" : "box-xxl"} padding-l-xxs`}
-          src={PaymentMethods}
-          alt="PaymentMethods"
-        />
         <h2>5. Order modification</h2>
         <h4>
           Before placing the order, you have the option to modify the order
@@ -140,8 +133,8 @@ export default function HowBuy() {
           alt="Order"
         />
         <h4>
-          Remember that whatever payment method you choose, you will always
-          receive confirmation emails from us, one confirmation from order and a
+          Remember that when you pay with Flow, you will always receive
+          confirmation emails from us, one confirmation from order and a
           purchase confirmation. Once the order leaves the store, we will send
           you an email with the tracking number so that You can see the status
           of your purchase and when it will arrive to your destination. If you

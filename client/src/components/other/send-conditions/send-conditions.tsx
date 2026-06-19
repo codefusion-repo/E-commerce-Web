@@ -57,8 +57,8 @@ export default function SendConditions() {
         <h4>Lack of information in the dispatch data </h4>.
         <h2>Payment methods</h2>.
         <h4>
-          Payment is made through our website using Mercado Pago or Flow, by
-          credit or debit card. Card payments are confirmed immediately.
+          Payment is made through our website using Flow, by credit or debit
+          card. Card payments are confirmed immediately.
         </h4>
         <h2>Warranty</h2>
         <h4>

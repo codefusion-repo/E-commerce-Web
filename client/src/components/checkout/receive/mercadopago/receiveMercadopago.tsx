@@ -2,7 +2,7 @@
 // receiveMercadopago.tsx
 
 // import "./receiveMercadopago.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMessages } from "../../../../context/messages/messagesContext";
 import { useAuth } from "../../../../context/auth/authContext";
@@ -20,7 +20,7 @@ export default function ReceiveMercadopago({
   detail: string;
   paymentState: string;
 }) {
-  const { setUser, signOutAuthState } = useAuth();
+  const { setUser } = useAuth();
   const { addMessage } = useMessages();
 
   const { clearShop } = useShopcart();
@@ -30,26 +30,76 @@ export default function ReceiveMercadopago({
   const [info, setInfo] = useState<string | null>("Receiving payment");
   const [loading, setLoading] = useState<boolean>(true);
 
+  const handlersRef = useRef({
+    addMessage,
+    clearShop,
+    router,
+    setUser,
+  });
+
   useEffect(() => {
-    getProfile(signOutAuthState)
-      .then((res) => {
-        setUser(res.data.user);
+    handlersRef.current = {
+      addMessage,
+      clearShop,
+      router,
+      setUser,
+    };
+  }, [addMessage, clearShop, router, setUser]);
 
+  useEffect(() => {
+    let cancelled = false;
+    const destination = receive || "/checkout/payment";
+    const message = detail || "Payment status received.";
+
+    const finishPaymentReturn = async () => {
+      try {
         if (paymentState === "paid") {
-          clearShop();
+          handlersRef.current.clearShop();
         }
 
-        if (detail && receive) {
-          setError(detail);
-          setInfo("Redirecting...");
-          addMessage(detail);
-          router.push(receive);
+        try {
+          const res = await getProfile(() => undefined);
+          if (!cancelled && res?.data?.user) {
+            handlersRef.current.setUser(res.data.user);
+          }
+        } catch {
+          // Profile refresh is best-effort; payment result navigation must continue.
         }
-      })
-      .catch((err) => {
+
+        if (cancelled) {
+          return;
+        }
+
+        setError(message);
+        handlersRef.current.addMessage(message);
+
+        if (destination) {
+          setInfo("Redirecting...");
+          handlersRef.current.router.push(destination);
+          return;
+        }
+
+        setInfo("Payment status received.");
+        setLoading(false);
+      } catch {
+        if (cancelled) {
+          return;
+        }
+
+        const fallbackMessage =
+          detail || "Payment status could not be completed. Please try again.";
+        setError(fallbackMessage);
+        handlersRef.current.addMessage(fallbackMessage);
         setInfo("Redirecting...");
-        setError(err);
-      });
+        handlersRef.current.router.push("/checkout/payment");
+      }
+    };
+
+    finishPaymentReturn();
+
+    return () => {
+      cancelled = true;
+    };
   }, [detail, paymentState, receive]);
 
   return (

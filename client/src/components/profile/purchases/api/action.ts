@@ -101,7 +101,6 @@ export const postCreatePurchaseOrder = (
 
         const purchaseFormData = new FormData();
         purchaseFormData.append("items", JSON.stringify(items));
-        purchaseFormData.append("deliveryCost", String(selectedCourier.price));
         purchaseFormData.append(
           "serviceDescription",
           selectedCourier.original_courier

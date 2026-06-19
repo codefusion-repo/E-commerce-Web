@@ -27,7 +27,7 @@ export default function Pagination({
     setActive(1);
     setCurrentPage(1);
     setCount(data.length);
-  }, [data]);
+  }, [data, setCurrentPage]);
 
   const visitShopPage = (page: number) => {
     setCurrentPage(page);

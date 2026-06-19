@@ -35,7 +35,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
 
   useEffect(() => {
     setProduct(products.find((p) => p.slug === slugProduct));
-  }, [products]);
+  }, [products, slugProduct]);
 
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
@@ -61,7 +61,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
     };
 
     setInput(productQuantity);
-  }, [productQuantity]);
+  }, [product, productQuantity]);
 
   const handleUpdateQuantityItem = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -321,26 +321,33 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                 >
                   <div className="flex box-xxl">
                     {mainImage && (
-                      <img
+                      <Image
                         className="f-width-full f-height-xxl"
                         src={`${mainImage}`}
                         alt={product.name}
+                        width={900}
+                        height={900}
+                        sizes={device > 2 ? "34vw" : "92vw"}
                       />
                     )}
                   </div>
                   <div className="flex wrap box-xxl j-center gap-s margin-t-s">
-                    <img
+                    <Image
                       className="f-width-s f-height-s cursor-pointer border-radius-xs zoom-out-xs"
                       src={`${product.thumbnail}`}
                       alt={product.name}
+                      width={128}
+                      height={128}
                       onClick={() => setMainImage(product.thumbnail)}
                     />
                     {product.images.map((image, index) => (
-                      <img
+                      <Image
                         key={index}
                         className="f-width-s f-height-s cursor-pointer border-radius-xs zoom-out-xs"
                         src={`${image.image}`}
                         alt={product.name}
+                        width={128}
+                        height={128}
                         onClick={() => setMainImage(image.image)}
                       />
                     ))}

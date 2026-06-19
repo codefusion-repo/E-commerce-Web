@@ -1,7 +1,13 @@
 "use client";
 // modalContext.tsx
 
-import React, { ReactNode, createContext, useContext, useState } from "react";
+import React, {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 
 // Crear interface para ModalContextType
 interface ModalContextType {
@@ -26,16 +32,16 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({
   const [type, setType] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  const openModal = (type: string | null, message: string | null) => {
+  const openModal = useCallback((type: string | null, message: string | null) => {
     setType(type);
     setMessage(message);
     setIsOpen(true);
-  };
-  const closeModal = () => {
+  }, []);
+  const closeModal = useCallback(() => {
     setIsOpen(false);
     setMessage(null);
     setType(null);
-  };
+  }, []);
 
   return (
     <ModalContext.Provider

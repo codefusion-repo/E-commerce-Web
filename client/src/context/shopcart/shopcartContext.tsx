@@ -4,8 +4,10 @@
 import React, {
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { CouponType, ProductType } from "../../interfaces/shop/shopInterface";
@@ -67,6 +69,7 @@ export const ShopcartProvider: React.FC<{
 }> = ({ children }) => {
   const [coupon, setCoupon] = useState<UserCouponType | undefined>(undefined);
   const [items, setItems] = useState<ProductType[] | undefined>([]);
+  const itemsRef = useRef<ProductType[] | undefined>(items);
 
   const { deliveryPrice } = useCheckout();
   const [total, setTotal] = useState<number>(0);
@@ -76,14 +79,18 @@ export const ShopcartProvider: React.FC<{
   const { auth, db } = useFirebase();
   const { user, isAuthenticated } = useAuth();
 
-  function syncLocalCart() {
+  useEffect(() => {
+    itemsRef.current = items;
+  }, [items]);
+
+  const syncLocalCart = useCallback(() => {
     const cart = localStorage.getItem("cart");
     if (cart) {
       const localCart = JSON.parse(cart);
       setItems(localCart.items);
       setCoupon(localCart.coupon);
     }
-  }
+  }, []);
 
   async function updateShopcart(
     items: ProductType[],
@@ -100,7 +107,7 @@ export const ShopcartProvider: React.FC<{
     localStorage.setItem("cart", JSON.stringify({ items: items }));
   }
 
-  async function syncCartWithFirestore(userUid: string) {
+  const syncCartWithFirestore = useCallback(async (userUid: string) => {
     const localCart = JSON.parse(localStorage.getItem("cart") || "{}");
 
     const cartRef = doc(db, "carts", userUid);
@@ -119,10 +126,10 @@ export const ShopcartProvider: React.FC<{
       items: finalCart,
     });
 
-    localStorage.setItem("cart", JSON.stringify({ items: items }));
+    localStorage.setItem("cart", JSON.stringify({ items: itemsRef.current }));
 
     setItems(finalCart || []);
-  }
+  }, [db]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -132,13 +139,13 @@ export const ShopcartProvider: React.FC<{
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [auth, syncCartWithFirestore]);
 
   useEffect(() => {
     if (localStorage.getItem("cart")) {
       syncLocalCart();
     }
-  }, []);
+  }, [syncLocalCart]);
 
   useEffect(() => {
     const getTotal = (i: ProductType[]) => {

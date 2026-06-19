@@ -3,6 +3,7 @@
 
 //import "../../../shop/shopBody/navigation/sidebar/sidebar.css";
 import { Dispatch, SetStateAction } from "react";
+import Image from "next/image";
 import { CategoryType } from "../../../../interfaces/shop/shopInterface";
 import { SearchFormDataType } from "../../../../interfaces/utils/utilsInterface";
 import { useMobile } from "../../../../context/mobile/mobileContext";
@@ -56,10 +57,12 @@ export default function SearchSidebar({
                       })
               }
             >
-              <img
+              <Image
                 className="f-width-xxs f-height-xxs border-radius-xxs"
                 src={`${category.icon}`}
                 alt={category.name}
+                width={48}
+                height={48}
               />
               <h3
                 className={`btn-span ${
@@ -99,10 +102,12 @@ export default function SearchSidebar({
                       })
               }
             >
-              <img
+              <Image
                 className="f-width-xxs f-height-xxs border-radius-xxs"
                 src={`${category.icon}`}
                 alt={category.name}
+                width={48}
+                height={48}
               />
               <h3
                 className={`btn-span ${

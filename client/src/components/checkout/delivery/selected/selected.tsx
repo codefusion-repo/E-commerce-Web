@@ -42,7 +42,12 @@ export default function Selected({
     setSelectedCourier(undefined);
     setDeliveryPrice(0);
     setCheckoutStatus(1);
-  }, []);
+  }, [
+    setCheckoutStatus,
+    setDeliveryPrice,
+    setSelectedAddress,
+    setSelectedCourier,
+  ]);
 
   useEffect(() => {
     const getSelectedAddres = (user: UserType) => {
@@ -55,7 +60,7 @@ export default function Selected({
     if (!selectedAddress && user) {
       getSelectedAddres(user);
     }
-  }, [selectedAddress]);
+  }, [selectedAddress, setSelectedAddress, user]);
 
   const changeAddress = () => {
     setSelectedAddress(undefined);
@@ -92,7 +97,13 @@ export default function Selected({
     ) {
       getCourierServiceOptions(items);
     }
-  }, [selectedAddress, selectedCourier, courierServiceOptions, items]);
+  }, [
+    courierServiceOptions,
+    items,
+    selectedAddress,
+    selectedCourier,
+    signOutAuthState,
+  ]);
 
   const onChangeSelectedCourier = (courier: any) => {
     setDeliveryPrice(parseFloat(courier.price));

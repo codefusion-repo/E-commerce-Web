@@ -4,6 +4,7 @@
 import React, {
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -92,7 +93,7 @@ export const SettingsProvider: React.FC<{
 
     defaultProviders();
   }, [linkedProviders]);
-  const syncProviders = (firebaseUser: User) => {
+  const syncProviders = useCallback((firebaseUser: User) => {
     const updatedProviders = availableProviders.map((provider) => ({
       ...provider,
     }));
@@ -109,7 +110,7 @@ export const SettingsProvider: React.FC<{
     });
 
     setLinkedProviders(updatedProviders);
-  };
+  }, []);
 
   const [areMessagesActive, setAreMessagesActive] = useState<boolean>(
     settingsData.areMessagesActive

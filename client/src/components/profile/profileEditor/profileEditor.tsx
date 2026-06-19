@@ -28,7 +28,7 @@ export default function ProfileEditor() {
       router.push("/");
       openModal("login", "You must be authenticated to continue");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, openModal, router]);
 
   const { addMessage } = useMessages();
 

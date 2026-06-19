@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Pagination from "../../../../../components/pagination/pagination";
 import Stars from "../../../../../components/shop/shopBody/product/comment/stars";
 import { useBlog } from "../../../../../context/blog/blogContext";
+import Image from "next/image";
 import Link from "next/link";
 import { PostType } from "../../../../../interfaces/blog/blogInterface";
 import { CommentType } from "../../../../../interfaces/shop/shopInterface";
@@ -22,7 +23,7 @@ export default function Post({ slugPost }: { slugPost: string }) {
 
   useEffect(() => {
     setPost(posts.find((p) => p.slug === slugPost));
-  }, [posts]);
+  }, [posts, slugPost]);
 
   const getContent = (post: PostType) => {
     const sanitizedContent = DOMPurify.sanitize(post.content, {
@@ -73,10 +74,12 @@ export default function Post({ slugPost }: { slugPost: string }) {
                   comments_quantity={post.comments.length}
                   inCenter={true}
                 />
-                <img
+                <Image
                   className="absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
                   src={`${post.thumbnail}`}
                   alt={post.title}
+                  width={1600}
+                  height={640}
                 />
               </div>
               <div className="flex column box-xxl a-center padding-s">

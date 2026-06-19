@@ -24,7 +24,7 @@ export default function Payment() {
 
   useEffect(() => {
     setCheckoutStatus(2);
-  }, []);
+  }, [setCheckoutStatus]);
 
   const router = useRouter();
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function Payment() {
       router.push("/shopcart");
       openModal("login", "You must be authenticated to continue");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, openModal, router]);
 
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);

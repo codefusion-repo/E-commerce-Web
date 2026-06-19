@@ -4,6 +4,7 @@
 import React, {
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -12,7 +13,7 @@ import { User, onAuthStateChanged, signOut } from "firebase/auth";
 import { useFirebase } from "../firebase/firebaseContext";
 import { postVerifyFirebaseIdToken } from "./api/action";
 import { useMessages } from "../messages/messagesContext";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSettings } from "../settings/settingsContext";
 import Cookies from "js-cookie";
 import { UserType } from "../../interfaces/auth/authInterface";
@@ -65,28 +66,75 @@ export const AuthProvider: React.FC<{
 
   const [authType, setAuthType] = useState<string>("refresh");
 
-  const pathname = usePathname();
-
   const router = useRouter();
 
-  useEffect(() => {
-    const unsubscribe = () => {
-      onAuthStateChanged(auth, (user) => {
-        setFirebaseUser(user);
+  const reSignOut = useCallback(() => {
+    Cookies.remove("access");
+    Cookies.remove("refresh");
 
-        if (user) {
-          syncProviders(user);
-        }
-      });
-    };
-    unsubscribe();
-  }, [pathname, isAuthenticated]);
+    setUser(undefined);
+    setFirebaseUser(null);
+    setIsAuthenticated(false);
+  }, []);
+
+  const updateAuthState = useCallback(
+    (user?: UserType, access?: string, refresh?: string) => {
+      console.log("access: ", access);
+      console.log("refresh: ", refresh);
+
+      if (user && access && refresh) {
+        Cookies.set("access", access);
+        Cookies.set("refresh", refresh);
+        setUser(user);
+        setIsAuthenticated(true);
+      }
+    },
+    []
+  );
+
+  const signOutAuthState = useCallback(
+    (message?: string, needRedirection?: boolean, needRefresh?: boolean) => {
+      signOut(auth)
+        .then(() => {
+          reSignOut();
+        })
+        .catch((err) => {
+          console.log(err.code);
+          reSignOut();
+        });
+
+      if (message) {
+        addMessage(message);
+      }
+
+      if (needRedirection) {
+        router.push("/");
+      }
+
+      if (needRefresh) {
+        router.refresh();
+      }
+    },
+    [addMessage, auth, reSignOut, router]
+  );
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setFirebaseUser(user);
+
+      if (user) {
+        syncProviders(user);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth, syncProviders]);
 
   useEffect(() => {
     if (authType === "refresh") {
       updateAuthState(authData.user, authData.access, authData.refresh);
     }
-  }, [authType, authData]);
+  }, [authType, authData, updateAuthState]);
 
   useEffect(() => {
     if (firebaseUser && authType === "refresh") {
@@ -114,59 +162,7 @@ export const AuthProvider: React.FC<{
         signOutAuthState();
       }
     }
-  }, [firebaseUser, authType]);
-
-  const updateAuthState = (
-    user?: UserType,
-    access?: string,
-    refresh?: string
-  ) => {
-    console.log("access: ", access);
-    console.log("refresh: ", refresh);
-
-    if (user && access && refresh) {
-      Cookies.set("access", access);
-      Cookies.set("refresh", refresh);
-      setUser(user);
-      setIsAuthenticated(true);
-    }
-  };
-
-  const signOutAuthState = (
-    message?: string,
-    needRedirection?: boolean,
-    needRefresh?: boolean
-  ) => {
-    signOut(auth)
-      .then(() => {
-        reSignOut();
-      })
-      .catch((err) => {
-        console.log(err.code);
-        reSignOut();
-      });
-
-    if (message) {
-      addMessage(message);
-    }
-
-    if (needRedirection) {
-      router.push("/");
-    }
-
-    if (needRefresh) {
-      router.refresh();
-    }
-  };
-
-  const reSignOut = () => {
-    Cookies.remove("access");
-    Cookies.remove("refresh");
-
-    setUser(undefined);
-    setFirebaseUser(null);
-    setIsAuthenticated(false);
-  };
+  }, [addMessage, authType, firebaseUser, isAuthenticated, signOutAuthState]);
 
   return (
     <AuthContext.Provider

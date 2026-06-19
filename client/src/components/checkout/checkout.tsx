@@ -30,7 +30,7 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
       router.push("/shopcart");
       openModal("login", "You must be authenticated to continue");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, openModal, router]);
 
   const { items, subtotal, total, coupon } = useShopcart();
 

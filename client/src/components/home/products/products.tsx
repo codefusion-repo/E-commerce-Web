@@ -39,24 +39,11 @@ export default function Products({
     setData(products);
   }, [products]);
 
-  const resetPages = (data: ProductType[]) => {
-    startIndex = (currentPage - 1) * itemsPerPage;
-    endIndex = startIndex + itemsPerPage;
-    currentItems = data?.slice(startIndex, endIndex);
-  };
-
   useEffect(() => {
     if (refresh === true) {
-      resetPages(data);
       setRefresh(false);
     }
-  }, [refresh, data]);
-
-  useEffect(() => {
-    if (isSearch) {
-      resetPages(data);
-    }
-  }, [isSearch, data]);
+  }, [refresh]);
 
   return (
     <div

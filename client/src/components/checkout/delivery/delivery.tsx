@@ -32,7 +32,7 @@ export default function Delivery() {
       }
       openModal("login", "You must be authenticated to continue");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, openModal, pathname, router]);
 
   const [address, setAddress] = useState<AddressType | undefined>(undefined);
 
@@ -72,7 +72,7 @@ export default function Delivery() {
     if (!status && user && pathname.includes("checkout")) {
       initDelivery(user);
     }
-  }, [user, status]);
+  }, [pathname, setCheckoutStatus, status, user]);
 
   return (
     <>

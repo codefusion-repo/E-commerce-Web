@@ -57,10 +57,12 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
                 <p className="z-index-s">
                   {categoryProducts.length} products in this collection.
                 </p>
-                <img
+                <Image
                   className="shop-hero__image absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
                   src={`${category?.icon}`}
                   alt="banner-alt"
+                  width={1600}
+                  height={640}
                 />
               </div>
               {loading && (

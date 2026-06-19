@@ -3,6 +3,7 @@
 
 //import "./sidebar.css";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { MdArrowDropDown } from "react-icons/md";
 import { HiMenuAlt2 } from "react-icons/hi";
@@ -93,10 +94,12 @@ export default function Sidebar(/*{
                   } a-center cursor-pointer`}
                   href={`/shop/${category.slug}`}
                 >
-                  <img
+                  <Image
                     className="zoom-out-s f-width-xxs f-height-xxs border-radius-xxs"
                     src={`${category.icon}`}
                     alt={category.name}
+                    width={48}
+                    height={48}
                   />
                   {isOpen && (
                     <h4
@@ -129,10 +132,12 @@ export default function Sidebar(/*{
                           className="flex box-xxl gap-xs f-height-xxs j-start a-center padding-l-m padding-r-m cursor-pointer"
                           href={`/shop/${subcategory.slug}`}
                         >
-                          <img
+                          <Image
                             className="f-width-xxs f-height-xxs border-radius-xxs"
                             src={`${subcategory.icon}`}
                             alt={subcategory.name}
+                            width={48}
+                            height={48}
                           />
                           <h4
                             className={`btn-span ${

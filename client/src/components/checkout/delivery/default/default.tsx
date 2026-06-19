@@ -33,7 +33,7 @@ export default function Default({
 
   useEffect(() => {
     setCheckoutStatus(0);
-  }, []);
+  }, [setCheckoutStatus]);
 
   const selectedAddress = () => {
     let isDefault: boolean = false;

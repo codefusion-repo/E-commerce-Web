@@ -9,6 +9,7 @@ import {
 } from "../../../../../../interfaces/blog/blogInterface";
 //import "./categoryCard.css";
 //import { BlogCategoryPostType } from "../../../interfaces";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -51,10 +52,12 @@ export default function CategoryCard({
               } column relative a-center j-center hidden padding-s`}
             >
               {post.thumbnail && (
-                <img
+                <Image
                   className="absolute f-top f-left fit-cover blur opacity-xs z-index-xs padding-s"
                   src={`${post.thumbnail}`}
                   alt={post.title}
+                  width={960}
+                  height={540}
                 />
               )}
               <Link

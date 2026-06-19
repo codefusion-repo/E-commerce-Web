@@ -51,6 +51,10 @@ export default function ShopNavbar() {
   const searchParams = useSearchParams();
 
   const slugCategory = params.slugCategory;
+  const minPriceParam = searchParams.get("minPrice");
+  const maxPriceParam = searchParams.get("maxPrice");
+  const searchParam = searchParams.get("search");
+  const orderByParam = searchParams.get("orderBy");
 
   useEffect(() => {
     const getProducts = (slug: string | string[]) => {
@@ -59,10 +63,10 @@ export default function ShopNavbar() {
       setLoading(true);
 
       setCategorySlug(slug);
-      let minPrice: string | null = searchParams.get("minPrice");
-      let maxPrice: string | null = searchParams.get("maxPrice");
-      let search: string | null = searchParams.get("search");
-      let orderBy: string | null = searchParams.get("orderBy");
+      let minPrice: string | null = minPriceParam;
+      let maxPrice: string | null = maxPriceParam;
+      let search: string | null = searchParam;
+      let orderBy: string | null = orderByParam;
 
       setMinPrice(minPrice);
       setMaxPrice(maxPrice);
@@ -100,16 +104,24 @@ export default function ShopNavbar() {
     if (
       (!refreshProducts &&
         slugCategory !== categorySlug &&
-        searchParams.get("minPrice")) ||
-      searchParams.get("maxPrice") ||
-      searchParams.get("search") ||
-      searchParams.get("orderBy")
+        minPriceParam) ||
+      maxPriceParam ||
+      searchParam ||
+      orderByParam
     ) {
       console.log("slugCategory: ", slugCategory);
       console.log("categorySlug: ", categorySlug);
       getProducts(slugCategory);
     }
-  }, [refreshProducts, slugCategory]);
+  }, [
+    categorySlug,
+    maxPriceParam,
+    minPriceParam,
+    orderByParam,
+    refreshProducts,
+    searchParam,
+    slugCategory,
+  ]);
 
   const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);

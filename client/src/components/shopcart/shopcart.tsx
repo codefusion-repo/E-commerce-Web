@@ -176,10 +176,12 @@ export default function Shopcart() {
                       ? `${item.name.slice(0, 15)}...`
                       : item.name}
                   </h6>
-                  <img
+                  <Image
                     className="f-width-xs f-height-xs border-radius-xs"
                     src={`${item.thumbnail}`}
                     alt={item.name}
+                    width={64}
+                    height={64}
                   />
                   <h3>
                     {Intl.NumberFormat("es-CL", {

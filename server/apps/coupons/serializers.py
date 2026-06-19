@@ -9,7 +9,8 @@ class CouponSerializer(serializers.ModelSerializer):
             "code",
             "discount_percent",
             "discount_value",
-            'discount_type'
+            'discount_type',
+            "discount_expire",
         ]
 
 class UserCouponSerializer(serializers.ModelSerializer):

@@ -27,7 +27,7 @@ class PostClaimCoupon(APIView):
                 if coupon.limit <= 0:
                     raise ValueError("Coupon not available 1")
                 
-                if coupon.discount_expire < timezone.now():
+                if coupon.discount_expire and coupon.discount_expire < timezone.now():
                     raise ValueError("Expired coupon")
             else:
                 raise ValueError("Coupon not available 2")
@@ -52,7 +52,6 @@ class PostClaimCoupon(APIView):
             return Response(userSerializer.data, status=status.HTTP_200_OK)
                
         except ValueError as e:
-            print(e)
             return Response({
                 'detail': str(e)}, 
                 status=status.HTTP_400_BAD_REQUEST)   
@@ -103,7 +102,6 @@ class PostApplyCoupon(APIView):
                 raise ValueError("Coupon not available")
                 
         except ValueError as e:
-            print(e)
             return Response({
                 'detail': str(e)}, 
                 status=status.HTTP_400_BAD_REQUEST)      
@@ -131,7 +129,6 @@ class PostVerifyCoupon(APIView):
             else:
                 raise ValueError("Coupon not found")
         except ValueError as e:
-            print(e)
             return Response({
                 'detail': str(e)}, 
                 status=status.HTTP_400_BAD_REQUEST) 
@@ -170,10 +167,9 @@ class PostUnapplyCoupon(APIView):
             
             return Response(status=status.HTTP_200_OK)
         except ValueError as e:
-            print(e)
             return Response({
                 'detail': str(e)}, 
-                status=status.HTTP_400_BAD_REQUEST)     
+                status=status.HTTP_400_BAD_REQUEST)
         
 class PostUnapplyCouponFromPurchase(APIView):    
     authentication_classes=[JWTAuthentication]
@@ -209,9 +205,8 @@ class PostUnapplyCouponFromPurchase(APIView):
                 #userCoupon.save()
                 return Response(status=status.HTTP_200_OK)
             else:
-                raise ValueError("Option not available")   
+                raise ValueError("Option not available")
         except ValueError as e:
-            print(e)
             return Response({
-                'detail': str(e)}, 
-                status=status.HTTP_400_BAD_REQUEST)     
+                'detail': str(e)},
+                status=status.HTTP_400_BAD_REQUEST)

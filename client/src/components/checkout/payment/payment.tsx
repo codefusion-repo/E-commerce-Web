@@ -12,9 +12,11 @@ import { useRouter } from "next/navigation";
 import { useModal } from "../../../context/modal/modalContext";
 import { useCheckout } from "../../../context/checkout/checkoutContext";
 import { useMobile } from "../../../context/mobile/mobileContext";
+import { useViewportReveal } from "../../../hooks/useViewportReveal";
 
 export default function Payment() {
   const { device } = useMobile();
+  const methodsRevealRef = useViewportReveal();
   const { isAuthenticated } = useAuth();
   const { openModal } = useModal();
 
@@ -57,11 +59,12 @@ export default function Payment() {
             </div>
           )}
           <div
+            ref={methodsRevealRef}
             className={`payment-methods flex ${
               device > 1
                 ? "box-xl wrap margin-t-l margin-b-l"
                 : "box-xxl column gap-s margin-t-s margin-b-s"
-            } a-center`}
+            } a-center reveal reveal--slide-up`}
           >
             <div
               className={`payment-method-card flex ${

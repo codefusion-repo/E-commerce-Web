@@ -13,9 +13,13 @@ import { useEffect } from "react";
 import { useShopcart } from "../../context/shopcart/shopcartContext";
 import { useCheckout } from "../../context/checkout/checkoutContext";
 import { useMobile } from "../../context/mobile/mobileContext";
+import { useViewportReveal } from "../../hooks/useViewportReveal";
 
 export default function Checkout({ children }: { children: React.ReactNode }) {
   const { device } = useMobile();
+  const stepsRevealRef = useViewportReveal();
+  const summaryRevealRef = useViewportReveal();
+  const totalsRevealRef = useViewportReveal();
   const { isAuthenticated } = useAuth();
   const { openModal } = useModal();
 
@@ -52,13 +56,14 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
     <div className="checkout-page flex box-xxl column a-center j-center navbar-p-s">
       <CheckoutNavbar />
       <div
+        ref={stepsRevealRef}
         className={`checkout-steps flex ${
           device > 3
             ? "box-xl f-height-s"
             : device < 3
             ? "box-xxl-m column m-height-s"
             : "box-xxl-m f-height-s"
-        } a-center j-space`}
+        } a-center j-space reveal reveal--fade`}
         aria-label="Checkout progress"
       >
         <div
@@ -117,9 +122,10 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
         </div>
 
         <div
+          ref={summaryRevealRef}
           className={`checkout-summary flex column ${
             device > 2 ? "box-s" : "box-xxl"
-          } j-space gap-l padding-t-l padding-b-l padding-r-s padding-l-s`}
+          } j-space gap-l padding-t-l padding-b-l padding-r-s padding-l-s reveal reveal--slide-up reveal-delay-1`}
         >
           <div className="checkout-summary__nav flex box-xxl column a-center gap-m">
             {pathname.includes("/delivery") && (
@@ -178,9 +184,10 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
           <Coupons />
         </div>
         <div
+          ref={totalsRevealRef}
           className={`checkout-totals flex ${
             device > 2 ? "j-space" : "column"
-          } box-xxl a-end padding-xs`}
+          } box-xxl a-end padding-xs reveal reveal--fade reveal-delay-2`}
         >
           <h3>
             {items && items.length > 1

@@ -13,9 +13,12 @@ import { CategoryType, ProductType } from "../../interfaces/shop/shopInterface";
 import { BannerType } from "../../interfaces/utils/utilsInterface";
 import BannerSwiper from "./swiper/swiper";
 import Link from "next/link";
+import { useViewportReveal } from "../../hooks/useViewportReveal";
 
 export default function Home({ banners }: { banners: BannerType[] }) {
   const { categories, brands, products } = useShop();
+  const heroRevealRef = useViewportReveal();
+  const proofRevealRef = useViewportReveal();
 
   const [featuredCategories, setFeaturedCategories] = useState<CategoryType[]>(
     []
@@ -35,7 +38,11 @@ export default function Home({ banners }: { banners: BannerType[] }) {
 
   return (
     <main className="home-page">
-      <section className="home-hero" aria-labelledby="home-hero-title">
+      <section
+        ref={heroRevealRef}
+        className="home-hero reveal reveal--fade"
+        aria-labelledby="home-hero-title"
+      >
         <div className="home-hero__content">
           <span className="home-kicker">Demo e-commerce CodeFusion</span>
           <h1 id="home-hero-title">
@@ -61,18 +68,22 @@ export default function Home({ banners }: { banners: BannerType[] }) {
         </div>
       </section>
 
-      <section className="home-proof-strip" aria-label="Shopping flow">
-        <div>
+      <section
+        ref={proofRevealRef}
+        className="home-proof-strip reveal reveal--slide-up"
+        aria-label="Shopping flow"
+      >
+        <div className="reveal-delay-1">
           <span>01</span>
           <strong>Catálogo</strong>
           <p>Cards responsivas con precio, categorías y acciones claras.</p>
         </div>
-        <div>
+        <div className="reveal-delay-2">
           <span>02</span>
           <strong>Carrito</strong>
           <p>Cantidad, subtotal y estados vacíos visibles en desktop y mobile.</p>
         </div>
-        <div>
+        <div className="reveal-delay-3">
           <span>03</span>
           <strong>Checkout</strong>
           <p>Dirección, envío, cupones y pago en un flujo único.</p>

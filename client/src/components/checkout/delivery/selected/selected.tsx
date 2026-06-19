@@ -1,7 +1,7 @@
 "use client";
 // selected.tsx
 
-//import "./selectedAddress.css";
+import "./selectedAddress.css";
 import { useAuth } from "../../../../context/auth/authContext";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
@@ -107,8 +107,8 @@ export default function Selected({
   return (
     <>
       {user && user.addresses?.length > 0 ? (
-        <div className="flex box-xxl column">
-          <div className="flex box-xxl a-center j-space base-border-b">
+        <div className="selected-address flex box-xxl column">
+          <div className="selected-address__columns flex box-xxl a-center j-space base-border-b">
             <div className="flex box-xxl a-center j-start padding-s base-border-r">
               <h4>Address</h4>
             </div>
@@ -120,7 +120,7 @@ export default function Selected({
           {user.addresses.map((address, index) => (
             <div key={index}>
               {address.isDefault && (
-                <div className="flex box-xxl base-border-b">
+                <div className="selected-address__row flex box-xxl base-border-b">
                   <div className="flex box-xxl column padding-s gap-xxs base-border-r">
                     <h4>
                       Address: {address.countyName}, {address.streetName},{" "}
@@ -136,6 +136,8 @@ export default function Selected({
                     <button
                       className="btn-small"
                       onClick={() => changeAddress()}
+                      type="button"
+                      aria-label="Change selected address"
                     >
                       <FaEdit
                         className={`${
@@ -185,9 +187,14 @@ export default function Selected({
               courierServiceOptions.map((courier: any, index: number) => (
                 <div
                   key={index}
-                  className={`flex box-xxl ${
+                  className={`courier-option flex box-xxl ${
                     index + 1 != courierServiceOptions.length
                       ? "border-bottom"
+                      : ""
+                  } ${
+                    selectedCourier &&
+                    selectedCourier.original_courier === courier.original_courier
+                      ? "courier-option--selected"
                       : ""
                   }`}
                 >
@@ -215,6 +222,10 @@ export default function Selected({
                       form="none"
                       onClick={() => onChangeSelectedCourier(courier)}
                       className="checkbox"
+                      type="button"
+                      aria-label={`Select ${formatMayusName(
+                        courier.original_courier
+                      )} shipping`}
                     >
                       {selectedCourier &&
                       selectedCourier.original_courier ===
@@ -235,6 +246,7 @@ export default function Selected({
           <button
             onClick={() => setStatus("add")}
             className="btn-middle btn-active"
+            type="button"
           >
             <h4>Add</h4>
           </button>

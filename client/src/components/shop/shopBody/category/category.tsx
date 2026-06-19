@@ -1,6 +1,7 @@
 "use client";
 // category.tsx
 
+import "../../shop.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import loadingGif from "../../../../assets/cargando/loading2.gif";
@@ -36,10 +37,11 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
         .filter((product) =>
           product.categories.some((category) => category.slug === slugCategory)
         )
+        .slice()
         .sort((a, b) => b.views - a.views)
         .slice(0, 2)
     );
-  }, []);
+  }, [allCategories, products, slugCategory]);
 
   return (
     <>
@@ -47,10 +49,16 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
         <>
           {category && (
             <>
-              <div className="flex box-xxl f-height-m relative column a-center j-center four-bg hidden">
-                <h1 className="z-index-s zoom-in-xxl">{category?.name}</h1>
+              <div className="shop-hero flex box-xxl f-height-m relative column a-center j-center four-bg hidden">
+                <span className="shop-hero__eyebrow z-index-s">
+                  {category.type}
+                </span>
+                <h1 className="z-index-s">{category?.name}</h1>
+                <p className="z-index-s">
+                  {categoryProducts.length} products in this collection.
+                </p>
                 <img
-                  className="absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
+                  className="shop-hero__image absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
                   src={`${category?.icon}`}
                   alt="banner-alt"
                 />

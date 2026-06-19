@@ -1,13 +1,56 @@
-/* SWIPER STYLE 
-
-.swiper {
-    display: flex;
-    width: 100%;
-    height: 400px;
-    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .15));
+.home-swiper {
+    height: clamp(240px, 35vw, 420px);
+    background: var(--surface-bg-strong);
+    border-bottom: 1px solid var(--surface-border);
 }
-.swiper img {
+
+.home-swiper img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-}*/
+    object-fit: cover;
+}
+
+.home-swiper .swiper-button-next,
+.home-swiper .swiper-button-prev {
+    width: 42px;
+    height: 42px;
+    color: var(--base-text);
+    background: rgba(16, 18, 20, .72);
+    border: 1px solid var(--surface-border);
+    border-radius: 50%;
+    transition: background .25s ease, transform .25s ease;
+}
+
+.home-swiper .swiper-button-next::after,
+.home-swiper .swiper-button-prev::after {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.home-swiper .swiper-button-next:hover,
+.home-swiper .swiper-button-prev:hover {
+    background: rgba(0, 79, 77, .72);
+    transform: translateY(-1px);
+}
+
+.home-swiper .swiper-pagination-bullet {
+    width: 22px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(235, 235, 235, .7);
+    opacity: 1;
+}
+
+.home-swiper .swiper-pagination-bullet-active {
+    background: var(--accent-text);
+}
+
+@media screen and (max-width: 640px) {
+    .home-swiper {
+        height: 220px;
+    }
+    .home-swiper .swiper-button-next,
+    .home-swiper .swiper-button-prev {
+        display: none;
+    }
+}

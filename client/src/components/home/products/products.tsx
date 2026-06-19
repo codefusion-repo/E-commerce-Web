@@ -1,6 +1,7 @@
 "use client";
 // products.tsx
 
+import "./products.css";
 import Pagination from "../../../components/pagination/pagination";
 import { orderProducts } from "../../../components/shop/api/action";
 import FilteredProductCard from "../../../components/shop/shopBody/product/filteredProductCard/filteredProductCard";
@@ -59,19 +60,22 @@ export default function Products({
 
   return (
     <div
-      className={`flex  ${
+      className={`product-section flex ${
         isSearch ? `box-xxl` : `${device > 2 ? "box-xl" : "box-xxl-m"}`
       } column a-start j-start`}
     >
       {!isSearch && (
         <div
-          className={`flex box-xxl ${
+          className={`product-section__header flex box-xxl ${
             device > 1 ? "j-space a-center" : "column a-start"
-          } m-height-xxs gap-xs padding-l-ms padding-r-ms padding-t-xs padding-b-xs second-border-b`}
+          } m-height-xxs gap-xs padding-l-ms padding-r-ms padding-t-xs padding-b-xs`}
         >
-          <h1>{header}</h1>
+          <div className="product-section__title">
+            <span>{data.length} items</span>
+            <h1>{header}</h1>
+          </div>
           <select
-            className="select-small"
+            className="select-small product-section__select"
             onChange={(e) =>
               orderProducts(e.target.value, products).then((p) => {
                 setData(p);
@@ -81,6 +85,7 @@ export default function Products({
             defaultValue="df"
             id="orderBy"
             name="orderBy"
+            aria-label={`Order products in ${header}`}
           >
             {availableOrderBy &&
               availableOrderBy.map((orderBy, index) => (
@@ -92,11 +97,11 @@ export default function Products({
         </div>
       )}
 
-      <div className="flex box-xxl wrap a-start j-center padding-xxs">
+      <div className="product-grid flex box-xxl wrap a-start j-center padding-xxs">
         {currentItems.length > 0 ? (
           <>
             {currentItems.map((product) => (
-              <div key={product.id} className="padding-xs">
+              <div key={product.id} className="product-grid__item padding-xs">
                 {!isSearch ? (
                   <ProductCard product={product} />
                 ) : (
@@ -106,7 +111,10 @@ export default function Products({
             ))}
           </>
         ) : (
-          <h4>No products found</h4>
+          <div className="product-empty-state">
+            <h4>No products found</h4>
+            <p>Try a different category or ordering option.</p>
+          </div>
         )}
       </div>
       {data.length > itemsPerPage && (

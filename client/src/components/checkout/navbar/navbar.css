@@ -1,70 +1,40 @@
-/* NAVBAR STYLE 
-.navbar {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: var(--second-bg);
-}
-.navbar-item {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    padding: 0 1rem;
-}
-.navbar-item:nth-child(1) {
-    justify-content: flex-start;
-}
-.navbar-item:nth-child(1) img {
-    width: 75px;
-    height: 75px;
-    object-fit: contain;
-    border-radius: 16px;
-    transition: .3s ease-in-out;
-}
-.navbar-item:nth-child(1) img:hover {
-    transform: scale(1.1);
-    border-radius: 8px;
-    cursor: pointer;
-}
-.navbar-item:nth-child(2) {
-    justify-content: center;
-}
-.navbar-item:nth-child(3) {
-    justify-content: flex-end;
-}*/
-/*header {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    padding: 0 2rem;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--second-bg);
-}
-.header-left {
-    height: 75px;
-    width: 75px;
-    overflow: hidden;
-    border-radius: 4px;
-    box-shadow: 0 0 0.25rem var(--second-text);
+.checkout-navbar {
     z-index: 30;
+    background: rgba(16, 18, 20, .94);
+    border-bottom: 1px solid var(--surface-border);
+    backdrop-filter: blur(14px);
 }
-.header-left img {
-    height: 75px;
-    width: 75px;
-    object-fit: contain;
-    object-position: 0 0;
-    transition: 0.3s ease-in-out;
+
+.checkout-navbar__brand img {
+    object-fit: cover;
+    border: 1px solid var(--surface-border);
+    transition: transform .25s ease, border-color .25s ease;
 }
-.header-left img:hover{
-    object-position: 0 5px;
-    transform: scale(1.25);
-    cursor: pointer;
-}*/
+
+.checkout-navbar__brand a:hover img,
+.checkout-navbar__brand a:focus-visible img {
+    border-color: var(--surface-border-strong);
+    transform: translateY(-1px) scale(1.02);
+}
+
+.checkout-navbar__title h2 {
+    color: var(--base-text);
+}
+
+.checkout-navbar__help h3 {
+    color: rgba(235, 235, 235, .68);
+}
+
+@media screen and (max-width: 640px) {
+    .checkout-navbar__help {
+        display: none;
+    }
+    .checkout-navbar__brand {
+        width: 35%;
+        padding-left: .75rem;
+    }
+    .checkout-navbar__title {
+        justify-content: flex-end;
+        padding-right: .75rem;
+    }
+}

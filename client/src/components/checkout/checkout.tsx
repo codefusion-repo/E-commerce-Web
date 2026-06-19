@@ -1,7 +1,7 @@
 "use client";
 // checkout.tsx
 
-//import "./checkout.css";
+import "./checkout.css";
 import CheckoutNavbar from "./navbar/navbar";
 import { useMessages } from "../../context/messages/messagesContext";
 import { usePathname, useRouter } from "next/navigation";
@@ -36,61 +36,62 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
   const { addMessage } = useMessages();
 
   const pathname = usePathname();
+  const getStepClass = (step: number) => {
+    if (checkoutStatus > step) {
+      return "checkout-step checkout-step--complete";
+    }
+
+    if (checkoutStatus === step) {
+      return "checkout-step checkout-step--active";
+    }
+
+    return "checkout-step";
+  };
 
   return (
-    <div className="flex box-xxl column a-center j-center navbar-p-s">
+    <div className="checkout-page flex box-xxl column a-center j-center navbar-p-s">
       <CheckoutNavbar />
       <div
-        className={`flex ${
+        className={`checkout-steps flex ${
           device > 3
             ? "box-xl f-height-s"
             : device < 3
             ? "box-xxl-m column m-height-s"
             : "box-xxl-m f-height-s"
-        } a-center j-space second-border-t second-border-r second-border-l border-radius-xxs`}
+        } a-center j-space`}
+        aria-label="Checkout progress"
       >
         <div
-          className={`flex ${
-            device > 2
-              ? "f-height-s second-border-r"
-              : "m-height-xs second-border-b"
+          className={`${getStepClass(0)} flex ${
+            device > 2 ? "f-height-s" : "m-height-xs"
           } box-xxl a-center j-start padding-xs`}
+          aria-current={checkoutStatus === 0 ? "step" : undefined}
         >
-          <div
-            className={checkoutStatus < 3 ? "active-marker" : "deactive-marker"}
-          ></div>
+          <div className="checkout-step__marker">1</div>
           <div>
             <h2>Address</h2>
             <h3>Select your shipping address</h3>
           </div>
         </div>
         <div
-          className={`flex ${
-            device > 2
-              ? "f-height-s second-border-r"
-              : "m-height-xs second-border-b"
+          className={`${getStepClass(1)} flex ${
+            device > 2 ? "f-height-s" : "m-height-xs"
           } box-xxl a-center j-start padding-xs`}
+          aria-current={checkoutStatus === 1 ? "step" : undefined}
         >
-          <div
-            className={
-              checkoutStatus > 0 && checkoutStatus < 3
-                ? "active-marker"
-                : "deactive-marker"
-            }
-          ></div>
+          <div className="checkout-step__marker">2</div>
           <div>
             <h2>Shipping Method</h2>
             <h3>Select a shipping method</h3>
           </div>
         </div>
         <div
-          className={`flex ${
+          className={`${getStepClass(2)} flex ${
             device > 2 ? "f-height-s" : "m-height-xs"
           } box-xxl a-center j-start padding-xs`}
+          aria-current={checkoutStatus === 2 ? "step" : undefined}
         >
-          <div
-            className={checkoutStatus > 1 ? "active-marker" : "deactive-marker"}
-          ></div>
+          <div className="checkout-step__marker">3</div>
           <div>
             <h2>Payment</h2>
             <h3>Finish your purchase</h3>
@@ -98,30 +99,29 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
         </div>
       </div>
       <div
-        className={`flex ${
+        className={`checkout-shell flex ${
           device > 3 ? "box-xl" : device < 3 ? "box-xxl-m column" : "box-xxl-m"
-        } m-height-m wrap second-bg padding-s margin-b-xxl border-radius-xxs`}
+        } m-height-m wrap padding-s margin-b-xxl`}
       >
-        <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
+        <div className="checkout-shell__header flex box-xxl m-height-xxs column a-start j-center padding-xs">
+          <span>Secure checkout</span>
           {pathname.includes("/delivery") && <h1>Shipping address</h1>}
           {pathname.includes("/payment") && <h1>Payment method</h1>}
         </div>
         <div
-          className={`flex ${
-            device > 2
-              ? "box-l padding-r-s base-border-r"
-              : "box-xxl base-border-b"
+          className={`checkout-shell__main flex ${
+            device > 2 ? "box-l padding-r-s" : "box-xxl"
           } padding-b-s`}
         >
           {children}
         </div>
 
         <div
-          className={`flex column ${
+          className={`checkout-summary flex column ${
             device > 2 ? "box-s" : "box-xxl"
           } j-space gap-l padding-t-l padding-b-l padding-r-s padding-l-s`}
         >
-          <div className="flex box-xxl column a-center gap-m">
+          <div className="checkout-summary__nav flex box-xxl column a-center gap-m">
             {pathname.includes("/delivery") && (
               <Link href={"/shopcart"} className="btn-middle">
                 <h4>Shopping cart</h4>
@@ -143,12 +143,13 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
                 className={`btn-middle ${
                   selectedAddress && selectedCourier && "btn-active"
                 }`}
+                type="button"
               >
                 <h4>Continue</h4>
               </button>
             )}
           </div>
-          <div className="flex box-xxl column a-center gap-xs">
+          <div className="checkout-summary__products flex box-xxl column a-center gap-xs">
             <h3>Products</h3>
             <div
               className={`flex box-xxl column ${
@@ -177,9 +178,9 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
           <Coupons />
         </div>
         <div
-          className={`flex ${
+          className={`checkout-totals flex ${
             device > 2 ? "j-space" : "column"
-          } box-xxl a-end padding-xs base-border-t`}
+          } box-xxl a-end padding-xs`}
         >
           <h3>
             {items && items.length > 1

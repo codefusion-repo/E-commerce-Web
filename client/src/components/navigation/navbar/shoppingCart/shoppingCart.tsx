@@ -1,7 +1,7 @@
 "use client";
 // shoppingCart.tsx
 
-//import "./shoppingCart.css";
+import "./shoppingCart.css";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { TiShoppingCart } from "react-icons/ti";
 import {
@@ -150,18 +150,16 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
   };
 
   return (
-    <div className="flex relative">
-      <div id="shippingCartButtonRef" ref={shippingCartButtonRef}>
-        <div
-          className={`absolute f-top f-right ${
-            device > 1 ? "padding-r-xxs" : ""
-          }`}
-        >
+    <div className="mini-cart flex relative">
+      <div className="mini-cart__button-wrap" id="shippingCartButtonRef" ref={shippingCartButtonRef}>
+        <div className="mini-cart__count absolute f-top f-right">
           {items && items.length >= 0 && <h4>{items.length}</h4>}
         </div>
         <button
-          className={`btn-small ${isOpen && "btn-active"}`}
+          className={`mini-cart__button btn-small ${isOpen && "btn-active"}`}
           onClick={() => handleOpenShoppingCart()}
+          type="button"
+          aria-label="Open shopping cart"
         >
           <TiShoppingCart className="zoom-in-xxl" />
         </button>
@@ -169,7 +167,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
 
       {isOpen && isOpen && (
         <div
-          className={`flex ${
+          className={`mini-cart__panel flex ${
             device > 1
               ? "f-width-xxxl"
               : device < 1
@@ -179,7 +177,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
           id="shippingCartBoxRef"
           ref={shippingCartBoxRef}
         >
-          <div className="flex box-xxl column a-center gap-xs margin-b-xs">
+          <div className="mini-cart__header flex box-xxl column a-center gap-xs margin-b-xs">
             <h2>
               {items && items.length > 1
                 ? `You have ${
@@ -195,6 +193,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
               <button
                 className="btn-span btn-active gap-m"
                 onClick={() => clearShop()}
+                type="button"
               >
                 <h4>Clear</h4>
                 <FaRegTrashAlt className="zoom-out-xxl" />
@@ -224,7 +223,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                 {items &&
                   items.map((item, index) => (
                     <div
-                      className="flex box-xxl f-height-s a-center j-center base-border-b"
+                      className="mini-cart__row flex box-xxl f-height-s a-center j-center base-border-b"
                       key={index}
                     >
                       <Link
@@ -263,9 +262,14 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                           <button
                             onClick={() => handleRemoveItem(item)}
                             className="btn-span"
+                            type="button"
+                            aria-label={`Remove one ${item.name}`}
                           >
                             <FaMinusCircle className="zoom-out-xl" />
                           </button>
+                          <label className="sr-only" htmlFor={`input_${item.id}`}>
+                            Quantity for {item.name}
+                          </label>
                           <input
                             name="itemQuantity"
                             onChange={(e) => handleUpdateQuantityItem(item, e)}
@@ -278,6 +282,8 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                           <button
                             onClick={() => handleAddItem(item)}
                             className="btn-span"
+                            type="button"
+                            aria-label={`Add one ${item.name}`}
                           >
                             <FaPlusCircle className="zoom-out-xl" />
                           </button>
@@ -287,6 +293,8 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                         <button
                           onClick={() => removeItem(item)}
                           className="btn-span"
+                          type="button"
+                          aria-label={`Remove ${item.name} from cart`}
                         >
                           <FaRegTrashAlt className="zoom-out-xxl" />
                         </button>
@@ -305,7 +313,10 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                 </div>
               )}
               {error && (
-                <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
+                <div
+                  className="mini-cart__alert flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b"
+                  role="alert"
+                >
                   <h4>{error}</h4>
                 </div>
               )}
@@ -323,6 +334,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                 <button
                   onClick={() => handleCheckoutButton()}
                   className="btn-middle btn-active"
+                  type="button"
                 >
                   <h4>Buy</h4>
                 </button>

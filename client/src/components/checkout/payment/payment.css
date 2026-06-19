@@ -1,56 +1,56 @@
-/* PAYMENT STYLE 
-.payments-method {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    width: 100%;
-    height: 100%;
+.payment-alert {
+    border-bottom: 1px solid var(--surface-border);
 }
-.payments-method-item {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 150px;
-    gap: 0.5rem;
-    padding: 1rem;
+
+.payment-alert--error h4 {
+    color: var(--danger-text);
 }
-.checkout-payment-item-header {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 75px;
-    gap: 0.5rem;
-}
-.checkout-payment-item-header img {
-    width: 100%;
-    height: 50px;
-    object-fit: contain;
-}
-.checkout-payment-item-content {
-    display: flex;
+
+.payment-methods {
     justify-content: center;
 }
-.checkout-payment-item-content button {
-    width: 100%;
+
+.payment-method-card {
+    min-width: min(100%, 360px);
+    background: rgba(255, 255, 255, .035);
+    border: 1px solid var(--surface-border-strong);
+    border-radius: 8px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .18);
 }
-.payments-method-subheader {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 35px;
+
+.payment-method-card__header span {
+    color: var(--warning-text);
+    font-weight: 700;
+    text-transform: uppercase;
 }
-.payments-method-error h3,
-.payments-method-error h5 {
-    color: red;
-}
-.payments-method-info  {
-    width: 200px;
-    height: 35px;
+
+.payment-method-card__logo {
     object-fit: contain;
+    padding: .45rem;
+    background: rgba(255, 255, 255, .94);
+    border-radius: 8px;
 }
-.payments-method-info h3 {
-    color: green;
-}*/
+
+.payment-method-card h5 {
+    color: rgba(235, 235, 235, .72);
+}
+
+.payment-method-card__action {
+    padding-top: .5rem;
+}
+
+.payment-flow-button {
+    border: 1px solid var(--surface-border-strong);
+    transition: box-shadow .2s ease, transform .2s ease;
+}
+
+.payment-flow-button:hover,
+.payment-flow-button:focus-visible {
+    box-shadow: 0 0 0 .2rem rgba(130, 230, 217, .16);
+    transform: translateY(-1px);
+}
+
+.payment-flow-button:disabled {
+    cursor: wait;
+    transform: none;
+}

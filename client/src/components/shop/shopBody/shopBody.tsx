@@ -1,6 +1,6 @@
 "use client";
 // shopBody.tsx
-//import "../shop.css";
+import "../shop.css";
 import Image from "next/image";
 import banner1 from "../../../assets/banner1.png";
 import { useEffect, useState } from "react";
@@ -24,17 +24,19 @@ export default function ShopBody() {
 
   useEffect(() => {
     setFeaturedCategories(
-      categories.sort((a, b) => b.views - a.views).slice(0, 2)
+      [...categories].sort((a, b) => b.views - a.views).slice(0, 2)
     );
-    setFeaturedBrands(brands.sort((a, b) => b.views - a.views).slice(0, 2));
-  }, []);
+    setFeaturedBrands([...brands].sort((a, b) => b.views - a.views).slice(0, 2));
+  }, [brands, categories]);
 
   return (
     <>
-      <div className="flex box-xxl f-height-m relative column a-center j-center four-bg hidden">
-        <h1 className="z-index-s zoom-in-xxl">Store</h1>
+      <div className="shop-hero flex box-xxl f-height-m relative column a-center j-center four-bg hidden">
+        <span className="shop-hero__eyebrow z-index-s">Catalog</span>
+        <h1 className="z-index-s">Store</h1>
+        <p className="z-index-s">Explore demo products with clear cart actions.</p>
         <Image
-          className="absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
+          className="shop-hero__image absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
           src={banner1}
           alt="banner-alt"
         />

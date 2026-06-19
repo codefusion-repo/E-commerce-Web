@@ -1,21 +1,77 @@
-/* COUPONS STYLE 
-.coupon-subheader {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.coupon-panel {
+    padding: .85rem;
+    background: rgba(255, 255, 255, .03);
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+}
+
+.coupon-alert {
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.coupon-alert--error h4 {
+    color: var(--danger-text);
+}
+
+.coupon-alert--info h4 {
+    color: var(--success-text);
+}
+
+.coupon-panel__header h3 {
+    color: var(--accent-text);
+}
+
+.coupon-panel__toggle {
+    width: auto;
+    min-width: 96px;
+    border: 1px solid var(--surface-border);
+}
+
+.coupon-selector__select,
+.coupon-form__input {
     width: 100%;
-    height: 25px;
+    border: 1px solid var(--surface-border);
 }
-.coupon-error h3 {
-    color: red;
+
+.coupon-card,
+.coupon-unavailable__item {
+    background: rgba(16, 18, 20, .42);
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
 }
-.coupon-info  {
-    color: green;
-    width: 100%;
+
+.coupon-card--selected {
+    border-color: rgba(109, 224, 159, .48);
 }
-.coupon-loading {
-    width: 200px;
-    height: 35px;
-    object-fit: contain;
-}*/
+
+.coupon-card--selected h4:first-child {
+    color: var(--success-text);
+}
+
+.coupon-unavailable h4:first-child {
+    color: rgba(235, 235, 235, .72);
+}
+
+.coupon-unavailable__item h4:last-child {
+    color: var(--warning-text);
+}
+
+.coupon-form {
+    padding-top: .75rem;
+    border-top: 1px solid var(--surface-border);
+}
+
+.coupon-form .btn-span {
+    border: 1px solid var(--surface-border);
+}
+
+@media screen and (max-width: 640px) {
+    .coupon-panel__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .5rem;
+    }
+    .coupon-panel__toggle {
+        width: 100%;
+    }
+}

@@ -67,7 +67,9 @@ export default function Flow({
   return (
     <button
       disabled={loading}
-      className={`${device > 1 ? "btn-middle" : "btn-large"}  btn-active`}
+      className={`payment-flow-button ${
+        device > 1 ? "btn-middle" : "btn-large"
+      } btn-active`}
       onClick={() => handleFlowPayment()}
     >
       Pay with Flow

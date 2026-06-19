@@ -1,7 +1,7 @@
 "use client";
 // home.tsx
 
-//import "./home.css";
+import "./home.css";
 import { useShop } from "../../context/shop/shopContext";
 import NewsLetter from "../other/newsletter/newsletter";
 import Categories from "./categories/categories";
@@ -12,10 +12,9 @@ import Products from "./products/products";
 import { CategoryType, ProductType } from "../../interfaces/shop/shopInterface";
 import { BannerType } from "../../interfaces/utils/utilsInterface";
 import BannerSwiper from "./swiper/swiper";
-import { useMobile } from "../../context/mobile/mobileContext";
+import Link from "next/link";
 
 export default function Home({ banners }: { banners: BannerType[] }) {
-  const { device } = useMobile();
   const { categories, brands, products } = useShop();
 
   const [featuredCategories, setFeaturedCategories] = useState<CategoryType[]>(
@@ -26,64 +25,78 @@ export default function Home({ banners }: { banners: BannerType[] }) {
 
   useEffect(() => {
     setFeaturedCategories(
-      categories.sort((a, b) => b.views - a.views).slice(0, 6)
+      [...categories].sort((a, b) => b.views - a.views).slice(0, 6)
     );
-    setFeaturedBrands(brands.sort((a, b) => b.views - a.views).slice(0, 6));
-    setFeaturedProducts(products.sort((a, b) => b.views - a.views).slice(0, 4));
-  }, []);
+    setFeaturedBrands([...brands].sort((a, b) => b.views - a.views).slice(0, 6));
+    setFeaturedProducts(
+      [...products].sort((a, b) => b.views - a.views).slice(0, 4)
+    );
+  }, [brands, categories, products]);
 
   return (
-    <>
-      <BannerSwiper banners={banners} />
-
-      <div
-        className={`flex ${
-          device > 2 ? "box-xl" : "box-xxl-m"
-        } column margin-t-s`}
-      >
-        <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-          <h1>
-            E-Commerce developed by CodeFusion.cl | ecommerce-demo.codefusion.cl
+    <main className="home-page">
+      <section className="home-hero" aria-labelledby="home-hero-title">
+        <div className="home-hero__content">
+          <span className="home-kicker">CodeFusion commerce demo</span>
+          <h1 id="home-hero-title">
+            A polished storefront for fast catalog browsing and guided checkout.
           </h1>
+          <p>
+            Curated product discovery, cart feedback, eligible coupons and a
+            Flow checkout path in one lightweight public demo.
+          </p>
+          <div className="home-hero__actions">
+            <Link href="/shop" className="btn-middle btn-active home-hero__cta">
+              Shop catalog
+            </Link>
+            <Link href="/shopcart" className="btn-middle home-hero__cta">
+              View cart
+            </Link>
+          </div>
+          <div className="home-hero__stats" aria-label="Store highlights">
+            <div>
+              <strong>{products.length}</strong>
+              <span>Products</span>
+            </div>
+            <div>
+              <strong>{categories.length}</strong>
+              <span>Categories</span>
+            </div>
+            <div>
+              <strong>Flow</strong>
+              <span>Payment</span>
+            </div>
+          </div>
         </div>
 
-        <div
-          className={`flex ${
-            device > 2 ? "" : "column"
-          } box-xxl gap-m padding-ml`}
-        >
-          <div
-            className={`flex ${device > 2 ? "box-l" : "box-xxl"} column gap-xs`}
-          >
-            <h3>E-Commerce developed by CodeFusion.cl</h3>
-            <h4>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-              facilisis dui id purus consequat, in iaculis dolor ultricies.
-              Phasellus dictum imperdiet orci et congue. Praesent vestibulum ac
-              nulla eget euismod. Fusce accumsan, neque eu pellentesque
-              pellentesque, lacus arcu ornare neque, vitae elementum dui ante
-              nec urna. Vivamus suscipit dolor non leo ultricies dictum. Nullam
-              vitae lorem at urna tincidunt lacinia sed eget est. Donec non
-              lectus porttitor, dictum metus eget, rutrum lorem. Proin tincidunt
-              quis mauris congue laoreet. Sed nec erat accumsan, lacinia massa
-              sed, pharetra nisi.
-            </h4>
-          </div>
-          <div
-            className={`flex ${
-              device > 2 ? "box-s j-end" : "box-xxl j-center"
-            } a-center`}
-          >
-            <img
-              className={`${
-                device > 2 ? "fit-cover" : "f-width-m f-height-m"
-              } border-radius-xl`}
-              src={logo.src}
-              alt="logo"
-            />
+        <div className="home-hero__media">
+          <img src={logo.src} alt="CodeFusion storefront preview" />
+          <div className="home-hero__receipt" aria-label="Checkout summary">
+            <span>Checkout path</span>
+            <strong>Address, Shipping, Coupons, Flow</strong>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section className="home-proof-strip" aria-label="Shopping flow">
+        <div>
+          <span>01</span>
+          <strong>Browse</strong>
+          <p>Responsive cards, categories and clear actions.</p>
+        </div>
+        <div>
+          <span>02</span>
+          <strong>Build cart</strong>
+          <p>Quantity changes surface immediate feedback.</p>
+        </div>
+        <div>
+          <span>03</span>
+          <strong>Checkout</strong>
+          <p>Address, shipping, coupon and Flow stay connected.</p>
+        </div>
+      </section>
+
+      <BannerSwiper banners={banners} />
 
       <Products
         header="Featured Products"
@@ -96,6 +109,6 @@ export default function Home({ banners }: { banners: BannerType[] }) {
       <Categories header="Recommended brands" categories={featuredBrands} />
 
       <NewsLetter />
-    </>
+    </main>
   );
 }

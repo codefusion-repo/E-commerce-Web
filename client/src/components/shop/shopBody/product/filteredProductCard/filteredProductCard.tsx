@@ -1,7 +1,7 @@
 "use client";
 // FilteredProductCard.tsx
 
-// import "./filteredProductCard.css";
+import "./filteredProductCard.css";
 import { MdAddShoppingCart } from "react-icons/md";
 import { FaLink } from "react-icons/fa";
 import { useShop } from "../../../../../context/shop/shopContext";
@@ -9,6 +9,8 @@ import Link from "next/link";
 import { useShopcart } from "../../../../../context/shopcart/shopcartContext";
 import { ProductType } from "../../../../../interfaces/shop/shopInterface";
 import { useMobile } from "../../../../../context/mobile/mobileContext";
+import { useEffect, useState } from "react";
+import fallbackProductImage from "../../../../../assets/how-buy/exampleProduct.png";
 
 const FilteredProductCard: React.FC<{
   product: ProductType;
@@ -16,38 +18,64 @@ const FilteredProductCard: React.FC<{
   const { device } = useMobile();
   const { setIsOpen } = useShop();
   const { addItem } = useShopcart();
+  const [isAdded, setIsAdded] = useState(false);
+  const primaryCategory = product.categories && product.categories[0];
+  const productHref = primaryCategory
+    ? `/shop/${primaryCategory.slug}/${product.slug}`
+    : "/shop";
+
+  useEffect(() => {
+    if (!isAdded) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => setIsAdded(false), 1200);
+    return () => window.clearTimeout(timeout);
+  }, [isAdded]);
+
+  const handleAddItem = () => {
+    addItem(product);
+    setIsAdded(true);
+  };
+
   return (
-    <div
+    <article
       key={product.id}
-      className={`${
+      className={`filtered-product-card ${
         device > 1 ? "f-width-l f-height-xxl" : "f-width-ml f-height-xl"
-      }  column relative hidden four-bg border-radius-xs`}
+      } column relative hidden ${isAdded ? "filtered-product-card--added" : ""}`}
     >
       <Link
-        className="flex box-xxl padding-xs"
-        href={`/shop/${product.categories && product.categories[0].slug}/${
-          product.slug
-        }`}
+        className="filtered-product-card__image-link flex box-xxl padding-xs"
+        href={productHref}
         onClick={() => setIsOpen(false)}
+        aria-label={`View ${product.name}`}
       >
         <img
-          className="border-radius-xs zoom-out-xs"
+          className="filtered-product-card__image border-radius-xs"
           src={`${product.thumbnail}`}
           alt={product.name}
+          loading="eager"
+          onError={(event) => {
+            event.currentTarget.src = fallbackProductImage.src;
+          }}
         />
       </Link>
 
       <Link
-        className="flex box-xxl a-center j-center padding-l-s padding-r-s margin-t-xs"
-        href={`/shop/${product.categories && product.categories[0].slug}/${
-          product.slug
-        }`}
+        className="filtered-product-card__title flex box-xxl a-center j-center padding-l-s padding-r-s margin-t-xs"
+        href={productHref}
         onClick={() => setIsOpen(false)}
       >
         <h4>{product.name}</h4>
       </Link>
 
-      <div className="flex box-xxl absolute f-bottom a-center j-center t-center gap-ms padding-ms">
+      {isAdded && (
+        <div className="filtered-product-card__toast" role="status">
+          Added
+        </div>
+      )}
+      <div className="filtered-product-card__footer flex box-xxl absolute f-bottom a-center j-center t-center gap-ms padding-ms">
         <div
           className={`flex ${
             device > 1 ? "box-m" : "box-xxl"
@@ -67,22 +95,23 @@ const FilteredProductCard: React.FC<{
         >
           <Link
             className="btn-small btn-active scale-s"
-            href={`/shop/${product.categories && product.categories[0].slug}/${
-              product.slug
-            }`}
+            href={productHref}
             onClick={() => setIsOpen(false)}
+            aria-label={`Open ${product.name}`}
           >
             <FaLink className="zoom-in-xxl" />
           </Link>
           <button
+            type="button"
             className="btn-small btn-active scale-s"
-            onClick={() => addItem(product)}
+            onClick={handleAddItem}
+            aria-label={`Add ${product.name} to cart`}
           >
             <MdAddShoppingCart className="zoom-in-xxl" />
           </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

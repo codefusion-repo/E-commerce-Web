@@ -19,7 +19,7 @@ const FilteredProductCard: React.FC<{
   revealOrder?: number;
 }> = ({ product, revealOrder = 0 }) => {
   const { device } = useMobile();
-  const revealRef = useViewportReveal();
+  const revealRef = useViewportReveal({ revealOnMobile: true });
   const { setIsOpen } = useShop();
   const { addItem } = useShopcart();
   const [isAdded, setIsAdded] = useState(false);

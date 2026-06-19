@@ -6,6 +6,7 @@ type RevealCallback = (entry: IntersectionObserverEntry) => void;
 
 const callbacks = new WeakMap<Element, RevealCallback>();
 let sharedObserver: IntersectionObserver | null = null;
+const DEFAULT_MOBILE_REVEAL_QUERY = "(max-width: 767px)";
 
 function getSharedObserver() {
   if (typeof window === "undefined" || !("IntersectionObserver" in window)) {
@@ -35,12 +36,28 @@ function prefersReducedMotion() {
   );
 }
 
+function getMobileRevealQuery(enabled: boolean, query: string) {
+  if (
+    !enabled ||
+    typeof window === "undefined" ||
+    !("matchMedia" in window)
+  ) {
+    return null;
+  }
+
+  return window.matchMedia(query);
+}
+
 export function useViewportReveal({
   once = true,
   visibleClassName = "is-visible",
+  revealOnMobile = false,
+  mobileQuery = DEFAULT_MOBILE_REVEAL_QUERY,
 }: {
   once?: boolean;
   visibleClassName?: string;
+  revealOnMobile?: boolean;
+  mobileQuery?: string;
 } = {}) {
   const cleanupRef = useRef<() => void>();
   const revealedRef = useRef(false);
@@ -54,22 +71,54 @@ export function useViewportReveal({
         return;
       }
 
+      let observer: IntersectionObserver | null = null;
+      let removeMobileRevealListener: (() => void) | undefined;
+      const mobileRevealQuery = getMobileRevealQuery(
+        revealOnMobile,
+        mobileQuery
+      );
+      const revealNode = () => {
+        node.classList.add(visibleClassName);
+        revealedRef.current = true;
+        observer?.unobserve(node);
+        callbacks.delete(node);
+        removeMobileRevealListener?.();
+        removeMobileRevealListener = undefined;
+      };
+
+      if (mobileRevealQuery?.matches) {
+        revealNode();
+        return;
+      }
+
       if (
         revealedRef.current ||
         prefersReducedMotion() ||
         typeof window === "undefined" ||
         !("IntersectionObserver" in window)
       ) {
-        node.classList.add(visibleClassName);
+        revealNode();
         return;
       }
 
       node.classList.remove(visibleClassName);
 
-      const observer = getSharedObserver();
+      observer = getSharedObserver();
       if (!observer) {
-        node.classList.add(visibleClassName);
+        revealNode();
         return;
+      }
+
+      const handleMobileReveal = (event: MediaQueryListEvent) => {
+        if (event.matches) {
+          revealNode();
+        }
+      };
+
+      if (mobileRevealQuery) {
+        mobileRevealQuery.addEventListener("change", handleMobileReveal);
+        removeMobileRevealListener = () =>
+          mobileRevealQuery.removeEventListener("change", handleMobileReveal);
       }
 
       callbacks.set(node, (entry) => {
@@ -84,19 +133,21 @@ export function useViewportReveal({
         revealedRef.current = true;
 
         if (once) {
-          observer.unobserve(node);
+          observer?.unobserve(node);
           callbacks.delete(node);
+          removeMobileRevealListener?.();
           cleanupRef.current = undefined;
         }
       });
 
       observer.observe(node);
       cleanupRef.current = () => {
-        observer.unobserve(node);
+        observer?.unobserve(node);
         callbacks.delete(node);
+        removeMobileRevealListener?.();
       };
     },
-    [once, visibleClassName]
+    [mobileQuery, once, revealOnMobile, visibleClassName]
   );
 
   useEffect(() => {

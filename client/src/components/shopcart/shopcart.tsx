@@ -18,9 +18,13 @@ import { useRouter } from "next/navigation";
 import { useShopcart } from "../../context/shopcart/shopcartContext";
 import { ProductType } from "../../interfaces/shop/shopInterface";
 import { useMobile } from "../../context/mobile/mobileContext";
+import { useViewportReveal } from "../../hooks/useViewportReveal";
 
 export default function Shopcart() {
   const { device } = useMobile();
+  const shellRevealRef = useViewportReveal();
+  const listRevealRef = useViewportReveal();
+  const actionsRevealRef = useViewportReveal();
   const {
     items,
     addItem,
@@ -125,18 +129,20 @@ export default function Shopcart() {
   return (
     <>
       <div
+        ref={shellRevealRef}
         className={`shopcart-shell flex ${
           device > 2 ? "box-xl" : "box-xxl-m"
-        } m-height-m wrap padding-s margin-t-l margin-b-l`}
+        } m-height-m wrap padding-s margin-t-l margin-b-l reveal reveal--slide-up`}
       >
         <div className="shopcart-shell__header flex box-xxl m-height-xxs column a-start j-center padding-xs">
           <span>Order summary</span>
           <h2>Shopping cart</h2>
         </div>
         <div
+          ref={listRevealRef}
           className={`shopcart-list flex ${
             device > 2 ? "box-l" : "box-xxl"
-          } column padding-l-xs padding-r-xs`}
+          } column padding-l-xs padding-r-xs reveal reveal--fade reveal-delay-1`}
         >
           {items && items.length > 0 && (
             <div className="shopcart-list__columns flex box-xxl f-height-xs">
@@ -282,9 +288,10 @@ export default function Shopcart() {
         </div>
 
         <div
+          ref={actionsRevealRef}
           className={`shopcart-actions flex box-s ${
             device > 2 ? "box-s column" : "box-xxl j-center"
-          } gap-m a-center padding-t-l padding-b-l padding-r-s padding-l-s`}
+          } gap-m a-center padding-t-l padding-b-l padding-r-s padding-l-s reveal reveal--fade reveal-delay-2`}
         >
           <Link href={"/shop"} className="btn-middle">
             <h4>Back to the store</h4>

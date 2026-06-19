@@ -30,10 +30,6 @@
     gap: .5rem;
 }
 
-.product-grid__item {
-    animation: productCardEnter .24s ease both;
-}
-
 .product-empty-state {
     display: flex;
     flex-direction: column;
@@ -54,17 +50,6 @@
     color: rgba(235, 235, 235, .66);
 }
 
-@keyframes productCardEnter {
-    from {
-        opacity: 0;
-        transform: translateY(4px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 @media screen and (max-width: 767px) {
     .product-section__header {
         align-items: stretch;
@@ -79,15 +64,5 @@
     }
     .product-grid__item {
         padding: .35rem;
-        animation-name: productCardFade;
-    }
-}
-
-@keyframes productCardFade {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
     }
 }

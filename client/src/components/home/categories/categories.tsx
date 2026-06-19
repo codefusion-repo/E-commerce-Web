@@ -8,6 +8,37 @@ import {
 
 import "./categories.css";
 import Link from "next/link";
+import type { CSSProperties } from "react";
+import { useViewportReveal } from "../../../hooks/useViewportReveal";
+
+function CategoryRevealCard({
+  category,
+  index,
+}: {
+  category: CategoryType | SubategoryType;
+  index: number;
+}) {
+  const revealRef = useViewportReveal();
+  const revealStyle = {
+    "--reveal-order": index % 6,
+  } as CSSProperties;
+
+  return (
+    <Link
+      ref={revealRef}
+      href={`/shop/${category.slug}`}
+      className="category-card reveal reveal--slide-up flex column f-width-m a-center t-center j-start gap-xxs padding-xs"
+      style={revealStyle}
+    >
+      <img
+        className="category-card__image f-width-s f-height-s border-radius-xs"
+        src={`${category.icon}`}
+        alt={category.name}
+      />
+      <h3>{category.name}</h3>
+    </Link>
+  );
+}
 
 export default function Categories({
   header,
@@ -27,19 +58,12 @@ export default function Categories({
         <h1>{header}</h1>
       </div>
       <div className="categories-grid flex box-xxl wrap a-center j-center padding-s">
-        {categories.map((category) => (
-          <Link
-            href={`/shop/${category.slug}`}
-            className="category-card flex column f-width-m a-center t-center j-start gap-xxs padding-xs"
+        {categories.map((category, index) => (
+          <CategoryRevealCard
             key={category.id}
-          >
-            <img
-              className="category-card__image f-width-s f-height-s border-radius-xs"
-              src={`${category.icon}`}
-              alt={category.name}
-            />
-            <h3>{category.name}</h3>
-          </Link>
+            category={category}
+            index={index}
+          />
         ))}
       </div>
     </section>

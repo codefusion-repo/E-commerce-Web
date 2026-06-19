@@ -10,15 +10,27 @@ import { useShopcart } from "../../../../../context/shopcart/shopcartContext";
 import { ProductType } from "../../../../../interfaces/shop/shopInterface";
 import { useMobile } from "../../../../../context/mobile/mobileContext";
 import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
+import { useViewportReveal } from "../../../../../hooks/useViewportReveal";
 import fallbackProductImage from "../../../../../assets/how-buy/exampleProduct.png";
 
 const FilteredProductCard: React.FC<{
   product: ProductType;
-}> = ({ product }) => {
+  entryOrder?: number;
+}> = ({ product, entryOrder = 0 }) => {
   const { device } = useMobile();
   const { setIsOpen } = useShop();
   const { addItem } = useShopcart();
   const [isAdded, setIsAdded] = useState(false);
+  const [revealed, setRevealed] = useState(false);
+  // Render the reveal's visible class through React state so re-renders never
+  // strip it and hide the card. useViewportReveal stays the standard trigger.
+  const entryRevealRef = useViewportReveal({
+    onReveal: () => setRevealed(true),
+  });
+  const entryStyle = {
+    "--reveal-order": entryOrder % 6,
+  } as CSSProperties;
   const primaryCategory = product.categories && product.categories[0];
   const productHref = primaryCategory
     ? `/shop/${primaryCategory.slug}/${product.slug}`
@@ -40,12 +52,16 @@ const FilteredProductCard: React.FC<{
 
   return (
     <article
+      ref={entryRevealRef}
       key={product.id}
-      className={`filtered-product-card ${
+      className={`filtered-product-card reveal reveal--slide-up ${
+        revealed ? "is-visible" : ""
+      } ${
         device > 1
           ? "f-width-l f-height-xxl"
           : "filtered-product-card--compact f-width-xl f-height-xxl"
       } column relative hidden ${isAdded ? "filtered-product-card--added" : ""}`}
+      style={entryStyle}
     >
       <Link
         className="filtered-product-card__image-link flex box-xxl padding-xs"

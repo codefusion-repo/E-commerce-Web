@@ -6,6 +6,24 @@
     transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
 }
 
+/* Site-standard viewport reveal (see productCard.css for rationale). */
+.filtered-product-card.reveal {
+    transition:
+        opacity .36s ease,
+        transform .36s cubic-bezier(.2, .7, .2, 1),
+        border-color .2s ease,
+        box-shadow .2s ease;
+    transition-delay:
+        calc(var(--reveal-order) * 50ms),
+        calc(var(--reveal-order) * 50ms),
+        0ms,
+        0ms;
+}
+
+.filtered-product-card.reveal--slide-up:not(.is-visible) {
+    transform: translate3d(0, 14px, 0);
+}
+
 .filtered-product-card:hover,
 .filtered-product-card:focus-within {
     border-color: var(--surface-border-strong);
@@ -94,7 +112,7 @@
 
 @keyframes filteredProductToast {
     from {
-        opacity: 0;
+        opacity: .96;
         transform: translateY(-6px);
     }
     to {
@@ -177,5 +195,16 @@
         margin: .25rem .75rem 0;
         padding: .22rem .48rem;
         font-size: .72rem;
+    }
+    .filtered-product-card.reveal {
+        transition-duration: .28s, .28s, .2s, .2s;
+        transition-delay:
+            calc(var(--reveal-order) * 28ms),
+            calc(var(--reveal-order) * 28ms),
+            0ms,
+            0ms;
+    }
+    .filtered-product-card.reveal--slide-up:not(.is-visible) {
+        transform: translate3d(0, 6px, 0);
     }
 }

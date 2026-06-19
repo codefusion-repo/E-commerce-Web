@@ -482,8 +482,12 @@ export default function ShopNavbar() {
             {!loading ? (
               <div className="products">
                 {currentItems &&
-                  currentItems.map((product) => (
-                    <FilteredProductCard key={product.id} product={product} />
+                  currentItems.map((product, index) => (
+                    <FilteredProductCard
+                      key={product.id}
+                      product={product}
+                      entryOrder={index}
+                    />
                   ))}
               </div>
             ) : (

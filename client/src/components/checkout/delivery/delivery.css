@@ -1,4 +1,16 @@
 /* DELIVERY STYLE */
+.delivery-panel {
+    min-height: 320px;
+}
+
+.delivery-panel > div {
+    width: 100%;
+}
+
+.delivery-panel h1 {
+    font-size: 1.35rem;
+}
+
 .checkbox {
     display: flex;
     align-items: center;
@@ -62,10 +74,10 @@
     height: 25px;
 }
 .address-error h3 {
-    color: red;
+    color: var(--danger-text);
 }
 .address-info  {
-    color: green;
+    color: var(--success-text);
     width: 100%;
 }
 .address-loading {

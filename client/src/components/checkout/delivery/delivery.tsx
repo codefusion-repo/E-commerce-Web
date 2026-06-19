@@ -1,7 +1,7 @@
 "use client";
 // delivery.tsx
 
-//import "./delivery.css";
+import "./delivery.css";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useModal } from "../../../context/modal/modalContext";
@@ -77,7 +77,7 @@ export default function Delivery() {
   return (
     <>
       {isAuthenticated && (
-        <div className="flex box-xxl column a-start j-start">
+        <div className="delivery-panel flex box-xxl column a-start j-start">
           {status === "selected" && <Selected setStatus={setStatus} />}
           {status === "default" && (
             <Default setStatus={setStatus} setAddress={setAddress} />

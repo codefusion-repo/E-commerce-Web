@@ -1,7 +1,7 @@
 "use client";
 // payment.tsx
 
-//import "./payment.css";
+import "./payment.css";
 import { useAuth } from "../../../context/auth/authContext";
 import { useEffect, useState } from "react";
 import Flow from "./flow/flow";
@@ -40,7 +40,7 @@ export default function Payment() {
       {isAuthenticated && (
         <div className="flex box-xxl column a-center j-start">
           {loading && (
-            <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
+            <div className="payment-alert payment-alert--loading flex box-xxl m-height-xxs column a-center j-center padding-xxs">
               <Image
                 className="f-height-xxs"
                 src={loadingGif}
@@ -49,25 +49,29 @@ export default function Payment() {
             </div>
           )}
           {error && (
-            <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
+            <div
+              className="payment-alert payment-alert--error flex box-xxl m-height-xxs column a-center j-center padding-xxs"
+              role="alert"
+            >
               <h4>{error}</h4>
             </div>
           )}
           <div
-            className={`flex ${
+            className={`payment-methods flex ${
               device > 1
                 ? "box-xl wrap margin-t-l margin-b-l"
                 : "box-xxl column gap-s margin-t-s margin-b-s"
             } a-center`}
           >
             <div
-              className={`flex ${
+              className={`payment-method-card flex ${
                 device > 0 ? "box-m" : "box-xl"
               } column gap-xs padding-s`}
             >
-              <div className="flex box-xxl column a-center gap-xs">
+              <div className="payment-method-card__header flex box-xxl column a-center gap-xs">
+                <span>Available payment</span>
                 <Image
-                  className={`${
+                  className={`payment-method-card__logo ${
                     device > 0
                       ? "f-width-ml f-height-xs"
                       : "f-width-m f-height-xs"
@@ -75,10 +79,10 @@ export default function Payment() {
                   src={FlowIcon}
                   alt="FlowIcon"
                 />
-                <h5>Recommended demo payment through Flow.</h5>
+                <h5>Flow is the active checkout provider.</h5>
               </div>
 
-              <div className="flex box-xxl a-center j-center">
+              <div className="payment-method-card__action flex box-xxl a-center j-center">
                 <Flow
                   setError={setError}
                   setLoading={setLoading}

@@ -1,7 +1,7 @@
 "use client";
 // default.tsx
 
-//import "./defaultAddress.css";
+import "./defaultAddress.css";
 import { useAuth } from "../../../../context/auth/authContext";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
@@ -105,8 +105,8 @@ export default function Default({
       )}
 
       {user && user.addresses?.length > 0 ? (
-        <div className="flex box-xxl column">
-          <div className="flex box-xxl a-center j-space base-border-b">
+        <div className="default-address flex box-xxl column">
+          <div className="default-address__columns flex box-xxl a-center j-space base-border-b">
             <div className="flex box-xxl a-center j-start padding-s base-border-r">
               <h4>Address</h4>
             </div>
@@ -121,9 +121,9 @@ export default function Default({
           {user.addresses.map((address, index) => (
             <div
               key={index}
-              className={`flex box-xxl ${
+              className={`default-address__row flex box-xxl ${
                 index + 1 != user.addresses.length ? "base-border-b" : ""
-              }`}
+              } ${address.isDefault ? "default-address__row--selected" : ""}`}
             >
               <div className="flex box-xxl column padding-s gap-xxs">
                 <h4>
@@ -144,6 +144,8 @@ export default function Default({
                   form="none"
                   onClick={() => onChangeDefaultAddress(address.id)}
                   className="checkbox"
+                  type="button"
+                  aria-label={`Set ${address.streetName} as default address`}
                 >
                   {address.isDefault ? (
                     <div className={"checkbox-center-active"}></div>
@@ -161,6 +163,8 @@ export default function Default({
                 <button
                   className="btn-small"
                   onClick={() => handleRemoveAddress(address)}
+                  type="button"
+                  aria-label={`Remove ${address.streetName}`}
                 >
                   <FaRegTrashAlt
                     className={`${device > 1 ? "zoom-out-xxl" : "zoom-out-m"}`}
@@ -169,6 +173,8 @@ export default function Default({
                 <button
                   className="btn-small"
                   onClick={() => handleAddresEditor(address)}
+                  type="button"
+                  aria-label={`Edit ${address.streetName}`}
                 >
                   <FaEdit
                     className={`${device > 1 ? "zoom-out-xxl" : "zoom-out-m"}`}
@@ -180,7 +186,11 @@ export default function Default({
 
           <div className="flex box-xxl a-center j-center gap-m padding-xxs margin-t-xxs">
             {user.addresses.length < 3 && (
-              <button onClick={() => setStatus("add")} className="btn-middle">
+              <button
+                onClick={() => setStatus("add")}
+                className="btn-middle"
+                type="button"
+              >
                 <h4>Add</h4>
               </button>
             )}
@@ -189,6 +199,7 @@ export default function Default({
                 disabled={loading}
                 className="btn-middle btn-active"
                 onClick={() => selectedAddress()}
+                type="button"
               >
                 <h4>Continue</h4>
               </button>
@@ -201,6 +212,7 @@ export default function Default({
           <button
             onClick={() => setStatus("add")}
             className="btn-middle btn-active"
+            type="button"
           >
             <h4>Add</h4>
           </button>

@@ -80,7 +80,6 @@ export const ShopcartProvider: React.FC<{
     const cart = localStorage.getItem("cart");
     if (cart) {
       const localCart = JSON.parse(cart);
-      console.log("Local data:", localCart);
       setItems(localCart.items);
       setCoupon(localCart.coupon);
     }
@@ -158,21 +157,12 @@ export const ShopcartProvider: React.FC<{
       });
       setSubtotal(s);
 
-      console.log("subtotal: ", s);
-      console.log("deliveryPrice: ", deliveryPrice);
-
       let t = 0;
 
       t = s + deliveryPrice;
 
-      console.log("total: ", t);
-
       let discount: number = 0;
       if (coupon) {
-        console.log(
-          "coupon.coupon.discount_type: ",
-          coupon.coupon.discount_type
-        );
         if (coupon.coupon.discount_type === "value") {
           discount = coupon.coupon.discount_value;
         } else if (coupon.coupon.discount_type === "percent") {
@@ -182,12 +172,7 @@ export const ShopcartProvider: React.FC<{
         }
       }
 
-      console.log("discount: ", discount);
-      console.log("total: ", t);
-
       t = t - discount;
-
-      console.log("t: ", t);
 
       setTotal(t);
     };

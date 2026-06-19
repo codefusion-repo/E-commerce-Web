@@ -2,6 +2,7 @@
 
 import { postJWTAccessTokenInPage } from "../../../../../context/auth/api/action";
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 import {
   EmailAuthProvider,
   reauthenticateWithCredential,
@@ -70,7 +71,7 @@ export const postSetPassword = (
 
             axios
               .post(
-                `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/set/password`,
+                clientApiUrl(`/api/user/set/password`),
                 setPasswordFormData,
                 config
               )
@@ -117,7 +118,7 @@ export const postSetPassword = (
             };
             axios
               .post(
-                `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/set/password`,
+                clientApiUrl(`/api/user/set/password`),
                 setPasswordFormData,
                 config
               )

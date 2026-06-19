@@ -1,6 +1,7 @@
 // `components/auth/register/api/action.ts`
 
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 import {
   Auth,
   FacebookAuthProvider,
@@ -130,7 +131,7 @@ const postRegisterForm = async (
 
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/my/auth/register`,
+        clientApiUrl(`/api/my/auth/register`),
         registerFormData,
         config
       )

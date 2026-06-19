@@ -1,5 +1,6 @@
 import { ProductType } from "../../../../../../interfaces/shop/shopInterface";
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 
 export const getProducts = (): Promise<ProductType[]> => {
   return new Promise((resolve, reject) => {
@@ -9,7 +10,7 @@ export const getProducts = (): Promise<ProductType[]> => {
       },
     };
     axios
-      .get(`${process.env.NEXT_PUBLIC_URL_PRO}/api/shop/get/products`, config)
+      .get(clientApiUrl(`/api/shop/get/products`), config)
       .then((res) => {
         return resolve(res.data.products);
       });

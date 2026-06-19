@@ -1,6 +1,7 @@
 // `components/navigation/navbar/api/action.ts`
 
 import { orderProducts } from "../../../../components/shop/api/action";
+import { clientApiUrl } from "@/utils/api";
 import {
   CategoryType,
   ProductType,
@@ -162,7 +163,7 @@ export const postProductsCategoriesSearch = (
     };
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/home/post/search`,
+        clientApiUrl(`/api/home/post/search`),
         filterFormData,
         config
       )

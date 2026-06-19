@@ -1,5 +1,6 @@
 import { PostType } from "../../../../../../../interfaces/blog/blogInterface";
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 
 export const getPosts = (): Promise<PostType[]> => {
   return new Promise((resolve, reject) => {
@@ -9,7 +10,7 @@ export const getPosts = (): Promise<PostType[]> => {
       },
     };
     axios
-      .get(`${process.env.NEXT_PUBLIC_URL_PRO}/api/blog/get/posts`, config)
+      .get(clientApiUrl(`/api/blog/get/posts`), config)
       .then((res) => {
         return resolve(res.data.posts);
       });

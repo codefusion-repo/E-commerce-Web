@@ -3,6 +3,7 @@
 import axios from "axios";
 import { isPossiblePhoneNumber } from "react-phone-number-input";
 import { postJWTAccessTokenInPage } from "../../../../context/auth/api/action";
+import { clientApiUrl } from "../../../../utils/api";
 
 // Función para obtener la información actualizada del usuario
 export const getProfile = (
@@ -23,10 +24,7 @@ export const getProfile = (
         };
 
         axios
-          .get(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/get/profile`,
-            config
-          )
+          .get(clientApiUrl("/api/user/get/profile"), config)
           .then((res) => {
             return resolve(res);
           })
@@ -52,7 +50,7 @@ export const getProfile = (
       };
 
       axios
-        .get(`${process.env.NEXT_PUBLIC_URL_PRO}/api/user/get/profile`, config)
+        .get(clientApiUrl(`/api/user/get/profile`), config)
         .then((res) => {
           return resolve(res);
         })
@@ -168,7 +166,7 @@ export const postProfileEditor = (
 
             axios
               .post(
-                `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/profile/editor`,
+                clientApiUrl("/api/user/profile/editor"),
                 profileEditorFormData,
                 config
               )
@@ -214,7 +212,7 @@ export const postProfileEditor = (
 
           axios
             .post(
-              `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/profile/editor`,
+              clientApiUrl(`/api/user/profile/editor`),
               profileEditorFormData,
               config
             )

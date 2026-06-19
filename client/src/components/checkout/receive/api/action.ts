@@ -2,6 +2,7 @@
 
 import { postJWTAccessTokenInPage } from "../../../../context/auth/api/action";
 import axios from "axios";
+import { clientApiUrl } from "../../../../utils/api";
 
 export const postReceiveMercadopago = (
   paymentId: string,
@@ -27,7 +28,7 @@ export const postReceiveMercadopago = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/payment/receive/mercadopago`,
+            clientApiUrl("/api/payment/receive/mercadopago"),
             receivePaymentFormData,
             config
           )
@@ -72,12 +73,11 @@ export const postReceiveFlow = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/payment/receive/flow`,
+            clientApiUrl("/api/payment/receive/flow"),
             receivePaymentFormData,
             config
           )
           .then((res) => {
-            console.log("res: ", res);
             return resolve(res.data);
           })
           .catch((err) => {

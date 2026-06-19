@@ -1,5 +1,6 @@
 import axios from "axios";
 import { User } from "firebase/auth";
+import { clientApiUrl } from "@/utils/api";
 
 export const postResendVerifyCode = (user: User | null): Promise<void> => {
   return new Promise((resolve, reject) => {
@@ -17,7 +18,7 @@ export const postResendVerifyCode = (user: User | null): Promise<void> => {
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/resend/verify/code`,
+            clientApiUrl(`/api/user/resend/verify/code`),
             verifyCodeFormData,
             config
           )

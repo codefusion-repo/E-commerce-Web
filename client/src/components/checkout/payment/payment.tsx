@@ -77,7 +77,7 @@ export default function Payment() {
                   src={FlowIcon}
                   alt="FlowIcon"
                 />
-                <h5>Pay with a secure link through Flow.</h5>
+                <h5>Recommended demo payment through Flow.</h5>
               </div>
 
               <div className="flex box-xxl a-center j-center">
@@ -103,7 +103,7 @@ export default function Payment() {
                   src={MercadopagoIcon}
                   alt="MercadopagoIcon"
                 />
-                <h5>Pay with a secure link through Mercado Pago.</h5>
+                <h5>Experimental Mercado Pago sandbox payment.</h5>
               </div>
 
               <div className="flex box-xxl a-center j-center">

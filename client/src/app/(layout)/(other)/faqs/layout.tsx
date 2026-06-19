@@ -3,5 +3,5 @@
 import Faqs from "../../../../components/other/faqs/faqs";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <Faqs children={children} />;
+  return <Faqs>{children}</Faqs>;
 }

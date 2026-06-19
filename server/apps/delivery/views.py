@@ -18,7 +18,6 @@ class PostShipit(APIView):
 
 
             data = request.data 
-            print("data: ", data)
 
             url = "https://api.shipit.cl/v/rates"
 
@@ -53,8 +52,7 @@ class PostShipit(APIView):
             return Response(prices, status=status.HTTP_200_OK)
 
         except ValueError as e:
-            print(e)
-            return Response({'detail': e}, status=status.HTTP_400_BAD_REQUEST)               
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Función para agregar una dirección de envio
@@ -98,8 +96,7 @@ class AddAddress(APIView):
             
             return Response({'detail': 'Added address'}, status=status.HTTP_200_OK)            
         except ValueError as e:
-            print(e)
-            return Response({'detail': e}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 # Función para editar una dirección de envio   
 class AddressEditor(APIView):
@@ -136,8 +133,7 @@ class AddressEditor(APIView):
 
             return Response({'detail': 'Updated address'}, status=status.HTTP_200_OK) 
         except ValueError as e:
-            print(e)
-            return Response({'detail': e}, status=status.HTTP_400_BAD_REQUEST)          
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 # Función para borrar una dirección de envio
 class DeleteAddress(APIView):
@@ -154,8 +150,7 @@ class DeleteAddress(APIView):
             else:
                 raise ValueError('Address not found')               
         except ValueError as e:
-            print(e)
-            return Response({'detail': e}, status=status.HTTP_400_BAD_REQUEST) 
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 # Función para cambiar la dirección de envio predeterminada       
 class SetDefaultAddress(APIView):
@@ -172,5 +167,4 @@ class SetDefaultAddress(APIView):
             else:
                 raise ValueError('Address not found')    
         except ValueError as e:
-            print(e)
-            return Response({'detail': e}, status=status.HTTP_400_BAD_REQUEST)           
+            return Response({'detail': str(e)}, status=status.HTTP_400_BAD_REQUEST)

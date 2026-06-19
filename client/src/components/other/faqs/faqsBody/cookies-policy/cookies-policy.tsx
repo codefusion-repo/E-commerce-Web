@@ -16,7 +16,7 @@ export default function CookiesPolicy() {
           entails the obligation of websites to adapt to the new cookie
           regulations of Law 34/2002, on information society services and
           electronic commerce. The downloading of this type of elements implies
-          the ability to collect information on the user's activity and has
+          the ability to collect information on the user&apos;s activity and has
           implications in relation to their privacy. Therefore, the new
           regulations impose the obligation to obtain informed consent from
           users to accept the use of cookies on websites.
@@ -26,7 +26,7 @@ export default function CookiesPolicy() {
           Cookies are small files that are downloaded to your computer when you
           browse websites. A simple example would be when you enter the page of
           a web email account such as Gmail, Outlook or Yahoo Mail. Cookies
-          allow a website to recognize a user's browser and do not contain or
+          allow a website to recognize a user&apos;s browser and do not contain or
           collect information. They are used, for example, to keep the user
           authenticated in an account like the ones above without having to
           authenticate each time they access their account. At

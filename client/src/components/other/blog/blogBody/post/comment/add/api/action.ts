@@ -2,6 +2,7 @@
 
 import { postJWTAccessTokenInPage } from "../../../../../../../../context/auth/api/action";
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 
 export const postComment = (
   stars: number,
@@ -31,7 +32,7 @@ export const postComment = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/blog/create/comment`,
+            clientApiUrl(`/api/blog/create/comment`),
             commentFormData,
             config
           )

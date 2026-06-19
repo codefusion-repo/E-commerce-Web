@@ -39,7 +39,7 @@ export default function Profile({ children }: { children: React.ReactNode }) {
         <div className="flex box-xxl f-height-xxxl a-start j-center navbar-p-xs">
           <div className="flex f-width-xxxl f-height-l column a-center j-center gap-s second-bg border-radius-xs">
             <h1>Not authenticated</h1>
-            <h2>You don't have access to this page, please log in again</h2>
+            <h2>You don&apos;t have access to this page, please log in again</h2>
             <button
               onClick={() => openModal("login", null)}
               className="btn-middle btn-active"

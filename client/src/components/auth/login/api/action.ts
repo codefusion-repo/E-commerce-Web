@@ -1,6 +1,7 @@
 // `components/auth/login/api/action.ts`
 
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 import {
   Auth,
   FacebookAuthProvider,
@@ -61,7 +62,7 @@ const postLoginForm = async (token: string, email: string): Promise<any> => {
 
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/my/auth/login`,
+        clientApiUrl(`/api/my/auth/login`),
         loginFormData,
         config
       )

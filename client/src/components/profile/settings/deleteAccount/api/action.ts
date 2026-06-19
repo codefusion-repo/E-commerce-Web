@@ -2,6 +2,7 @@
 
 import { postJWTAccessTokenInPage } from "../../../../../context/auth/api/action";
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 
 // Función para borrar al usuario y recibir el n° de confirmación
 export const postDeleteAccount = (
@@ -23,7 +24,7 @@ export const postDeleteAccount = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/delete/account`,
+            clientApiUrl(`/api/user/delete/account`),
             null,
             config
           )
@@ -53,7 +54,7 @@ export const postDeleteAccount = (
 
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/delete/account`,
+          clientApiUrl(`/api/user/delete/account`),
           null,
           config
         )
@@ -103,7 +104,7 @@ export const postDeleteAccountConfirm = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/receive/delete/account`,
+            clientApiUrl(`/api/user/receive/delete/account`),
             deleteAccountFormData,
             config
           )
@@ -141,7 +142,7 @@ export const postDeleteAccountConfirm = (
       };
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/receive/delete/account`,
+          clientApiUrl(`/api/user/receive/delete/account`),
           deleteAccountFormData,
           config
         )

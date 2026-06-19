@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { postJWTAccessTokenInPage } from "../../../../../context/auth/api/action";
+import { clientApiUrl } from "../../../../../utils/api";
 
 // Función para editar una dirección
 export const postAddressEditor = (
@@ -54,7 +55,7 @@ export const postAddressEditor = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/delivery/address/editor`,
+            clientApiUrl("/api/delivery/address/editor"),
             addressEditorFormData,
             config
           )

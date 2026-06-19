@@ -1,6 +1,7 @@
 // `app/(layout)/(home)/page.tsx` is the UI for the `/` URL
 
 import Home from "../../../components/home/home";
+import { serverApiUrl } from "../../../utils/api";
 
 // Función para obtener los banners del inicio
 async function getBanners() {
@@ -9,11 +10,9 @@ async function getBanners() {
   };
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_DOCKER}/api/home/get/banners`,
-      // { cache: "no-store" }
-      { next: { revalidate: 1600 } }
-    );
+    const res = await fetch(serverApiUrl("/api/home/get/banners"), {
+      next: { revalidate: 1600 },
+    });
     if (res.status === 200) {
       const data = await res.json();
       homeData.banners = data.banners;

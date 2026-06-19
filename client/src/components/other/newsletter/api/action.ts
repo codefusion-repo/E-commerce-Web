@@ -1,6 +1,7 @@
 // `components/other/newsletter/api/action.ts`
 
 import axios from "axios";
+import { clientApiUrl } from "@/utils/api";
 
 export const postNewsletter = (email: string): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -15,7 +16,7 @@ export const postNewsletter = (email: string): Promise<string> => {
 
     axios
       .post(
-        `${process.env.NEXT_PUBLIC_URL_PRO}/api/contact/user/in/newsletter`,
+        clientApiUrl(`/api/contact/user/in/newsletter`),
         newsletterFormData,
         config
       )

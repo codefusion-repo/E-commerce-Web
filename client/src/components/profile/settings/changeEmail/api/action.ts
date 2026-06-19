@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { postJWTAccessTokenInPage } from "../../../../../context/auth/api/action";
+import { clientApiUrl } from "@/utils/api";
 
 // Función para cambiar el email
 export const postChangeEmail = (
@@ -28,7 +29,7 @@ export const postChangeEmail = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/change/email`,
+            clientApiUrl(`/api/user/change/email`),
             changeEmailFormData,
             config
           )
@@ -60,7 +61,7 @@ export const postChangeEmail = (
       };
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/change/email`,
+          clientApiUrl(`/api/user/change/email`),
           changeEmailFormData,
           config
         )
@@ -110,7 +111,7 @@ export const postChangeEmailCode = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/receive/change/email`,
+            clientApiUrl(`/api/user/receive/change/email`),
             changeEmailCodeFormData,
             config
           )
@@ -148,7 +149,7 @@ export const postChangeEmailCode = (
       };
       axios
         .post(
-          `${process.env.NEXT_PUBLIC_URL_PRO}/api/user/receive/change/email`,
+          clientApiUrl(`/api/user/receive/change/email`),
           changeEmailCodeFormData,
           config
         )

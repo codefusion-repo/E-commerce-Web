@@ -3,6 +3,7 @@
 import axios from "axios";
 import { isPossiblePhoneNumber } from "react-phone-number-input";
 import { postJWTAccessTokenInPage } from "../../../../../context/auth/api/action";
+import { clientApiUrl } from "../../../../../utils/api";
 
 // Función para verificar el n° de celular
 const verifyPhone = (inputPhone: string) => {
@@ -102,7 +103,7 @@ export const postAddAddress = (
 
         axios
           .post(
-            `${process.env.NEXT_PUBLIC_URL_PRO}/api/delivery/add/address`,
+            clientApiUrl("/api/delivery/add/address"),
             addressFormData,
             config
           )
@@ -157,7 +158,7 @@ export const postAddAddress = (
 
           axios
             .post(
-              `${process.env.NEXT_PUBLIC_URL_PRO}/api/delivery/add/address`,
+              clientApiUrl(`/api/delivery/add/address`),
               addressFormData,
               config
             )

@@ -37,62 +37,45 @@ export default function Home({ banners }: { banners: BannerType[] }) {
     <main className="home-page">
       <section className="home-hero" aria-labelledby="home-hero-title">
         <div className="home-hero__content">
-          <span className="home-kicker">CodeFusion commerce demo</span>
+          <span className="home-kicker">Demo e-commerce CodeFusion</span>
           <h1 id="home-hero-title">
-            A polished storefront for fast catalog browsing and guided checkout.
+            Catálogo, carrito y checkout Flow en una demo lista para probar
           </h1>
           <p>
-            Curated product discovery, cart feedback, eligible coupons and a
-            Flow checkout path in one lightweight public demo.
+            Explora productos, agrega al carrito, aplica cupones y completa una
+            compra de prueba con Flow. La demo muestra una experiencia real de
+            tienda online sin depender de datos sensibles.
           </p>
           <div className="home-hero__actions">
             <Link href="/shop" className="btn-middle btn-active home-hero__cta">
-              Shop catalog
+              Ver catálogo
             </Link>
             <Link href="/shopcart" className="btn-middle home-hero__cta">
-              View cart
+              Probar carrito
             </Link>
-          </div>
-          <div className="home-hero__stats" aria-label="Store highlights">
-            <div>
-              <strong>{products.length}</strong>
-              <span>Products</span>
-            </div>
-            <div>
-              <strong>{categories.length}</strong>
-              <span>Categories</span>
-            </div>
-            <div>
-              <strong>Flow</strong>
-              <span>Payment</span>
-            </div>
           </div>
         </div>
 
         <div className="home-hero__media">
-          <img src={logo.src} alt="CodeFusion storefront preview" />
-          <div className="home-hero__receipt" aria-label="Checkout summary">
-            <span>Checkout path</span>
-            <strong>Address, Shipping, Coupons, Flow</strong>
-          </div>
+          <img src={logo.src} alt="Vista previa de la demo e-commerce" />
         </div>
       </section>
 
       <section className="home-proof-strip" aria-label="Shopping flow">
         <div>
           <span>01</span>
-          <strong>Browse</strong>
-          <p>Responsive cards, categories and clear actions.</p>
+          <strong>Catálogo</strong>
+          <p>Cards responsivas con precio, categorías y acciones claras.</p>
         </div>
         <div>
           <span>02</span>
-          <strong>Build cart</strong>
-          <p>Quantity changes surface immediate feedback.</p>
+          <strong>Carrito</strong>
+          <p>Cantidad, subtotal y estados vacíos visibles en desktop y mobile.</p>
         </div>
         <div>
           <span>03</span>
-          <strong>Checkout</strong>
-          <p>Address, shipping, coupon and Flow stay connected.</p>
+          <strong>Flow</strong>
+          <p>Dirección, envío, cupones y pago Flow en un flujo único.</p>
         </div>
       </section>
 

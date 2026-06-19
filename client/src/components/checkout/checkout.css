@@ -7,7 +7,7 @@
     background: var(--surface-bg-strong);
     border: 1px solid var(--surface-border);
     border-radius: 8px;
-    box-shadow: 0 20px 46px rgba(0, 0, 0, .2);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .18);
 }
 
 .checkout-steps {
@@ -19,7 +19,7 @@
     gap: .75rem;
     border-right: 1px solid var(--surface-border);
     background: rgba(255, 255, 255, .025);
-    transition: background .25s ease;
+    transition: background .2s ease, border-color .2s ease;
 }
 
 .checkout-step:last-child {
@@ -95,6 +95,12 @@
 .checkout-summary__products {
     padding: .85rem;
     background: rgba(255, 255, 255, .03);
+    transition: border-color .2s ease, background .2s ease;
+}
+
+.checkout-summary__products:focus-within {
+    border-color: var(--surface-border-strong);
+    background: rgba(255, 255, 255, .045);
 }
 
 .checkout-summary__products h3 {
@@ -136,7 +142,8 @@
 @media screen and (max-width: 640px) {
     .checkout-steps,
     .checkout-shell {
-        width: 90%;
+        width: 92%;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, .16);
     }
     .checkout-step__marker {
         width: 30px;

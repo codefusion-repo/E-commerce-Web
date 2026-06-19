@@ -42,7 +42,9 @@ const FilteredProductCard: React.FC<{
     <article
       key={product.id}
       className={`filtered-product-card ${
-        device > 1 ? "f-width-l f-height-xxl" : "f-width-ml f-height-xl"
+        device > 1
+          ? "f-width-l f-height-xxl"
+          : "filtered-product-card--compact f-width-xl f-height-xxl"
       } column relative hidden ${isAdded ? "filtered-product-card--added" : ""}`}
     >
       <Link
@@ -75,7 +77,7 @@ const FilteredProductCard: React.FC<{
           Added
         </div>
       )}
-      <div className="filtered-product-card__footer flex box-xxl absolute f-bottom a-center j-center t-center gap-ms padding-ms">
+      <div className="filtered-product-card__footer flex box-xxl a-center j-center t-center gap-ms padding-ms">
         <div
           className={`flex ${
             device > 1 ? "box-m" : "box-xxl"
@@ -94,20 +96,20 @@ const FilteredProductCard: React.FC<{
           } a-center j-center gap-s`}
         >
           <Link
-            className="btn-small btn-active scale-s"
+            className="btn-small btn-active filtered-product-card__button"
             href={productHref}
             onClick={() => setIsOpen(false)}
             aria-label={`Open ${product.name}`}
           >
-            <FaLink className="zoom-in-xxl" />
+            <FaLink />
           </Link>
           <button
             type="button"
-            className="btn-small btn-active scale-s"
+            className="btn-small btn-active filtered-product-card__button"
             onClick={handleAddItem}
             aria-label={`Add ${product.name} to cart`}
           >
-            <MdAddShoppingCart className="zoom-in-xxl" />
+            <MdAddShoppingCart />
           </button>
         </div>
       </div>

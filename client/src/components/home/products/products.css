@@ -31,7 +31,7 @@
 }
 
 .product-grid__item {
-    animation: productCardEnter .34s ease both;
+    animation: productCardEnter .24s ease both;
 }
 
 .product-empty-state {
@@ -57,7 +57,7 @@
 @keyframes productCardEnter {
     from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(4px);
     }
     to {
         opacity: 1;
@@ -71,5 +71,17 @@
     }
     .product-section__select {
         width: 100%;
+    }
+    .product-grid__item {
+        animation-name: productCardFade;
+    }
+}
+
+@keyframes productCardFade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

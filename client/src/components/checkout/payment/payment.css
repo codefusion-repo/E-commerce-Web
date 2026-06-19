@@ -15,7 +15,7 @@
     background: rgba(255, 255, 255, .035);
     border: 1px solid var(--surface-border-strong);
     border-radius: 8px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, .18);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .16);
 }
 
 .payment-method-card__header span {
@@ -41,7 +41,7 @@
 
 .payment-flow-button {
     border: 1px solid var(--surface-border-strong);
-    transition: box-shadow .2s ease, transform .2s ease;
+    transition: box-shadow .16s ease, transform .16s ease;
 }
 
 .payment-flow-button:hover,
@@ -53,4 +53,14 @@
 .payment-flow-button:disabled {
     cursor: wait;
     transform: none;
+}
+
+@media screen and (max-width: 640px) {
+    .payment-method-card {
+        box-shadow: 0 8px 22px rgba(0, 0, 0, .14);
+    }
+    .payment-flow-button:hover,
+    .payment-flow-button:focus-visible {
+        transform: none;
+    }
 }

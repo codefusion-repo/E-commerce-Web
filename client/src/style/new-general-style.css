@@ -1412,6 +1412,37 @@ input::-webkit-outer-spin-button {
     border: 0;
 }
 
+@media (hover: none), screen and (max-width: 640px) {
+    .zoom-in-xxs:hover,
+    .zoom-out-xxs:hover {
+        transform: scale(var(--xxs-scale));
+    }
+    .zoom-in-xs:hover,
+    .zoom-out-xs:hover {
+        transform: scale(var(--xs-scale));
+    }
+    .zoom-in-s:hover,
+    .zoom-out-s:hover {
+        transform: scale(var(--s-scale));
+    }
+    .zoom-in-m:hover,
+    .zoom-out-m:hover {
+        transform: scale(var(--m-scale));
+    }
+    .zoom-in-l:hover,
+    .zoom-out-l:hover {
+        transform: scale(var(--l-scale));
+    }
+    .zoom-in-xl:hover,
+    .zoom-out-xl:hover {
+        transform: scale(var(--xl-scale));
+    }
+    .zoom-in-xxl:hover,
+    .zoom-out-xxl:hover {
+        transform: scale(var(--xxl-scale));
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;

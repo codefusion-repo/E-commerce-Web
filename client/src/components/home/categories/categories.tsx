@@ -38,7 +38,6 @@ export default function Categories({
               src={`${category.icon}`}
               alt={category.name}
             />
-            <span className="category-card__label">{category.type}</span>
             <h3>{category.name}</h3>
           </Link>
         ))}

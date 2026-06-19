@@ -16,22 +16,12 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
   const { device } = useMobile();
   const { addItem } = useShopcart();
   const [isAdded, setIsAdded] = useState(false);
-  const formatBadgeLabel = (value: string) =>
-    value
-      .replace(/[_-]/g, " ")
-      .replace(/\b\w/g, (letter) => letter.toUpperCase());
 
   const primaryCategory = product.categories && product.categories[0];
   const productHref = primaryCategory
     ? `/shop/${primaryCategory.slug}/${product.slug}`
     : "/shop";
-  const badgeLabel =
-    product.status && product.status !== "published"
-      ? product.status
-      : product.views > 0
-      ? "Popular"
-      : "Demo pick";
-  const badgeText = formatBadgeLabel(badgeLabel);
+  const badgeText = product.status === "on_sale" ? "En oferta" : "";
 
   useEffect(() => {
     if (!isAdded) {
@@ -51,7 +41,9 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
     <article
       key={product.id}
       className={`product-card ${
-        device > 1 ? "f-width-xl f-height-xxxl" : "f-width-ml f-height-xxl"
+        device > 1
+          ? "f-width-xl f-height-xxxl"
+          : "product-card--compact f-width-xl f-height-xxxl"
       } column relative hidden ${isAdded ? "product-card--added" : ""}`}
     >
       <Link
@@ -59,7 +51,7 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
         href={productHref}
         aria-label={`View ${product.name}`}
       >
-        <span className="product-card__badge">{badgeText}</span>
+        {badgeText && <span className="product-card__badge">{badgeText}</span>}
         <img
           className="product-card__image border-radius-xs"
           src={`${product.thumbnail}`}
@@ -128,21 +120,21 @@ const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
           Added to cart
         </div>
       )}
-      <div className="product-card__actions flex absolute f-bottom f-right gap-xl padding-r-m padding-b-m">
+      <div className="product-card__actions flex absolute f-bottom f-right gap-s padding-r-s padding-b-s">
         <Link
-          className="btn-small btn-active scale-xl"
+          className="btn-small btn-active product-card__button"
           href={productHref}
           aria-label={`Open ${product.name}`}
         >
-          <FaLink className="zoom-in-xxl" />
+          <FaLink />
         </Link>
         <button
           type="button"
-          className="btn-small btn-active scale-xl"
+          className="btn-small btn-active product-card__button"
           onClick={handleAddItem}
           aria-label={`Add ${product.name} to cart`}
         >
-          <MdAddShoppingCart className="zoom-in-xxl" />
+          <MdAddShoppingCart />
         </button>
       </div>
     </article>

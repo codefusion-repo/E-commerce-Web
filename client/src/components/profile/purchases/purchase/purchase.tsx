@@ -31,7 +31,7 @@ export default function Purchase({ code }: { code: string }) {
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/");
-      openModal("login", "You must be authenticated to continue");
+      openModal("login", "Debes ingresar a tu cuenta para continuar");
     }
   }, [isAuthenticated, openModal, router]);
 
@@ -88,23 +88,25 @@ export default function Purchase({ code }: { code: string }) {
   return (
     <div className="flex box-xxl wrap j-center a-start">
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-        <h2>Purchase order</h2>
-        <h4 className="padding-l-xs padding-r-xs">Code: {code.slice(3, 10)}</h4>
+        <h2>Orden de compra</h2>
         <h4 className="padding-l-xs padding-r-xs">
-          Date: {order && formatDate(order.creationDate)}
+          Codigo: {code.slice(3, 10)}
+        </h4>
+        <h4 className="padding-l-xs padding-r-xs">
+          Fecha: {order && formatDate(order.creationDate)}
         </h4>
       </div>
 
       <div className="flex box-xxl column a-center j-center padding-l-xs padding-r-xs">
         <div className="flex box-xxl f-height-xs base-border-b">
           <div className="flex box-xxl a-center j-center">
-            <h4>Product</h4>
+            <h4>Producto</h4>
           </div>
           {/*<div className="flex box-xxl a-center j-center">
             <h4>Precio c/u</h4>
           </div>*/}
           <div className="flex box-xxl a-center j-center">
-            <h4>Quantity</h4>
+            <h4>Cantidad</h4>
           </div>
           <div className="flex box-xxl a-center j-center">
             <h4>Subtotal</h4>
@@ -168,7 +170,7 @@ export default function Purchase({ code }: { code: string }) {
             }).format(order.subtotal)}
         </h4>
         <h4 className="padding-l-s padding-r-s">
-          Shipment:{" "}
+          Envio:{" "}
           {order &&
             Intl.NumberFormat("es-CL", {
               style: "currency",
@@ -177,7 +179,7 @@ export default function Purchase({ code }: { code: string }) {
         </h4>
         {order && order.discount > 0 && (
           <h4 className="padding-l-s padding-r-s">
-            Discount:{" "}
+            Descuento:{" "}
             {order &&
               Intl.NumberFormat("es-CL", {
                 style: "currency",
@@ -198,17 +200,17 @@ export default function Purchase({ code }: { code: string }) {
       {order?.coupon && (
         <div className="flex box-xxl m-height-xxs a-start j-space padding-t-xs padding-b-xs margin-l-xs margin-r-xs base-border-b">
           <h3 className="padding-l-s padding-r-s">
-            Coupon code: {order?.coupon.coupon.code || ""}
+            Codigo de cupon: {order?.coupon.coupon.code || ""}
           </h3>
           {order?.coupon?.coupon.code && (
             <h3>
               {order?.coupon.coupon.discount_type === "value" &&
-                `Discount: -${Intl.NumberFormat("es-CL", {
+                `Descuento: -${Intl.NumberFormat("es-CL", {
                   style: "currency",
                   currency: "CLP",
                 }).format(order?.coupon.coupon.discount_value)}`}
               {order?.coupon.coupon.discount_type === "percent" &&
-                `Discount: ${
+                `Descuento: ${
                   order?.coupon.coupon.discount_percent
                 }%/-${Intl.NumberFormat("es-CL", {
                   style: "currency",
@@ -220,7 +222,7 @@ export default function Purchase({ code }: { code: string }) {
                   ) / 100
                 )}`}
               {order?.coupon.coupon.discount_type === "free_delivery" &&
-                `Discount: Free delivery/-${Intl.NumberFormat("es-CL", {
+                `Descuento: envio gratis/-${Intl.NumberFormat("es-CL", {
                   style: "currency",
                   currency: "CLP",
                 }).format(order?.deliveryCost)}`}
@@ -236,19 +238,19 @@ export default function Purchase({ code }: { code: string }) {
       )}
 
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-t-xs padding-b-xs margin-l-xs margin-r-xs base-border-b">
-        <h1 className="padding-l-xxs padding-r-xxs">Shipping details</h1>
+        <h1 className="padding-l-xxs padding-r-xxs">Detalle de envio</h1>
       </div>
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-t-xs padding-b-xs margin-l-xs margin-r-xs base-border-b">
         <h4 className="padding-l-s padding-r-s">
-          Address:{" "}
+          Direccion:{" "}
           {order &&
             `${order.delivery.commune}, ${order.delivery.street}, ${order.delivery.streetNumber}`}
         </h4>
         <h4 className="padding-l-s padding-r-s">
-          Shipping number:{" "}
+          Numero de seguimiento:{" "}
           {order && order.delivery.shipmentNumber
             ? order.delivery.shipmentNumber
-            : "To be assigned"}
+            : "Por asignar"}
         </h4>
       </div>
 
@@ -257,8 +259,8 @@ export default function Purchase({ code }: { code: string }) {
         <div className="flex box-xxl column a-center margin-l-xs margin-r-xs">
           <div className="flex box-xxl m-height-xxs column a-start padding-t-xs padding-b-xs j-center base-border-b">
             <h4 className="padding-l-s padding-r-s">
-              You have not yet finalized your order, you can finalize your
-              purchase at continuation.
+              Aun no finalizas la orden. Puedes completar la compra de prueba a
+              continuacion.
             </h4>
           </div>
           <div className="padding-t-l">
@@ -285,9 +287,9 @@ export default function Purchase({ code }: { code: string }) {
                       : "f-width-m f-height-xs"
                   }`}
                   src={FlowIcon}
-                  alt="FlowIcon"
+                  alt="Flow"
                 />
-                <h5>Recommended demo payment through Flow</h5>
+                <h5>Pago recomendado para la demo a traves de Flow</h5>
               </div>
 
               <div className="flex box-xxl a-center j-center">
@@ -312,22 +314,22 @@ export default function Purchase({ code }: { code: string }) {
           <div className="flex box-xxl m-height-xxs column a-start padding-t-xs padding-b-xs j-center base-border-b">
             {order.delivery.status === "created" && (
               <h4 className="padding-l-s padding-r-s">
-                Order placed, we will send your product soon
+                Orden registrada, prepararemos el envio pronto
               </h4>
             )}
             {order.delivery.status === "receivedForCourier" && (
               <h4 className="padding-l-s padding-r-s">
-                Order received by the carrier
+                Orden recibida por el courier
               </h4>
             )}
             {order.delivery.status === "inRoute" && (
               <h4 className="padding-l-s padding-r-s">
-                Order en route to home
+                Orden en ruta al domicilio
               </h4>
             )}
             {order.delivery.status === "delivered" && (
               <h4 className="padding-l-s padding-r-s">
-                Order delivered to home
+                Orden entregada en domicilio
               </h4>
             )}
           </div>
@@ -336,7 +338,7 @@ export default function Purchase({ code }: { code: string }) {
               <button className="btn-small btn-active">
                 <LuPackageOpen className="zoom-in-xxl" />
               </button>
-              <h4>Preparing the order</h4>
+              <h4>Preparando la orden</h4>
             </div>
             <div className="flex f-width-ml a-center j-start gap-s padding-ms">
               <button
@@ -346,7 +348,7 @@ export default function Purchase({ code }: { code: string }) {
               >
                 <FiPackage className="zoom-in-xxl" />
               </button>
-              <h4>Order in process</h4>
+              <h4>Orden en proceso</h4>
             </div>
             <div className="flex f-width-ml a-center j-start gap-s padding-ms">
               <button
@@ -358,7 +360,7 @@ export default function Purchase({ code }: { code: string }) {
               >
                 <GrDeliver className="zoom-in-xxl" />
               </button>
-              <h4>Order in transit</h4>
+              <h4>Orden en transito</h4>
             </div>
             <div className="flex f-width-ml a-center j-start gap-s padding-ms">
               <button
@@ -368,7 +370,7 @@ export default function Purchase({ code }: { code: string }) {
               >
                 <FaPersonCircleCheck className="zoom-in-xxl" />
               </button>{" "}
-              <h4>Order delivered</h4>
+              <h4>Orden entregada</h4>
             </div>
           </div>
         </div>
@@ -377,24 +379,24 @@ export default function Purchase({ code }: { code: string }) {
       {order?.payment?.id && (
         <div className="flex box-xxl column a-center margin-l-xs margin-r-xs">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-t-xs padding-b-xs margin-l-xs margin-r-xs base-border-b">
-            <h1 className="padding-l-xxs padding-r-xxs">Payment details</h1>
+            <h1 className="padding-l-xxs padding-r-xxs">Detalle de pago</h1>
           </div>
 
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-t-xs padding-b-xs margin-l-xs margin-r-xs base-border-b">
             <h3 className="padding-l-s padding-r-s">Id: {order.payment.id}</h3>
             <h3 className="padding-l-s padding-r-s">
-              Date: {formatDate(order.payment.creationDate)}
+              Fecha: {formatDate(order.payment.creationDate)}
             </h3>
 
             <h3 className="padding-l-s padding-r-s">
-              Method: {formatSlugToText(order.payment.method)}
+              Metodo: {formatSlugToText(order.payment.method)}
             </h3>
             <h3 className="padding-l-s padding-r-s">
-              Medium: {formatSlugToText(order.payment.media)}
+              Medio: {formatSlugToText(order.payment.media)}
             </h3>
 
             <h3 className="padding-l-s padding-r-s">
-              Total paid:{" "}
+              Total pagado:{" "}
               {Intl.NumberFormat("es-CL", {
                 style: "currency",
                 currency: "CLP",
@@ -406,7 +408,7 @@ export default function Purchase({ code }: { code: string }) {
 
       {loading && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (

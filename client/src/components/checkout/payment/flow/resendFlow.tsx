@@ -47,7 +47,7 @@ export default function ResendFlow({
       className={`${device > 1 ? "btn-middle" : "btn-large"}  btn-active`}
       onClick={() => handleFlowPayment()}
     >
-      Pay with Flow
+      Pagar con Flow
     </button>
   );
 }

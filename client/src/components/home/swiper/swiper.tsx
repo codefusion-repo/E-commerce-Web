@@ -50,7 +50,7 @@ export default function BannerSwiper({ banners }: { banners: BannerType[] }) {
           <SwiperSlide key={banner.id}>
             <Image
               src={`${banner.thumbnail}`}
-              alt={banner.alt || "Store banner"}
+              alt={banner.alt || "Banner de la demo e-commerce"}
               width={1600}
               height={640}
               sizes="100vw"

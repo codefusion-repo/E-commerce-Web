@@ -30,7 +30,7 @@ export default function Payment() {
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/shopcart");
-      openModal("login", "You must be authenticated to continue");
+      openModal("login", "Debes ingresar a tu cuenta para continuar");
     }
   }, [isAuthenticated, openModal, router]);
 
@@ -72,7 +72,7 @@ export default function Payment() {
               } column gap-xs padding-s`}
             >
               <div className="payment-method-card__header flex box-xxl column a-center gap-xs">
-                <span>Available payment</span>
+                <span>Pago disponible</span>
                 <Image
                   className={`payment-method-card__logo ${
                     device > 0
@@ -80,9 +80,9 @@ export default function Payment() {
                       : "f-width-m f-height-xs"
                   }`}
                   src={FlowIcon}
-                  alt="FlowIcon"
+                  alt="Flow"
                 />
-                <h5>Flow is the active checkout provider.</h5>
+                <h5>Flow es el proveedor activo para esta demo.</h5>
               </div>
 
               <div className="payment-method-card__action flex box-xxl a-center j-center">

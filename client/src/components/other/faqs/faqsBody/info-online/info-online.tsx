@@ -1,93 +1,56 @@
 "use client";
-// info-online.tsx
-
 import Link from "next/link";
-// import "../faqsBody.css";
 
 export default function InfoOnline() {
   return (
     <>
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-        <h1>Faqs Online information</h1>
+        <h1>Informacion de compra online</h1>
       </div>
       <div className="flex column box-xxl a-start padding-s gap-s">
-        <h2>What are the shipping methods for online orders?</h2>
+        <h2>¿Que muestra esta demo?</h2>
         <h4>
-          Shipping will have a shipping rate that will vary depending on the
-          weight and volume of the products chosen, and the distance of the
-          destination.
+          CodeFusion E-commerce Demo muestra catalogo, busqueda, carrito,
+          cupones, direccion de envio, metodo de despacho y pago Flow en un
+          recorrido de compra realista.
         </h4>
-        <h2>
-          What payment options do I have and what currencies do you accept when
-          making an online purchase?
-        </h2>
+        <h2>¿Que metodo de pago esta disponible?</h2>
         <h4>
-          Here you have all the information about the different
+          Flow es el unico proveedor visible en checkout. Puedes revisar mas
+          detalle en{" "}
           <Link
             href={"/faqs/payment-methods"}
             className="second-color cursor-pointer"
           >
-            payment methods
+            metodos de pago
           </Link>
-          you can use.
+          .
         </h4>
-        <h2>¿Cómo puedo realizar una compra o pedido online?</h2>
+        <h2>¿Como hago una compra de prueba?</h2>
         <h4>
-          Here you have all the information with the
+          Revisa la guia{" "}
           <Link href={"/how-buy"} className="second-color cursor-pointer">
-            step-by-step instructions to make a successful purchase.
-          </Link>
+            como comprar
+          </Link>{" "}
+          para recorrer catalogo, carrito, cupones y checkout paso a paso.
         </h4>
-        <h2>I have a discount coupon. How do I use it?</h2>
+        <h2>¿Como uso un cupon?</h2>
         <h4>
-          When you click on ‘Place Order’, right in the lower right corner, you
-          will find a box that says ‘Do you have a promotional code?’ Fill in
-          this field with your discount coupon and then click on ‘Apply coupon’
-          so that your discount is applied correctly.
+          En checkout puedes seleccionar un cupon disponible o ingresar un
+          codigo manual. El selector se mantiene visible para probar estados de
+          cupon aplicado, expirado o no disponible.
         </h4>
-        <h2>What cards are accepted for online purchases?</h2>
-        <h4>Visa and MasterCard</h4>
-        <h2>Can I pay cash on delivery?</h2>
-        <h4>We do not have this option at the moment.</h4>
-        <h2>Can I pay with PayPal?</h2>
+        <h2>¿Esta demo vende productos reales?</h2>
         <h4>
-          PayPal does not allow the use of its service for companies in this
-          sector, so we do not currently offer payment through this platform.
+          No. Es una demo de portfolio para mostrar capacidades tecnicas y de
+          producto. No compartas datos sensibles ni uses credenciales reales en
+          pruebas.
         </h4>
-        <h2>What is the safest way to pay on the website?</h2>
+        <h2>¿Que pasa si un pago falla?</h2>
         <h4>
-          The safest way to pay on our website is by paying with a credit or
-          debit card, since payment is confirmed instantly and we can proceed
-          with the processing and preparation of your order.
-        </h4>
-        <h2>Why do I get &apos;payment rejected&apos;?</h2>
-        <h4>
-          Normally this situation is due to various problems with the bank. If
-          you receive this message, please contact us immediately by phone or
-          email, hellocodefusion@gmail.com.
-        </h4>
-        <h2>Can I buy by phone or WhatsApp?</h2>
-        <h4>
-          We do not recommend making purchases by phone or WhatsApp as problems
-          may arise. You can contact us to receive information about different
-          products, but to place orders, please do so from the website.
-        </h4>
-        <h2>My discount coupon does not work. How can I get another one?</h2>
-        <h4>
-          If you had one of our coupons and for any reason it has failed, do not
-          worry. Contact us and explain your problem so that we can create a new
-          coupon. Contact email hellocodefusion@gmail.com.
-        </h4>
-        <h2>
-          What is the warranty for products purchased on ecommerce-demo.codefusion.cl?
-        </h2>
-        <h4>
-          All products we offer on our website have a commercial guarantee from
-          the supplier. e-commerce-web has an after-sales service while the
-          guarantee is valid, the customer may contact the after-sales service
-          at the email address hellocodefusion@gmail.com. In case of any other
-          type of doubts or queries, you may contact the customer service
-          telephone number.
+          El flujo conserva estados de orden y permite reintentar pago con Flow
+          cuando corresponde, sin cambiar proveedores ni alterar la logica de
+          checkout.
         </h4>
       </div>
     </>

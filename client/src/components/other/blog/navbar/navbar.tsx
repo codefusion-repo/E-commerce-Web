@@ -27,7 +27,7 @@ export default function BlogNavbar({}: // blog_categories,
           href={`/blog`}
           className={`btn-span box-xxl ${!slugBlogCategory && "btn-active"}`}
         >
-          <h4>Home</h4>
+          <h4>Inicio</h4>
         </Link>
       </div>
       {categories.map((category) => (

@@ -208,7 +208,7 @@ export default function SearchBar({
         <div className={`flex a-center j-around gap-ms padding-s`}>
           <div className="flex a-center j-center gap-xs">
             <div className="flex column gap-xxs a-center">
-              <label>Minimum price</label>
+              <label>Precio minimo</label>
               <input
                 onChange={(e) => onChange(e)}
                 className="input-small"
@@ -232,7 +232,7 @@ export default function SearchBar({
           <FaArrowsAltH className="base-color zoom-out-xxl" />
           <div className="flex a-center j-center gap-xs">
             <div className="flex column gap-xxs a-center">
-              <label>Maximum price</label>
+              <label>Precio maximo</label>
               <input
                 onChange={(e) => onChange(e)}
                 className="no-spinners input-small"
@@ -281,7 +281,7 @@ export default function SearchBar({
         </div>
         <div className="flex a-center j-center gap-xs padding-s">
           <div className={`flex column gap-xxs`}>
-            <label>Sort by</label>
+            <label>Ordenar por</label>
             <select
               className="select-middle"
               onChange={(e) => onChange(e)}
@@ -317,10 +317,10 @@ export default function SearchBar({
             form="none"
             className="btn-span btn-active"
           >
-            Close
+            Cerrar
           </button>
           <button form="filters-form" className="btn-span btn-active">
-            Search
+            Buscar
           </button>
         </div>
       </form>

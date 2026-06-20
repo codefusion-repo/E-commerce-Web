@@ -1,7 +1,5 @@
 "use client";
 import { useMobile } from "../../../../context/mobile/mobileContext";
-// faqsBody.tsx
-
 import Link from "next/link";
 
 export default function FaqsBody() {
@@ -9,15 +7,15 @@ export default function FaqsBody() {
   return (
     <>
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-        <h1>Faqs</h1>
+        <h1>Preguntas frecuentes</h1>
       </div>
       <div className="flex wrap box-xxl a-start j-center padding-s gap-xxl">
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>Contact</h1>
+            <h1>Contacto</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
-            <Link href="mailto:contacto@esgrow.com" className="btn-span">
+            <Link href="mailto:hellocodefusion@gmail.com" className="btn-span">
               hellocodefusion@gmail.com
             </Link>
             <Link href="tel:+569xxxxxxxx" className="btn-span">
@@ -27,52 +25,52 @@ export default function FaqsBody() {
         </div>
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>My account</h1>
+            <h1>Mi cuenta</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             <Link href="/faqs/my-account" className="btn-span">
-              Create account
+              Crear cuenta
             </Link>
             <Link href="/faqs/my-account" className="btn-span">
-              Recover password
+              Recuperar contraseña
             </Link>
             <Link href="/faqs/my-account" className="btn-span">
-              Modify personal data
+              Editar datos personales
             </Link>
             <Link href="/faqs/my-account" className="btn-span">
-              Purchase history
+              Historial de compras
             </Link>
           </div>
         </div>
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>Online information</h1>
+            <h1>Compra online</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             <Link href="/faqs/payment-methods" className="btn-span">
-              Payment methods
+              Metodos de pago
             </Link>
             <Link href="/faqs/info-online" className="btn-span">
-              Online order info
+              Informacion de compra
             </Link>
           </div>
         </div>
         <div className="flex column f-width-xl ">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>My order online</h1>
+            <h1>Pedidos</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             <Link href="/faqs/my-order-online" className="btn-span">
-              Order tracking
+              Seguimiento de pedido
             </Link>
             <Link href="/faqs/my-order-online" className="btn-span">
-              Order online
+              Flujo de compra
             </Link>
           </div>
         </div>
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>E-commerce web Services</h1>
+            <h1>Demo CodeFusion</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             <Link href="/blog" className="btn-span">
@@ -82,11 +80,11 @@ export default function FaqsBody() {
         </div>
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>Returns and exchanges</h1>
+            <h1>Cambios y devoluciones</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             <Link href="/faqs/returns-exchanges" className="btn-span">
-              Returns and exchanges
+              Politica de demo
             </Link>
           </div>
         </div>

@@ -30,7 +30,7 @@ export default function Delivery() {
       } else {
         router.push("/shopcart");
       }
-      openModal("login", "You must be authenticated to continue");
+      openModal("login", "Debes ingresar a tu cuenta para continuar");
     }
   }, [isAuthenticated, openModal, pathname, router]);
 

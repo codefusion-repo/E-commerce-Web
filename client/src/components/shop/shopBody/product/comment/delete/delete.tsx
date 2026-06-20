@@ -61,7 +61,7 @@ export default function DeleteComment({
     >
       {loading && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (
@@ -71,7 +71,7 @@ export default function DeleteComment({
       )}
 
       <div className="flex box-xxl a-center j-center gap-s base-border-b padding-b-xs">
-        <h4>Do you want to delete this comment?</h4>
+        <h4>¿Quieres eliminar este comentario?</h4>
       </div>
 
       <div className="flex box-xxl wrap a-center j-space">
@@ -80,15 +80,15 @@ export default function DeleteComment({
             device > 1 ? "box-ml" : "box-xxl"
           } column a-start j-center gap-xs padding-ms`}
         >
-          <h4>User: {comment.user.first_name}</h4>
-          <h4>Comment: {comment.comment}</h4>
+          <h4>Usuario: {comment.user.first_name}</h4>
+          <h4>Comentario: {comment.comment}</h4>
         </div>
         <div
           className={`flex ${
             device > 1 ? "box-xs" : "box-xxl"
           } column gap-xs a-center j-center padding-ms`}
         >
-          <h4>Rating:</h4>
+          <h4>Valoracion:</h4>
           <Stars
             stars={parseFloat(comment.stars)}
             comments_quantity={-1}
@@ -112,7 +112,7 @@ export default function DeleteComment({
             className="btn-small btn-active"
             onClick={() => onClickYes()}
           >
-            Yes
+            Si
           </button>
         </div>
       </div>

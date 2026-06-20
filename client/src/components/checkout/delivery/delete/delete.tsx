@@ -51,12 +51,12 @@ export default function Delete({
   return (
     <>
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-        <h1>Are you sure you want to delete this address?</h1>
+        <h1>¿Seguro que quieres eliminar esta direccion?</h1>
       </div>
 
       {loading && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (
@@ -66,13 +66,13 @@ export default function Delete({
       )}
       <div className="flex box-xxl column gap-xs padding-s">
         <h4>
-          Address: {address.streetName}, {address.streetNumber},{" "}
+          Direccion: {address.streetName}, {address.streetNumber},{" "}
           {address.postalCode} {address.countyName}, {address.regionName}
         </h4>
-        <h4>Number: {address.phoneNumber}</h4>
+        <h4>Telefono: {address.phoneNumber}</h4>
         {address.comment && address.comment && (
           <div>
-            <h4>Comment: {address.comment}</h4>
+            <h4>Comentario: {address.comment}</h4>
           </div>
         )}
       </div>
@@ -85,13 +85,13 @@ export default function Delete({
           onClick={() => setStatus("default")}
         >
           <MdArrowBack className="icon" />
-          <h4>Back</h4>
+          <h4>Volver</h4>
         </button>
         <button
           className="btn-middle btn-active gap-middle"
           onClick={() => clickRemoveButton(address ? address.id : "")}
         >
-          <h4>Delete</h4>
+          <h4>Eliminar</h4>
           <FaRegTrashAlt className="icon" />
         </button>
       </div>

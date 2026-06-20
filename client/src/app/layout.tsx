@@ -19,33 +19,60 @@ import { CheckoutProvider } from "../context/checkout/checkoutContext";
 import type { Metadata } from "next";
 import { serverApiUrl } from "../utils/api";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://ecommerce-demo.codefusion.cl";
+const mediaBaseUrl =
+  process.env.NEXT_PUBLIC_AWS_S3_CUSTOM_DOMAIN || siteUrl;
+const siteDescription =
+  "Demo e-commerce de CodeFusion con catalogo, carrito, cupones, checkout con Flow y gestion basica de pedidos para mostrar una experiencia de compra completa sin usar datos sensibles.";
+const mediaUrl = (path: string) => new URL(path, mediaBaseUrl).toString();
+
 export const metadata: Metadata = {
-  title: "E-commerce-Web",
-  description:
-    "Effortlessly manage your e-commerce store and deliver a smooth shopping experience that keeps customers coming back. Designed to simplify online retail, this platform offers seamless browsing, fast loading times, and top-level security. Attract new customers and build loyalty by providing a trustworthy, enjoyable shopping experience from start to finish.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "CodeFusion E-commerce Demo",
+    template: "%s | CodeFusion E-commerce Demo",
+  },
+  description: siteDescription,
+  applicationName: "CodeFusion E-commerce Demo",
+  keywords: [
+    "CodeFusion",
+    "e-commerce demo",
+    "checkout Flow",
+    "Next.js",
+    "Django",
+    "portfolio",
+  ],
+  alternates: {
+    canonical: "/",
+  },
 
   openGraph: {
-    title: "E-commerce-Web",
-    description:
-      "Effortlessly manage your e-commerce store and deliver a smooth shopping experience that keeps customers coming back. Designed to simplify online retail, this platform offers seamless browsing, fast loading times, and top-level security. Attract new customers and build loyalty by providing a trustworthy, enjoyable shopping experience from start to finish.",
+    title: "CodeFusion E-commerce Demo",
+    description: siteDescription,
+    url: "/",
+    siteName: "CodeFusion E-commerce Demo",
+    locale: "es_CL",
+    type: "website",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_AWS_S3_CUSTOM_DOMAIN}/static/meta/opengraph-image.png`,
+        url: mediaUrl("/static/meta/opengraph-image.png"),
         width: 512,
         height: 512,
+        alt: "Vista previa de CodeFusion E-commerce Demo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    images: [
-      `${process.env.NEXT_PUBLIC_AWS_S3_CUSTOM_DOMAIN}/static/meta/twitter-image.png`,
-    ],
+    title: "CodeFusion E-commerce Demo",
+    description: siteDescription,
+    images: [mediaUrl("/static/meta/twitter-image.png")],
   },
   icons: {
-    icon: `${process.env.NEXT_PUBLIC_AWS_S3_CUSTOM_DOMAIN}/static/meta/favicon.ico`, // Define favicon principal
-    apple: `${process.env.NEXT_PUBLIC_AWS_S3_CUSTOM_DOMAIN}/static/meta/apple-icon.png`, // Icono para Apple
-    shortcut: `${process.env.NEXT_PUBLIC_AWS_S3_CUSTOM_DOMAIN}/static/meta/icon.png`, // Icono de acceso directo
+    icon: mediaUrl("/static/meta/favicon.ico"),
+    apple: mediaUrl("/static/meta/apple-icon.png"),
+    shortcut: mediaUrl("/static/meta/icon.png"),
   },
 };
 
@@ -309,7 +336,7 @@ export default async function RootLayout({
   // const cartData = await fetchShopcart(authData.user, authData.isAuthenticated);
 
   return (
-    <html lang="en">
+    <html lang="es-CL">
       <body>
         <MobileProvider>
           <FirebaseProvider>

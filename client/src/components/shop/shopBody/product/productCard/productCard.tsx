@@ -74,7 +74,7 @@ const ProductCard: React.FC<{
       <Link
         className="product-card__image-link flex box-xxl padding-xs"
         href={productHref}
-        aria-label={`View ${product.name}`}
+        aria-label={`Ver ${product.name}`}
       >
         {badgeText && <span className="product-card__badge">{badgeText}</span>}
         <Image
@@ -136,7 +136,7 @@ const ProductCard: React.FC<{
       )}
       {isAdded && (
         <div className="product-card__toast" role="status">
-          Added to cart
+          Agregado al carrito
         </div>
       )}
       <div
@@ -147,7 +147,7 @@ const ProductCard: React.FC<{
         <Link
           className="btn-small btn-active product-card__button"
           href={productHref}
-          aria-label={`Open ${product.name}`}
+          aria-label={`Abrir ${product.name}`}
         >
           <FaLink />
         </Link>
@@ -155,7 +155,7 @@ const ProductCard: React.FC<{
           type="button"
           className="btn-small btn-active product-card__button"
           onClick={handleAddItem}
-          aria-label={`Add ${product.name} to cart`}
+          aria-label={`Agregar ${product.name} al carrito`}
         >
           <MdAddShoppingCart />
         </button>

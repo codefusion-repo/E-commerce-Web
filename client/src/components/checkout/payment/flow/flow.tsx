@@ -72,7 +72,7 @@ export default function Flow({
       } btn-active`}
       onClick={() => handleFlowPayment()}
     >
-      Pay with Flow
+      Pagar con Flow
     </button>
   );
 }

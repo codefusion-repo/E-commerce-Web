@@ -62,7 +62,7 @@ export default function Contact() {
           } wrap second-bg border-radius-xxs padding-ms margin-t-l margin-b-l`}
         >
           <div className="flex box-xxl m-height-xxs second-bg column a-start j-center padding-xs base-border-b">
-            <h1>Contact</h1>
+            <h1>Contacto</h1>
           </div>
           {loading && (
             <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
@@ -90,7 +90,7 @@ export default function Contact() {
                 device > 1 ? "box-m" : "box-xxl"
               } column gap-xxs padding-xs margin-b-xxs`}
             >
-              <h4>Email</h4>
+              <h4>Correo</h4>
               <input
                 className="input-large"
                 onChange={(e) => onChange(e)}
@@ -98,7 +98,7 @@ export default function Contact() {
                 id="email"
                 name="email"
                 value={email}
-                placeholder="Enter your email address"
+                placeholder="Ingresa tu correo"
                 readOnly={loading}
                 required
               />
@@ -108,7 +108,7 @@ export default function Contact() {
                 device > 1 ? "box-m" : "box-xxl"
               } column gap-xxs padding-xs margin-b-xxs`}
             >
-              <h4>Name</h4>
+              <h4>Nombre</h4>
               <input
                 className="input-large"
                 onChange={(e) => onChange(e)}
@@ -116,27 +116,27 @@ export default function Contact() {
                 id="name"
                 name="name"
                 value={name}
-                placeholder="Enter your name"
+                placeholder="Ingresa tu nombre"
                 readOnly={loading}
                 required
               />
             </div>
             <div className="flex box-xxl column gap-xxs padding-xs margin-b-xxs">
-              <h4>Message</h4>
+              <h4>Mensaje</h4>
               <textarea
                 className="input-large"
                 onChange={(e) => onChange(e)}
                 id="message"
                 name="message"
                 value={message}
-                placeholder="Enter your message"
+                placeholder="Escribe tu mensaje"
                 readOnly={loading}
                 required
               />
             </div>
             <div className="flex box-xxl column a-center padding-xxs margin-t-xxs">
               <button className="btn-middle btn-active" disabled={loading}>
-                Send
+                Enviar
               </button>
             </div>
           </form>

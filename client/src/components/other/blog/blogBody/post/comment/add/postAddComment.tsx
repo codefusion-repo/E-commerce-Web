@@ -62,7 +62,7 @@ export default function AddPostComment({ postId }: { postId: string }) {
     >
       {loading && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (
@@ -72,7 +72,7 @@ export default function AddPostComment({ postId }: { postId: string }) {
       )}
 
       <div className="flex box-xxl a-center j-center gap-s base-border-b padding-b-xs">
-        <h4>Add comment</h4>
+        <h4>Agregar comentario</h4>
       </div>
 
       <div className="flex box-xxl wrap a-center j-space">
@@ -81,7 +81,7 @@ export default function AddPostComment({ postId }: { postId: string }) {
             device > 1 ? "box-ml" : "box-xxl"
           } column a-start j-center gap-xs padding-ms`}
         >
-          <h4>Write your comment</h4>
+          <h4>Escribe tu comentario</h4>
           <input
             className="input-large"
             onChange={(e) => onChange(e)}
@@ -89,7 +89,7 @@ export default function AddPostComment({ postId }: { postId: string }) {
             id="comment"
             name="comment"
             value={comment}
-            placeholder="Write your comment"
+            placeholder="Escribe tu comentario"
             readOnly={loading}
           />
         </div>
@@ -98,7 +98,7 @@ export default function AddPostComment({ postId }: { postId: string }) {
             device > 1 ? "box-xs" : "box-xxl"
           } column gap-xs a-center j-center padding-ms`}
         >
-          <h4>Rate this publication</h4>
+          <h4>Califica esta publicacion</h4>
           <div className="flex box-xxl j-center reverse">
             <button
               form="none"
@@ -162,7 +162,7 @@ export default function AddPostComment({ postId }: { postId: string }) {
             className="btn-span btn-active"
             disabled={loading}
           >
-            <h4>Send</h4>
+            <h4>Enviar</h4>
           </button>
         </div>
       </div>

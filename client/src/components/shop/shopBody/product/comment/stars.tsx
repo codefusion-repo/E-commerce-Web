@@ -52,7 +52,7 @@ export default function Stars({
       </div>
       {comments_quantity > 0 && comments_quantity != -1 && (
         <h5>{`(${comments_quantity} ${
-          comments_quantity <= 1 ? "Comment" : "Comments"
+          comments_quantity <= 1 ? "comentario" : "comentarios"
         })`}</h5>
       )}
     </div>

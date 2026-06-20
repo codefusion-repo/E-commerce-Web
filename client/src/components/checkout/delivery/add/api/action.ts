@@ -22,29 +22,29 @@ export const verifyAddressFormData = (
 ): Promise<{ regionCode: string; countyCode: string }> => {
   return new Promise((resolve, reject) => {
     if (!regionName) {
-      return reject("Select a region");
+      return reject("Selecciona una region");
     } else if (!regionCode) {
-      return reject("Select a region");
+      return reject("Selecciona una region");
     }
     if (!countyName) {
-      return reject("Select a commune");
+      return reject("Selecciona una comuna");
     } else if (!countyCode) {
-      return reject("Select a commune");
+      return reject("Selecciona una comuna");
     }
     if (!streetName) {
-      return reject("Street not entered");
+      return reject("Ingresa una calle");
     } else if (streetName.length < 3) {
-      return reject("The street must have at least 3 characters");
+      return reject("La calle debe tener al menos 3 caracteres");
     }
     if (!streetNumber) {
-      return reject("Enter a street number");
+      return reject("Ingresa un numero de calle");
     } else if (streetNumber.length < 1) {
-      return reject("The street number must have at least 1 character");
+      return reject("El numero de calle debe tener al menos 1 caracter");
     }
     if (!phoneNumber) {
-      return reject("Phone number not valid");
+      return reject("Telefono no valido");
     } else if (!verifyPhone(phoneNumber)) {
-      return reject("Phone number not valid");
+      return reject("Telefono no valido");
     }
     const res = {
       regionCode: regionCode,
@@ -113,7 +113,7 @@ export const postAddAddress = (
           .catch((err) => {
             return reject(
               err?.response?.data?.detail ||
-                "Unexpected error, please try again"
+                "Error inesperado, intenta nuevamente"
             );
           });
       })

@@ -78,7 +78,7 @@ export default function Home({ banners }: { banners: BannerType[] }) {
       <section
         ref={proofRevealRef}
         className="home-proof-strip reveal reveal--slide-up"
-        aria-label="Shopping flow"
+        aria-label="Flujo de compra"
       >
         <div className="reveal-delay-1">
           <span>01</span>
@@ -100,14 +100,17 @@ export default function Home({ banners }: { banners: BannerType[] }) {
       <BannerSwiper banners={banners} />
 
       <Products
-        header="Featured Products"
+        header="Productos destacados"
         products={featuredProducts}
         isSearch={false}
       />
 
-      <Categories header="Main categories" categories={featuredCategories} />
+      <Categories
+        header="Categorias principales"
+        categories={featuredCategories}
+      />
 
-      <Categories header="Recommended brands" categories={featuredBrands} />
+      <Categories header="Marcas recomendadas" categories={featuredBrands} />
 
       <NewsLetter />
     </main>

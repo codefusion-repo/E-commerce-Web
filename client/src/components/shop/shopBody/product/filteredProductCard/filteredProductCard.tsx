@@ -73,7 +73,7 @@ const FilteredProductCard: React.FC<{
         className="filtered-product-card__image-link flex box-xxl padding-xs"
         href={productHref}
         onClick={() => setIsOpen(false)}
-        aria-label={`View ${product.name}`}
+        aria-label={`Ver ${product.name}`}
       >
         <Image
           className="filtered-product-card__image border-radius-xs"
@@ -97,7 +97,7 @@ const FilteredProductCard: React.FC<{
 
       {isAdded && (
         <div className="filtered-product-card__toast" role="status">
-          Added
+          Agregado
         </div>
       )}
       <div className="filtered-product-card__footer flex box-xxl a-center j-center t-center gap-ms padding-ms">
@@ -122,7 +122,7 @@ const FilteredProductCard: React.FC<{
             className="btn-small btn-active filtered-product-card__button"
             href={productHref}
             onClick={() => setIsOpen(false)}
-            aria-label={`Open ${product.name}`}
+            aria-label={`Abrir ${product.name}`}
           >
             <FaLink />
           </Link>
@@ -130,7 +130,7 @@ const FilteredProductCard: React.FC<{
             type="button"
             className="btn-small btn-active filtered-product-card__button"
             onClick={handleAddItem}
-            aria-label={`Add ${product.name} to cart`}
+            aria-label={`Agregar ${product.name} al carrito`}
           >
             <MdAddShoppingCart />
           </button>

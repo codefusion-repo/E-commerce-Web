@@ -14,15 +14,15 @@ export default function CheckoutNavbar() {
           <Image
             className="f-width-s f-height-s border-radius-xxs"
             src={logo}
-            alt="logo"
+            alt="CodeFusion E-commerce Demo"
           />
         </Link>
       </div>
       <div className="checkout-navbar__title flex box-xxl a-center j-center">
-        <h2>E-commerce Web</h2>
+        <h2>CodeFusion Demo</h2>
       </div>
       <div className="checkout-navbar__help flex box-xxl a-center j-end padding-r-m">
-        <h3>Need help? Call us at x xxxxxxxx</h3>
+        <h3>¿Necesitas ayuda? Escríbenos a hellocodefusion@gmail.com</h3>
       </div>
     </header>
   );

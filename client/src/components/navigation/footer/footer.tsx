@@ -27,56 +27,56 @@ export default function Footer() {
 
           <div className="flex box-xxl column gap-xxs padding-xxs">
             <Link href={"/faqs/my-account"} className="btn-span">
-              My account
+              Mi cuenta
             </Link>
             <Link href={"/blog"} className="btn-span">
               Blog
             </Link>
             <Link href={"/sitemap"} className="btn-span">
-              Site Map
+              Mapa del sitio
             </Link>
           </div>
         </div>
         <div className="flex f-width-xl column padding-s">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-            <h1>Buy</h1>
+            <h1>Compra</h1>
           </div>
 
           <div className="flex box-xxl column gap-xxs padding-xxs">
             <Link href={"/how-buy"} className="btn-span">
-              How to buy
+              Como comprar
             </Link>
             <Link href={"/send-conditions"} className="btn-span">
-              Shipping costs and conditions
+              Costos y condiciones de envio
             </Link>
             <Link href={"/faqs"} className="btn-span">
-              Faqs
+              Preguntas frecuentes
             </Link>
             <Link href={"/faqs/payment-methods"} className="btn-span">
-              Payment methods
+              Metodos de pago
             </Link>
           </div>
         </div>
         <div className="flex f-width-xl column padding-s">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-            <h1>Others</h1>
+            <h1>Otros</h1>
           </div>
 
           <div className="flex box-xxl column gap-xxs padding-xxs">
             <Link href={"/faqs/cookies-policy"} className="btn-span">
-              Cookie Policy
+              Politica de cookies
             </Link>
             <Link href={"/faqs/privacy-policy"} className="btn-span">
-              Privacy Policy
+              Politica de privacidad
             </Link>
             <Link href={"/faqs/legal-advice"} className="btn-span">
-              Legal Notice
+              Aviso legal
             </Link>
           </div>
         </div>
         <div className="flex f-width-xl column padding-s">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-            <h1>Contact</h1>
+            <h1>Contacto</h1>
           </div>
 
           <div className="flex box-xxl column gap-xxs padding-xxs">
@@ -84,7 +84,7 @@ export default function Footer() {
               +569 xxxx xxxx
             </Link>
             <Link href={"/contact"} className="btn-span">
-              Contact
+              Contacto
             </Link>
           </div>
         </div>
@@ -120,7 +120,7 @@ export default function Footer() {
         </Link>
       </div>
       <div className="flex box-xxl a-center j-center gap-m padding-m base-border-t">
-        <h4>ecommerce-demo.codefusion.cl develop by codefusion</h4>
+        <h4>ecommerce-demo.codefusion.cl desarrollado por CodeFusion</h4>
       </div>
     </div>
   );

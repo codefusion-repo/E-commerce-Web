@@ -80,12 +80,12 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
                 </div>
               )}
               <Products
-                header="Productos destacados de la categoria"
+                header="Productos destacados de la categoría"
                 products={featuredProducts}
                 isSearch={false}
               />
               <Products
-                header="Todos los productos de la categoria"
+                header="Todos los productos de la categoría"
                 products={categoryProducts}
                 isSearch={false}
               />
@@ -93,12 +93,12 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
                 <Categories
                   header={
                     category.type === "special"
-                      ? "Categorias relacionadas"
+                      ? "Categorías relacionadas"
                       : category.type === "brand"
-                      ? "Categorias relacionadas con esta marca"
+                      ? "Categorías relacionadas con esta marca"
                       : /*: category.type === "category"
                       ? "Marcas relacionadas con esta categoria"*/
-                        "Categorias relacionadas"
+                        "Categorías relacionadas"
                   }
                   categories={category.subcategories}
                 />
@@ -110,7 +110,7 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
       ) : (
         <div className="flex box-xxl f-height-xxxl a-start j-center navbar-p-xs">
           <div className="flex f-width-xxxl f-height-l column a-center j-center gap-s second-bg border-radius-xs">
-            <h1>Pagina no encontrada 404</h1>
+            <h1>Página no encontrada 404</h1>
             <h2>No pudimos completar la solicitud</h2>
             <Link className="btn-middle btn-active" href="/">
               Volver al inicio

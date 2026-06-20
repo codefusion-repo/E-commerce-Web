@@ -98,7 +98,7 @@ export default function ForgotPassword() {
         </button>
         {status === "waiting" && (
           <button onClick={() => resendVerifyCode()} className="btn-span">
-            <h5>Reenviar codigo</h5>
+            <h5>Reenviar código</h5>
           </button>
         )}
       </div>
@@ -158,7 +158,7 @@ export default function ForgotPassword() {
           className="box-xxl box-column box-center margin-top"
         >
           <div className="flex box-xxl column gap-xxs padding-xs margin-b-xxs">
-            <h4>Ingresa el codigo de verificacion</h4>
+            <h4>Ingresa el código de verificación</h4>
             <input
               className="input-large"
               onChange={(e) => onChange(e)}
@@ -166,7 +166,7 @@ export default function ForgotPassword() {
               id="code"
               name="code"
               value={code}
-              placeholder="Ingresa el codigo de verificacion"
+              placeholder="Ingresa el código de verificación"
               readOnly={loading}
               required
             />

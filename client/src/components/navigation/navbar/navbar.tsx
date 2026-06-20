@@ -177,7 +177,7 @@ export default function Navbar() {
               id="search"
               name="search"
               value={search ? search : ""}
-              placeholder="Buscar categorias y productos"
+              placeholder="Buscar categorías y productos"
               //readOnly={loading}
             />
             <FaSearch className="absolute base-color zoom-out-xl f-top f-right cursor-pointer margin-t-xs margin-r-s" />

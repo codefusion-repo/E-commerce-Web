@@ -15,8 +15,8 @@ export default function FaqsBody() {
             <h1>Contacto</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
-            <Link href="mailto:hellocodefusion@gmail.com" className="btn-span">
-              hellocodefusion@gmail.com
+            <Link href="mailto:support@codefusion.cl" className="btn-span">
+              support@codefusion.cl
             </Link>
             <Link href="tel:+569xxxxxxxx" className="btn-span">
               +569 xxxx xxxx
@@ -48,10 +48,10 @@ export default function FaqsBody() {
           </div>
           <div className="flex column box-xxl padding-xs">
             <Link href="/faqs/payment-methods" className="btn-span">
-              Metodos de pago
+              Métodos de pago
             </Link>
             <Link href="/faqs/info-online" className="btn-span">
-              Informacion de compra
+              Información de compra
             </Link>
           </div>
         </div>
@@ -84,7 +84,7 @@ export default function FaqsBody() {
           </div>
           <div className="flex column box-xxl padding-xs">
             <Link href="/faqs/returns-exchanges" className="btn-span">
-              Politica de demo
+              Política de demo
             </Link>
           </div>
         </div>

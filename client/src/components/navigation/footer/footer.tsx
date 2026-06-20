@@ -44,16 +44,16 @@ export default function Footer() {
 
           <div className="flex box-xxl column gap-xxs padding-xxs">
             <Link href={"/how-buy"} className="btn-span">
-              Como comprar
+              Cómo comprar
             </Link>
             <Link href={"/send-conditions"} className="btn-span">
-              Costos y condiciones de envio
+              Costos y condiciones de envío
             </Link>
             <Link href={"/faqs"} className="btn-span">
               Preguntas frecuentes
             </Link>
             <Link href={"/faqs/payment-methods"} className="btn-span">
-              Metodos de pago
+              Métodos de pago
             </Link>
           </div>
         </div>
@@ -64,10 +64,10 @@ export default function Footer() {
 
           <div className="flex box-xxl column gap-xxs padding-xxs">
             <Link href={"/faqs/cookies-policy"} className="btn-span">
-              Politica de cookies
+              Política de cookies
             </Link>
             <Link href={"/faqs/privacy-policy"} className="btn-span">
-              Politica de privacidad
+              Política de privacidad
             </Link>
             <Link href={"/faqs/legal-advice"} className="btn-span">
               Aviso legal

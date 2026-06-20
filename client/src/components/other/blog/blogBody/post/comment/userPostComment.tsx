@@ -66,7 +66,7 @@ export default function UserPostComment({
             className="btn-span btn-active"
             onClick={() => openModal("register", null)}
           >
-            <h4>Registrate</h4>
+            <h4>Regístrate</h4>
           </button>
           <h4>o</h4>
           <button

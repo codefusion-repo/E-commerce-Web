@@ -32,7 +32,7 @@ export default function ShopBody() {
   return (
     <>
       <div className="shop-hero flex box-xxl f-height-m relative column a-center j-center four-bg hidden">
-        <span className="shop-hero__eyebrow z-index-s">Catalogo</span>
+        <span className="shop-hero__eyebrow z-index-s">Catálogo</span>
         <h1 className="z-index-s">Tienda demo</h1>
         <p className="z-index-s">
           Explora productos de prueba con acciones claras de carrito.
@@ -40,7 +40,7 @@ export default function ShopBody() {
         <Image
           className="shop-hero__image absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
           src={banner1}
-          alt="Banner de catalogo"
+          alt="Banner de catálogo"
         />
       </div>
 
@@ -57,7 +57,7 @@ export default function ShopBody() {
 
       <Products header="Todos los productos" products={products} isSearch={false} />
 
-      <Categories header="Categorias principales" categories={featuredCategories} />
+      <Categories header="Categorías principales" categories={featuredCategories} />
 
       <Categories header="Marcas recomendadas" categories={featuredBrands} />
 

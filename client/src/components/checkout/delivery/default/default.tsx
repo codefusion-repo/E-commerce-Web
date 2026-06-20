@@ -46,7 +46,7 @@ export default function Default({
     if (isDefault) {
       setStatus("selected");
     } else {
-      setError("Selecciona una direccion");
+      setError("Selecciona una dirección");
     }
   };
 
@@ -108,7 +108,7 @@ export default function Default({
         <div className="default-address flex box-xxl column">
           <div className="default-address__columns flex box-xxl a-center j-space base-border-b">
             <div className="flex box-xxl a-center j-start padding-s base-border-r">
-              <h4>Direccion</h4>
+              <h4>Dirección</h4>
             </div>
             <div className="flex box-xxl a-center j-start padding-s base-border-r">
               <h4>Predeterminada</h4>
@@ -127,11 +127,11 @@ export default function Default({
             >
               <div className="flex box-xxl column padding-s gap-xxs">
                 <h4>
-                  Direccion: {address.streetName}, {address.streetNumber},{" "}
+                  Dirección: {address.streetName}, {address.streetNumber},{" "}
                   {address.postalCode} {address.countyName},{" "}
                   {address.regionName}
                 </h4>
-                <h4>Telefono: {address.phoneNumber}</h4>
+                <h4>Teléfono: {address.phoneNumber}</h4>
                 {address.comment && address.comment && (
                   <div>
                     <h4>Comentario: {address.comment}</h4>
@@ -145,7 +145,7 @@ export default function Default({
                   onClick={() => onChangeDefaultAddress(address.id)}
                   className="checkbox"
                   type="button"
-                  aria-label={`Marcar ${address.streetName} como direccion predeterminada`}
+                  aria-label={`Marcar ${address.streetName} como dirección predeterminada`}
                 >
                   {address.isDefault ? (
                     <div className={"checkbox-center-active"}></div>

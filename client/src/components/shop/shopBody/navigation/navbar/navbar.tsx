@@ -362,7 +362,7 @@ export default function ShopNavbar() {
             <FaArrowsAltH className="icon" />
 
             <div className="filters-form-minmax-item">
-              <label>Precio maximo</label>
+              <label>Precio máximo</label>
               <input
                 onChange={(e) => onChangeMaxPrice(e)}
                 className="no-spinners large"
@@ -436,7 +436,7 @@ export default function ShopNavbar() {
         {maxPrice && maxPrice && searchParams.get("maxPrice") && isOpen && (
           <div className="tag">
             <h4>
-              {`Maximo: ${Intl.NumberFormat("es-CL", {
+              {`Máximo: ${Intl.NumberFormat("es-CL", {
                 style: "currency",
                 currency: "CLP",
               }).format(parseFloat(maxPrice))}`}{" "}

@@ -34,7 +34,7 @@ export default function SearchSidebar({
         <div
           className={`flex box-xxl gap-s m-height-xs a-center j-center padding-xs second-border-b`}
         >
-          <h2>Categorias</h2>
+          <h2>Categorías</h2>
         </div>
       )}
       {categories.length > 0 && (
@@ -122,7 +122,7 @@ export default function SearchSidebar({
       )}
       {brands.length === 0 && categories.length === 0 && (
         <div className="flex box-xxl gap-s m-height-xxs a-center j-center padding-xs">
-          <h4>No encontramos categorias ni marcas</h4>
+          <h4>No encontramos categorías ni marcas</h4>
         </div>
       )}
     </div>

@@ -17,24 +17,24 @@ export default function HowBuy() {
       } a-center j-center margin-t-l margin-b-l`}
     >
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-        <h1>Como comprar en la demo</h1>
+        <h1>Cómo comprar en la demo</h1>
       </div>
       <div className="flex column box-xxl a-start padding-s gap-s">
         <h4>
-          Esta guia muestra el recorrido que CodeFusion E-commerce Demo permite
-          probar: catalogo, carrito, cupones, direccion, envio y pago con Flow.
+          Esta guía muestra el recorrido que CodeFusion E-commerce Demo permite
+          probar: catálogo, carrito, cupones, dirección, envío y pago con Flow.
         </h4>
         <Image
           className={`${
             device > 0 ? "f-width-xxxl" : "f-width-xxxxl"
           } padding-l-s`}
           src={ShopcartEmpty}
-          alt="Carrito vacio de la demo"
+          alt="Carrito vacío de la demo"
         />
 
         <h2>1. Elige un producto</h2>
         <h4>
-          Abre el catalogo, revisa una ficha y agrega un producto de prueba al
+          Abre el catálogo, revisa una ficha y agrega un producto de prueba al
           carrito.
         </h4>
         <Image
@@ -56,7 +56,7 @@ export default function HowBuy() {
           alt="Carrito con producto"
         />
 
-        <h2>3. Ajusta cantidades o vuelve al catalogo</h2>
+        <h2>3. Ajusta cantidades o vuelve al catálogo</h2>
         <h4>
           Puedes sumar unidades, quitar productos o seguir explorando antes de
           iniciar el checkout.
@@ -64,29 +64,29 @@ export default function HowBuy() {
         <Image
           className={`${device > 2 ? "box-xxl" : "box-xxl"} padding-l-s`}
           src={ShopcartPage}
-          alt="Pagina de carrito"
+          alt="Página de carrito"
         />
 
-        <h2>4. Ingresa direccion y envio</h2>
+        <h2>4. Ingresa dirección y envío</h2>
         <h4>
-          El checkout solicita direccion y metodo de despacho para calcular el
+          El checkout solicita dirección y método de despacho para calcular el
           costo antes del pago.
         </h4>
 
         <h2>5. Aplica cupones</h2>
         <h4>
-          Si tienes un codigo, ingresalo en el panel de cupones. Tambien puedes
+          Si tienes un código, ingrésalo en el panel de cupones. También puedes
           seleccionar cupones disponibles para validar descuentos.
         </h4>
         <Image
           className={`${device > 2 ? "f-width-xxxl" : "box-xxl"} padding-l-m`}
           src={CouponCode}
-          alt="Campo de cupon"
+          alt="Campo de cupón"
         />
 
         <h2>6. Paga con Flow</h2>
         <h4>
-          Flow es el unico proveedor visible en esta demo. Al pagar se crea la
+          Flow es el único proveedor visible en esta demo. Al pagar se crea la
           orden y puedes revisar su estado en el perfil.
         </h4>
         <Image

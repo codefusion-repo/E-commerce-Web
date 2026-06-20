@@ -100,7 +100,7 @@ export default function Products({
         ) : (
           <div className="product-empty-state">
             <h4>No encontramos productos</h4>
-            <p>Prueba otra categoria o cambia el orden del catalogo.</p>
+            <p>Prueba otra categoría o cambia el orden del catálogo.</p>
           </div>
         )}
       </div>

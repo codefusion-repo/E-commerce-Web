@@ -25,7 +25,7 @@ export default function Sitemap() {
       <div className="flex wrap box-xxl a-start j-center padding-s gap-xxl">
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>Categorias</h1>
+            <h1>Categorías</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             {categories.map((category) => (
@@ -73,7 +73,7 @@ export default function Sitemap() {
         </div>
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>Paginas</h1>
+            <h1>Páginas</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             <Link href={"/"} className="btn-span">

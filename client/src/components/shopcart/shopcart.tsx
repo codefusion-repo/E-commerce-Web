@@ -66,7 +66,7 @@ export default function Shopcart() {
 
       verifyStockInput(item.id, quantity, items).then((status: string) => {
         if (status === "exceed") {
-          setError("Maximo alcanzado");
+          setError("Máximo alcanzado");
           updateItemQuantity(item, 5);
         } else if (status === "stock") {
           setError("Stock no disponible");
@@ -91,7 +91,7 @@ export default function Shopcart() {
 
     verifyStockAdd(item.id, 1, items).then((status: string) => {
       if (status === "exceed") {
-        setError("Maximo alcanzado");
+        setError("Máximo alcanzado");
       } else if (status === "stock") {
         setError("Stock no disponible");
       } else if (status === "ok") {
@@ -255,10 +255,10 @@ export default function Shopcart() {
 
           {items && items.length === 0 && (
             <div className="shopcart-empty-state">
-              <h3>Tu carrito esta vacio</h3>
-              <p>Explora el catalogo para iniciar una compra de prueba.</p>
+              <h3>Tu carrito está vacío</h3>
+              <p>Explora el catálogo para iniciar una compra de prueba.</p>
               <Link href="/shop" className="btn-middle btn-active">
-                Ver catalogo
+                Ver catálogo
               </Link>
             </div>
           )}

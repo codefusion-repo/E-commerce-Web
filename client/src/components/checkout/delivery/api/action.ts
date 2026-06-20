@@ -70,7 +70,7 @@ export const postValidateAddress = (
           });
           return resolve(params);
         } else {
-          return reject("La direccion ingresada no es valida");
+          return reject("La dirección ingresada no es válida");
         }
       })
       .catch((err) => {
@@ -150,10 +150,10 @@ export const postDeliveryCotization = (
 ): Promise<any> => {
   return new Promise((resolve, reject) => {
     if (!countyCode) {
-      return reject("Selecciona una direccion de envio");
+      return reject("Selecciona una dirección de envío");
     }
     if (!countyName) {
-      return reject("Selecciona una direccion de envio");
+      return reject("Selecciona una dirección de envío");
     }
 
     let peso = 0;

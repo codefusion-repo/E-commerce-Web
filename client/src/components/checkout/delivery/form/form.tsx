@@ -96,7 +96,7 @@ export default function Form({
           device > 0 ? "box-m" : "box-xxl"
         } column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>Region</h4>
+        <h4>Región</h4>
         <select
           className="select-large"
           disabled={loading}
@@ -105,7 +105,7 @@ export default function Form({
           value={selectedRegionId}
           onChange={(e) => onChangeRegion(e)}
         >
-          <option value={undefined}>Selecciona una region</option>
+          <option value={undefined}>Selecciona una región</option>
           {regions &&
             regions.map((region) => (
               <option key={region.region_id} value={region.region_id}>
@@ -161,7 +161,7 @@ export default function Form({
           device > 0 ? "box-m" : "box-xxl"
         } column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>Numero</h4>
+        <h4>Número</h4>
         <input
           className="input-large"
           readOnly={loading}
@@ -170,7 +170,7 @@ export default function Form({
           type="text"
           name="streetNumber"
           id="streetNumber"
-          placeholder="Numero"
+          placeholder="Número"
         />
       </div>
       <div
@@ -178,10 +178,10 @@ export default function Form({
           device > 0 ? "box-m" : "box-xxl"
         } column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>Telefono</h4>
+        <h4>Teléfono</h4>
 
         <PhoneInput
-          placeholder={!isPhoneDefault ? "Ingresa un telefono" : user?.phone}
+          placeholder={!isPhoneDefault ? "Ingresa un teléfono" : user?.phone}
           name="phoneNumber"
           id="phoneNumber"
           value={phoneNumber}
@@ -197,7 +197,7 @@ export default function Form({
             device > 0 ? "box-m" : "box-xxl"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>¿Usar telefono predeterminado?</h4>
+          <h4>¿Usar teléfono predeterminado?</h4>
           <div className="flex box-xxl a-center j-center gap-xs">
             <button
               form="none"
@@ -220,7 +220,7 @@ export default function Form({
           device > 0 ? "box-m" : "box-xxl"
         } column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>¿Usar como direccion predeterminada?</h4>
+        <h4>¿Usar como dirección predeterminada?</h4>
         <div className="flex box-xxl a-center j-center gap-xs">
           <button
             form="none"

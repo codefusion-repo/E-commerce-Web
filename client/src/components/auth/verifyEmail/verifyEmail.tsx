@@ -111,7 +111,7 @@ export default function VerifyEmail() {
     let user = auth.currentUser;
     postResendVerifyCode(user)
       .then(() => {
-        setError("Codigo de verificacion reenviado");
+        setError("Código de verificación reenviado");
         setLoading(false);
       })
       .catch((err) => {
@@ -123,10 +123,10 @@ export default function VerifyEmail() {
   return (
     <div className="flex box-xxl column j-center a-center border-radius-xxs base-border padding-xs">
       <div className="flex box-xxl m-height-xxs column gap-xxs a-start j-center padding-xs base-border-b">
-        <h1>Verificacion de correo</h1>
+        <h1>Verificación de correo</h1>
 
         <button onClick={() => resendVerifyCode()} className="btn-span">
-          <h5>Reenviar codigo de verificacion</h5>
+          <h5>Reenviar código de verificación</h5>
         </button>
       </div>
 
@@ -149,7 +149,7 @@ export default function VerifyEmail() {
         className="flex box-xxl wrap a-center j-center margin-t-xxs"
       >
         <div className="flex box-xxl column gap-xxs padding-xs margin-b-xxs">
-          <h4>Codigo de verificacion</h4>
+          <h4>Código de verificación</h4>
 
           <input
             className="input-large"
@@ -159,7 +159,7 @@ export default function VerifyEmail() {
             name="verifyEmailNumber"
             value={verifyEmailNumber}
             maxLength={6}
-            placeholder="Ingresa tu codigo de verificacion"
+            placeholder="Ingresa tu código de verificación"
             readOnly={loading}
             required
           />

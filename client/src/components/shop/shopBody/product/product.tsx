@@ -107,7 +107,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
 
       setLoading(false);
     } catch (err) {
-      setError("Numero invalido");
+      setError("Número inválido");
       setLoading(false);
       return;
     }
@@ -404,14 +404,14 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                     </h1>
                     <h3>Nombre: {product.name}</h3>
                     <h3>Stock: {product.stock}</h3>
-                    <h3>Codigo: {product.id.slice(4, 13)}</h3>
+                    <h3>Código: {product.id.slice(4, 13)}</h3>
                   </div>
                   <div
                     className={`flex ${
                       device > 1 ? "box-m" : "box-xxl"
                     } t-center column gap-s padding-ms`}
                   >
-                    <h5>Maximo 5 unidades por producto</h5>
+                    <h5>Máximo 5 unidades por producto</h5>
                     <div className="flex a-center j-center gap-xs">
                       <button
                         onClick={() => handleRemoveItem()}
@@ -481,10 +481,10 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                       </h1>
                       <div className="flex box-xxl column a-center j-center">
                         <h2>Despacho a domicilio</h2>
-                        <h4>5 a 10 dias habiles</h4>
+                        <h4>5 a 10 días hábiles</h4>
                       </div>
                       <Link href={"/send-conditions"} className="btn-span">
-                        <h5>Ver mas...</h5>
+                        <h5>Ver más...</h5>
                       </Link>
                     </div>
                     <div className="flex f-width-ml column a-center j-center gap-xxs margin-t-xs">
@@ -492,11 +492,11 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                         <FaCreditCard className="zoom-in-xxl base-color" />
                       </h1>
                       <div className="flex box-xxl column a-center j-center">
-                        <h2>Metodos de pago</h2>
+                        <h2>Métodos de pago</h2>
                         <h4>Flow</h4>
                       </div>
                       <Link href={"/faqs/payment-methods"} className="btn-span">
-                        <h5>Ver mas...</h5>
+                        <h5>Ver más...</h5>
                       </Link>
                     </div>
                     <div className="flex f-width-ml column a-center j-center gap-xxs margin-t-xs">
@@ -509,7 +509,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                       </div>
 
                       <Link href={"/contact"} className="btn-span">
-                        <h5>Ver mas...</h5>
+                        <h5>Ver más...</h5>
                       </Link>
                     </div>
                   </div>
@@ -522,7 +522,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                 } m-height-s j-center second-bg margin-t-s border-radius-xs`}
               >
                 <div className="flex box-xxl m-height-xxs column a-start j-center padding-s base-border-b">
-                  <h1>Caracteristicas</h1>
+                  <h1>Características</h1>
                 </div>
 
                 {product.features.map((feature) => (
@@ -580,7 +580,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                                 device > 0 ? "box-xs" : "box-xxl"
                               } column gap-xs a-center j-center padding-ms`}
                             >
-                              <h4>Valoracion:</h4>
+                              <h4>Valoración:</h4>
                               <Stars
                                 stars={parseFloat(comment.stars)}
                                 comments_quantity={-1}
@@ -603,7 +603,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
 
                 {product.comments.length === 0 && (
                   <div className="flex box-xxl gap-m padding-ms">
-                    <h4>Aun no hay comentarios para este producto.</h4>
+                    <h4>Aún no hay comentarios para este producto.</h4>
                   </div>
                 )}
               </div>
@@ -613,7 +613,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
       ) : (
         <div className="flex box-xxl f-height-xxxl a-start j-center navbar-p-xs">
           <div className="flex f-width-xxxl f-height-l column a-center j-center gap-s second-bg border-radius-xs">
-            <h1>Pagina no encontrada 404</h1>
+            <h1>Página no encontrada 404</h1>
             <h2>No pudimos completar la solicitud</h2>
             <Link className="btn-middle btn-active" href="/">
               Volver al inicio

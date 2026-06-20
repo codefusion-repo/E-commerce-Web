@@ -35,7 +35,7 @@ export default function PostCommentDefault({
             device > 1 ? "box-xs" : "box-xxl"
           } column gap-xs a-center j-center padding-ms`}
         >
-          <h4>Valoracion:</h4>
+          <h4>Valoración:</h4>
           <Stars
             stars={parseFloat(comment.stars)}
             comments_quantity={-1}

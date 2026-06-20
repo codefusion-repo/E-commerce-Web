@@ -15,7 +15,7 @@ export default function Error({
       <Navbar />
       <div className="flex box-xxl f-height-xxxxl a-start j-center navbar-p-xxl">
         <div className="flex f-width-xxxl f-height-l column a-center j-center gap-s second-bg border-radius-xs">
-            <h1>Ocurrio un problema</h1>
+            <h1>Ocurrió un problema</h1>
             <h4>{error.message}</h4>
             <button className="btn-middle btn-active" onClick={() => reset()}>
               Reintentar

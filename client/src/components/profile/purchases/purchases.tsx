@@ -39,7 +39,7 @@ export default function Purchases() {
   useEffect(() => {
     const initShop = (puchases: PurchaseType[]) => {
       if (puchases.length === 0) {
-        setError("Aun no realizas tu primera compra de prueba");
+        setError("Aún no realizas tu primera compra de prueba");
       } else {
         setData(puchases);
       }
@@ -62,7 +62,7 @@ export default function Purchases() {
             {currentItems && currentItems.length > 0 && (
               <div className="flex box-xxl f-height-xs base-border-b">
                 <div className="flex box-xxl a-center j-center">
-                  <h3>Codigo</h3>
+                  <h3>Código</h3>
                 </div>
                 <div className="flex box-xxl a-center j-center">
                   <h3>Estado</h3>
@@ -97,7 +97,7 @@ export default function Purchases() {
 
                         {purchase.status === "payed" &&
                           purchase.delivery.status === "created" &&
-                          "Preparando envio"}
+                          "Preparando envío"}
 
                         {purchase.status === "payed" &&
                           purchase.delivery.status === "receivedForCourier" &&
@@ -105,7 +105,7 @@ export default function Purchases() {
 
                         {purchase.status === "payed" &&
                           purchase.delivery.status === "inRoute" &&
-                          "En transito"}
+                          "En tránsito"}
                         {purchase.status === "delivered" &&
                           purchase.delivery.status === "delivered" &&
                           "Entregado"}

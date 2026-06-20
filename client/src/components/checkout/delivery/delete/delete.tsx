@@ -51,7 +51,7 @@ export default function Delete({
   return (
     <>
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-        <h1>¿Seguro que quieres eliminar esta direccion?</h1>
+        <h1>¿Seguro que quieres eliminar esta dirección?</h1>
       </div>
 
       {loading && (
@@ -66,10 +66,10 @@ export default function Delete({
       )}
       <div className="flex box-xxl column gap-xs padding-s">
         <h4>
-          Direccion: {address.streetName}, {address.streetNumber},{" "}
+          Dirección: {address.streetName}, {address.streetNumber},{" "}
           {address.postalCode} {address.countyName}, {address.regionName}
         </h4>
-        <h4>Telefono: {address.phoneNumber}</h4>
+        <h4>Teléfono: {address.phoneNumber}</h4>
         {address.comment && address.comment && (
           <div>
             <h4>Comentario: {address.comment}</h4>

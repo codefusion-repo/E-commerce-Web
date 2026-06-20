@@ -121,7 +121,7 @@ export default function Selected({
         <div className="selected-address flex box-xxl column">
           <div className="selected-address__columns flex box-xxl a-center j-space base-border-b">
             <div className="flex box-xxl a-center j-start padding-s base-border-r">
-              <h4>Direccion</h4>
+              <h4>Dirección</h4>
             </div>
             <div className="flex box-xxl a-center j-start padding-s">
               <h4>Acciones</h4>
@@ -134,10 +134,10 @@ export default function Selected({
                 <div className="selected-address__row flex box-xxl base-border-b">
                   <div className="flex box-xxl column padding-s gap-xxs base-border-r">
                     <h4>
-                      Direccion: {address.countyName}, {address.streetName},{" "}
+                      Dirección: {address.countyName}, {address.streetName},{" "}
                       {address.streetNumber}, {address.regionName}
                     </h4>
-                    <h4>Telefono: {address.phoneNumber}</h4>
+                    <h4>Teléfono: {address.phoneNumber}</h4>
                     {address.comment && address.comment && (
                       <h4>Comentario: {address.comment}</h4>
                     )}
@@ -148,7 +148,7 @@ export default function Selected({
                       className="btn-small"
                       onClick={() => changeAddress()}
                       type="button"
-                      aria-label="Cambiar direccion seleccionada"
+                      aria-label="Cambiar dirección seleccionada"
                     >
                       <FaEdit
                         className={`${
@@ -179,7 +179,7 @@ export default function Selected({
             {courierServiceOptions && (
               <>
                 <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-                  <h1>Selecciona un metodo de despacho</h1>
+                  <h1>Selecciona un método de despacho</h1>
                 </div>
                 <div className="flex box-xxl a-center j-space base-border-b">
                   <div className="flex box-xxl a-center j-start padding-s base-border-r">
@@ -216,7 +216,7 @@ export default function Selected({
                     </h4>
                     <h4>
                       Entrega estimada: {courier.name}, en {courier.days} -{" "}
-                      {courier.days + 1} dias habiles
+                      {courier.days + 1} días hábiles
                     </h4>
                     <h4>Tipo: {formatMayusName(courier.service_type)}</h4>
                   </div>
@@ -234,7 +234,7 @@ export default function Selected({
                       onClick={() => onChangeSelectedCourier(courier)}
                       className="checkbox"
                       type="button"
-                      aria-label={`Seleccionar envio ${formatMayusName(
+                      aria-label={`Seleccionar envío ${formatMayusName(
                         courier.original_courier
                       )}`}
                     >

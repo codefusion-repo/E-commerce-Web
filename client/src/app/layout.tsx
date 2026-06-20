@@ -24,7 +24,7 @@ const siteUrl =
 const mediaBaseUrl =
   process.env.NEXT_PUBLIC_AWS_S3_CUSTOM_DOMAIN || siteUrl;
 const siteDescription =
-  "Demo e-commerce de CodeFusion con catalogo, carrito, cupones, checkout con Flow y gestion basica de pedidos para mostrar una experiencia de compra completa sin usar datos sensibles.";
+  "Demo e-commerce de CodeFusion con catálogo, carrito, cupones, checkout con Flow y gestión básica de pedidos para mostrar una experiencia de compra completa sin usar datos sensibles.";
 const mediaUrl = (path: string) => new URL(path, mediaBaseUrl).toString();
 
 export const metadata: Metadata = {

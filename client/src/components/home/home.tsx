@@ -106,7 +106,7 @@ export default function Home({ banners }: { banners: BannerType[] }) {
       />
 
       <Categories
-        header="Categorias principales"
+        header="Categorías principales"
         categories={featuredCategories}
       />
 

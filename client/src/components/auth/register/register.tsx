@@ -132,7 +132,7 @@ export default function Register() {
           onClick={() => handleAlreadyHaveAccount()}
           disabled={loading}
         >
-          <h5>¿Ya tienes cuenta? Ingresa aqui</h5>
+          <h5>¿Ya tienes cuenta? Ingresa aquí</h5>
         </button>
       </div>
 
@@ -155,7 +155,7 @@ export default function Register() {
         <h2
           className={`flex ${device < 3 ? "box-xxl j-center" : "box-m j-end"}`}
         >
-          Registrate con
+          Regístrate con
         </h2>
         <div className={`flex ${device < 3 ? "box-xxl j-center" : "box-m"}`}>
           {linkedProviders &&
@@ -306,9 +306,9 @@ export default function Register() {
             device > 1 ? "box-m" : device < 1 ? "box-xxl" : "box-m"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Telefono</h4>
+          <h4>Teléfono</h4>
           <PhoneInput
-            placeholder="Ingresa tu telefono"
+            placeholder="Ingresa tu teléfono"
             name="phone"
             id="phone"
             value={phone}

@@ -103,7 +103,7 @@ export default function ProfileMenu({ initState }: { initState: boolean }) {
                 onClick={() => signOutAuthState()}
                 className="flex btn-span j-space"
               >
-                <h3>Cerrar sesion</h3>
+                <h3>Cerrar sesión</h3>
                 <BiLogOut className="zoom-out-xxl" />
               </button>
             </>

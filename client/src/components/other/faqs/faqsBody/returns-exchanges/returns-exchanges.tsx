@@ -8,11 +8,11 @@ export default function ReturnExchanges() {
       </div>
 
       <div className="flex column box-xxl a-start padding-s gap-s">
-        <h2>Politica para esta demo</h2>
+        <h2>Política para esta demo</h2>
         <h4>
           CodeFusion E-commerce Demo no vende productos reales, por lo que no
-          procesa cambios, devoluciones ni reclamos comerciales. Esta seccion
-          existe para mostrar como se integran paginas informativas dentro de
+          procesa cambios, devoluciones ni reclamos comerciales. Esta sección
+          existe para mostrar cómo se integran páginas informativas dentro de
           una tienda online.
         </h4>
       </div>

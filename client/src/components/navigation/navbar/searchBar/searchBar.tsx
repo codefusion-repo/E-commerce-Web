@@ -183,7 +183,7 @@ export default function SearchBar({
         <div className="flex j-start column">
           {searchFormData.slug && isOpen && (
             <div className="flex f-width-ml gap-xs padding-s">
-              <h4>{`Categoria: ${getCategoryName(searchFormData.slug)}`} </h4>
+              <h4>{`Categoría: ${getCategoryName(searchFormData.slug)}`} </h4>
               <div className="flex">
                 <IoIosCloseCircle
                   className="zoom-out-xxl base-color cursor-pointer"
@@ -232,7 +232,7 @@ export default function SearchBar({
           <FaArrowsAltH className="base-color zoom-out-xxl" />
           <div className="flex a-center j-center gap-xs">
             <div className="flex column gap-xxs a-center">
-              <label>Precio maximo</label>
+              <label>Precio máximo</label>
               <input
                 onChange={(e) => onChange(e)}
                 className="no-spinners input-small"
@@ -329,7 +329,7 @@ export default function SearchBar({
         {searchFormData.slug && isOpen && (
           <div className="flex f-width-xl f-height-xxs a-center j-space third-bg padding-l-s padding-r-s border-radius-xxs">
             <h4>
-              {`Categoria: ${searchFormData.slug
+              {`Categoría: ${searchFormData.slug
                 .split("-")
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(" ")}`}{" "}
@@ -367,7 +367,7 @@ export default function SearchBar({
         {searchFormData.maxPrice && isOpen && (
           <div className="flex f-width-xl f-height-xxs a-center j-space third-bg padding-l-s padding-r-s border-radius-xxs">
             <h4>
-              {`Maximo: ${Intl.NumberFormat("es-CL", {
+              {`Máximo: ${Intl.NumberFormat("es-CL", {
                 style: "currency",
                 currency: "CLP",
               }).format(parseFloat(searchFormData.maxPrice))}`}

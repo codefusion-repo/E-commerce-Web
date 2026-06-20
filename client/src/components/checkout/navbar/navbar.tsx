@@ -22,7 +22,7 @@ export default function CheckoutNavbar() {
         <h2>CodeFusion Demo</h2>
       </div>
       <div className="checkout-navbar__help flex box-xxl a-center j-end padding-r-m">
-        <h3>¿Necesitas ayuda? Escríbenos a hellocodefusion@gmail.com</h3>
+        <h3>¿Necesitas ayuda? Escríbenos a support@codefusion.cl</h3>
       </div>
     </header>
   );

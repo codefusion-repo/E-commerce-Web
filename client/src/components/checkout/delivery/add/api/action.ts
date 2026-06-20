@@ -22,9 +22,9 @@ export const verifyAddressFormData = (
 ): Promise<{ regionCode: string; countyCode: string }> => {
   return new Promise((resolve, reject) => {
     if (!regionName) {
-      return reject("Selecciona una region");
+      return reject("Selecciona una región");
     } else if (!regionCode) {
-      return reject("Selecciona una region");
+      return reject("Selecciona una región");
     }
     if (!countyName) {
       return reject("Selecciona una comuna");
@@ -37,14 +37,14 @@ export const verifyAddressFormData = (
       return reject("La calle debe tener al menos 3 caracteres");
     }
     if (!streetNumber) {
-      return reject("Ingresa un numero de calle");
+      return reject("Ingresa un número de calle");
     } else if (streetNumber.length < 1) {
-      return reject("El numero de calle debe tener al menos 1 caracter");
+      return reject("El número de calle debe tener al menos 1 carácter");
     }
     if (!phoneNumber) {
-      return reject("Telefono no valido");
+      return reject("Teléfono no válido");
     } else if (!verifyPhone(phoneNumber)) {
-      return reject("Telefono no valido");
+      return reject("Teléfono no válido");
     }
     const res = {
       regionCode: regionCode,

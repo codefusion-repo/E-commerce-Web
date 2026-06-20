@@ -70,7 +70,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
 
       verifyStockInput(item.id, quantity, items).then((status: string) => {
         if (status === "exceed") {
-          setError("Maximo alcanzado");
+          setError("Máximo alcanzado");
           updateItemQuantity(item, 5);
         } else if (status === "stock") {
           setError("Stock no disponible");
@@ -83,7 +83,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
         setLoading(false);
       });
     } catch (err) {
-      setError("Numero invalido");
+      setError("Número inválido");
       setLoading(false);
       return;
     }
@@ -95,7 +95,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
 
     verifyStockAdd(item.id, 1, items).then((status: string) => {
       if (status === "exceed") {
-        setError("Maximo alcanzado");
+        setError("Máximo alcanzado");
       } else if (status === "stock") {
         setError("Stock no disponible");
       } else if (status === "ok") {
@@ -195,7 +195,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                 <FaRegTrashAlt className="zoom-out-xxl" />
               </button>
             )}
-            <h4>Maximo 5 unidades por producto</h4>
+            <h4>Máximo 5 unidades por producto</h4>
           </div>
 
           {items && items.length > 0 && (

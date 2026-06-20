@@ -116,7 +116,7 @@ export default function Post({ slugPost }: { slugPost: string }) {
                                 device > 0 ? "box-xs" : "box-xxl"
                               } column gap-xs a-center j-center padding-ms`}
                             >
-                              <h4>Valoracion:</h4>
+                              <h4>Valoración:</h4>
                               <Stars
                                 stars={parseFloat(comment.stars)}
                                 comments_quantity={-1}
@@ -139,7 +139,7 @@ export default function Post({ slugPost }: { slugPost: string }) {
 
                 {post.comments.length === 0 && (
                   <div className="flex box-xxl gap-m second-border-b padding-ms">
-                    <h4>Aun no hay comentarios en esta publicacion</h4>
+                    <h4>Aún no hay comentarios en esta publicación</h4>
                   </div>
                 )}
               </div>
@@ -149,7 +149,7 @@ export default function Post({ slugPost }: { slugPost: string }) {
       ) : (
         <div className="flex box-xxl f-height-xxxl a-start j-center navbar-p-xs">
           <div className="flex f-width-xxxl f-height-l column a-center j-center gap-s second-bg border-radius-xs">
-            <h1>Pagina no encontrada 404</h1>
+            <h1>Página no encontrada 404</h1>
             <h2>No pudimos completar la solicitud</h2>
             <Link className="btn-middle btn-active" href="/blog">
               Volver al blog

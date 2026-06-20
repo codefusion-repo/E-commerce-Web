@@ -34,7 +34,7 @@ export default function Login() {
     console.log("Forgot password");
     openModal(
       "forgotPassword",
-      "Si encontramos el correo ingresado, enviaremos un codigo de verificacion para restablecer tu contraseña"
+      "Si encontramos el correo ingresado, enviaremos un código de verificación para restablecer tu contraseña"
     );
   };
 
@@ -94,7 +94,7 @@ export default function Login() {
           onClick={() => handleDontHaveAccount()}
           disabled={loading}
         >
-          <h5>¿No tienes cuenta? Registrate aqui</h5>
+          <h5>¿No tienes cuenta? Regístrate aquí</h5>
         </button>
       </div>
 
@@ -200,7 +200,7 @@ export default function Login() {
             onClick={() => handleForgotPassword()}
             disabled={loading}
           >
-            <h5>¿Olvidaste tu contraseña? Recuperala aqui</h5>
+            <h5>¿Olvidaste tu contraseña? Recupérala aquí</h5>
           </button>
         </div>
 

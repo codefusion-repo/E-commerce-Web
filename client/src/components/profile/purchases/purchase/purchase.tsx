@@ -90,7 +90,7 @@ export default function Purchase({ code }: { code: string }) {
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
         <h2>Orden de compra</h2>
         <h4 className="padding-l-xs padding-r-xs">
-          Codigo: {code.slice(3, 10)}
+          Código: {code.slice(3, 10)}
         </h4>
         <h4 className="padding-l-xs padding-r-xs">
           Fecha: {order && formatDate(order.creationDate)}
@@ -170,7 +170,7 @@ export default function Purchase({ code }: { code: string }) {
             }).format(order.subtotal)}
         </h4>
         <h4 className="padding-l-s padding-r-s">
-          Envio:{" "}
+          Envío:{" "}
           {order &&
             Intl.NumberFormat("es-CL", {
               style: "currency",
@@ -200,7 +200,7 @@ export default function Purchase({ code }: { code: string }) {
       {order?.coupon && (
         <div className="flex box-xxl m-height-xxs a-start j-space padding-t-xs padding-b-xs margin-l-xs margin-r-xs base-border-b">
           <h3 className="padding-l-s padding-r-s">
-            Codigo de cupon: {order?.coupon.coupon.code || ""}
+            Código de cupón: {order?.coupon.coupon.code || ""}
           </h3>
           {order?.coupon?.coupon.code && (
             <h3>
@@ -222,7 +222,7 @@ export default function Purchase({ code }: { code: string }) {
                   ) / 100
                 )}`}
               {order?.coupon.coupon.discount_type === "free_delivery" &&
-                `Descuento: envio gratis/-${Intl.NumberFormat("es-CL", {
+                `Descuento: envío gratis/-${Intl.NumberFormat("es-CL", {
                   style: "currency",
                   currency: "CLP",
                 }).format(order?.deliveryCost)}`}
@@ -238,16 +238,16 @@ export default function Purchase({ code }: { code: string }) {
       )}
 
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-t-xs padding-b-xs margin-l-xs margin-r-xs base-border-b">
-        <h1 className="padding-l-xxs padding-r-xxs">Detalle de envio</h1>
+        <h1 className="padding-l-xxs padding-r-xxs">Detalle de envío</h1>
       </div>
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-t-xs padding-b-xs margin-l-xs margin-r-xs base-border-b">
         <h4 className="padding-l-s padding-r-s">
-          Direccion:{" "}
+          Dirección:{" "}
           {order &&
             `${order.delivery.commune}, ${order.delivery.street}, ${order.delivery.streetNumber}`}
         </h4>
         <h4 className="padding-l-s padding-r-s">
-          Numero de seguimiento:{" "}
+          Número de seguimiento:{" "}
           {order && order.delivery.shipmentNumber
             ? order.delivery.shipmentNumber
             : "Por asignar"}
@@ -259,8 +259,8 @@ export default function Purchase({ code }: { code: string }) {
         <div className="flex box-xxl column a-center margin-l-xs margin-r-xs">
           <div className="flex box-xxl m-height-xxs column a-start padding-t-xs padding-b-xs j-center base-border-b">
             <h4 className="padding-l-s padding-r-s">
-              Aun no finalizas la orden. Puedes completar la compra de prueba a
-              continuacion.
+              Aún no finalizas la orden. Puedes completar la compra de prueba a
+              continuación.
             </h4>
           </div>
           <div className="padding-t-l">
@@ -289,7 +289,7 @@ export default function Purchase({ code }: { code: string }) {
                   src={FlowIcon}
                   alt="Flow"
                 />
-                <h5>Pago recomendado para la demo a traves de Flow</h5>
+                <h5>Pago recomendado para la demo a través de Flow</h5>
               </div>
 
               <div className="flex box-xxl a-center j-center">
@@ -314,7 +314,7 @@ export default function Purchase({ code }: { code: string }) {
           <div className="flex box-xxl m-height-xxs column a-start padding-t-xs padding-b-xs j-center base-border-b">
             {order.delivery.status === "created" && (
               <h4 className="padding-l-s padding-r-s">
-                Orden registrada, prepararemos el envio pronto
+                Orden registrada, prepararemos el envío pronto
               </h4>
             )}
             {order.delivery.status === "receivedForCourier" && (
@@ -360,7 +360,7 @@ export default function Purchase({ code }: { code: string }) {
               >
                 <GrDeliver className="zoom-in-xxl" />
               </button>
-              <h4>Orden en transito</h4>
+              <h4>Orden en tránsito</h4>
             </div>
             <div className="flex f-width-ml a-center j-start gap-s padding-ms">
               <button
@@ -389,7 +389,7 @@ export default function Purchase({ code }: { code: string }) {
             </h3>
 
             <h3 className="padding-l-s padding-r-s">
-              Metodo: {formatSlugToText(order.payment.method)}
+              Método: {formatSlugToText(order.payment.method)}
             </h3>
             <h3 className="padding-l-s padding-r-s">
               Medio: {formatSlugToText(order.payment.media)}

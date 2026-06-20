@@ -74,8 +74,8 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
         >
           <div className="checkout-step__marker">1</div>
           <div>
-            <h2>Direccion</h2>
-            <h3>Selecciona tu direccion de envio</h3>
+            <h2>Dirección</h2>
+            <h3>Selecciona tu dirección de envío</h3>
           </div>
         </div>
         <div
@@ -86,8 +86,8 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
         >
           <div className="checkout-step__marker">2</div>
           <div>
-            <h2>Envio</h2>
-            <h3>Selecciona un metodo de despacho</h3>
+            <h2>Envío</h2>
+            <h3>Selecciona un método de despacho</h3>
           </div>
         </div>
         <div
@@ -110,8 +110,8 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
       >
         <div className="checkout-shell__header flex box-xxl m-height-xxs column a-start j-center padding-xs">
           <span>Checkout seguro</span>
-          {pathname.includes("/delivery") && <h1>Direccion de envio</h1>}
-          {pathname.includes("/payment") && <h1>Metodo de pago</h1>}
+          {pathname.includes("/delivery") && <h1>Dirección de envío</h1>}
+          {pathname.includes("/payment") && <h1>Método de pago</h1>}
         </div>
         <div
           className={`checkout-shell__main flex ${
@@ -135,7 +135,7 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
             )}
             {pathname.includes("/payment") && (
               <Link href={"/checkout/delivery"} className="btn-middle">
-                <h4>Direccion de envio</h4>
+                <h4>Dirección de envío</h4>
               </Link>
             )}
             {pathname.includes("/delivery") && (
@@ -143,7 +143,7 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
                 onClick={
                   selectedAddress && selectedCourier
                     ? () => router.push("/checkout/payment")
-                    : () => addMessage("Selecciona un metodo de despacho")
+                    : () => addMessage("Selecciona un método de despacho")
                 }
                 disabled={selectedAddress && selectedCourier ? false : true}
                 className={`btn-middle ${
@@ -204,7 +204,7 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
             }).format(subtotal && subtotal)}
           </h3>
           <h3>
-            Costo de envio:{" "}
+            Costo de envío:{" "}
             {Intl.NumberFormat("es-CL", {
               style: "currency",
               currency: "CLP",
@@ -231,7 +231,7 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
                   )
                 )}`}
               {coupon.coupon.discount_type === "free_delivery" &&
-                `Descuento: envio gratis/-${Intl.NumberFormat("es-CL", {
+                `Descuento: envío gratis/-${Intl.NumberFormat("es-CL", {
                   style: "currency",
                   currency: "CLP",
                 }).format(deliveryPrice)}`}

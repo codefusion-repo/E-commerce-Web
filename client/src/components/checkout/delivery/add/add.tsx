@@ -293,9 +293,9 @@ export default function Add({
   return (
     <>
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-        {validateStatus === "default" && <h1>Agregar direccion</h1>}
+        {validateStatus === "default" && <h1>Agregar dirección</h1>}
         {validateStatus === "confirm" && (
-          <h1>Confirma tu direccion en el mapa</h1>
+          <h1>Confirma tu dirección en el mapa</h1>
         )}
       </div>
       {loading && (

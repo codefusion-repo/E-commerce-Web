@@ -79,9 +79,6 @@ export const AuthProvider: React.FC<{
 
   const updateAuthState = useCallback(
     (user?: UserType, access?: string, refresh?: string) => {
-      console.log("access: ", access);
-      console.log("refresh: ", refresh);
-
       if (user && access && refresh) {
         Cookies.set("access", access);
         Cookies.set("refresh", refresh);

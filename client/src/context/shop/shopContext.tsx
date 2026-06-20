@@ -94,7 +94,7 @@ export const ShopProvider: React.FC<{
     setSpecialCategories(
       shopData.categories.filter((s) => s.type === "special")
     );
-  }, []);
+  }, [shopData.categories]);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

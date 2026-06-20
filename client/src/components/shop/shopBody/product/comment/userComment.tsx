@@ -50,7 +50,7 @@ export default function UserComment({
     if ((comments.length > 0 && isAuthenticated) || !commentStatus) {
       getUserComment(comments);
     }
-  }, [comments, isAuthenticated, commentStatus]);
+  }, [commentStatus, comments, isAuthenticated, user?.email]);
 
   return (
     <div className="flex box-xxl m-height-xs border-radius-xs hidden">

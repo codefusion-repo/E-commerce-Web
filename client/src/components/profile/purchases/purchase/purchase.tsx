@@ -33,7 +33,7 @@ export default function Purchase({ code }: { code: string }) {
       router.push("/");
       openModal("login", "You must be authenticated to continue");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, openModal, router]);
 
   const order: PurchaseType | undefined = user?.purchases.find(
     (item) => item.code === code
@@ -121,10 +121,12 @@ export default function Purchase({ code }: { code: string }) {
                     ? `${item.product.name.slice(0, 15)}...`
                     : item.product.name}
                 </h5>
-                <img
+                <Image
                   className="f-width-xs f-height-xs"
                   src={`${item.product.thumbnail}`}
                   alt={item.product.name}
+                  width={64}
+                  height={64}
                 />
                 <h4>
                   {Intl.NumberFormat("es-CL", {

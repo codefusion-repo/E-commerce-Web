@@ -98,7 +98,7 @@ export default function Editor({
       setCommunes(communesOfSelectedRegion);
       setLoading(false);
     }
-  }, [communes]);
+  }, [address.regionCode, communes]);
 
   const onSubmitValidation = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

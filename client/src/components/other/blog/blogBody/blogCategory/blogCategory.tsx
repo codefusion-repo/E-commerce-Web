@@ -25,7 +25,7 @@ export default function BlogCategory({
 
   useEffect(() => {
     setBlogCategory(categories.find((c) => c.slug === slugBlogCategory));
-  }, []);
+  }, [categories, slugBlogCategory]);
   return (
     <>
       {categories.find((c) => c.slug === slugBlogCategory) ? (
@@ -37,10 +37,12 @@ export default function BlogCategory({
                   <h1 className="z-index-s">{blogCategory.name}</h1>
                   <h5 className="z-index-s">{blogCategory.description}</h5>
                 </div>
-                <img
+                <Image
                   className="absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
                   src={`${blogCategory.icon}`}
                   alt="banner-alt"
+                  width={1600}
+                  height={640}
                 />
               </div>
               <div className="flex column box-xxl a-center padding-s">

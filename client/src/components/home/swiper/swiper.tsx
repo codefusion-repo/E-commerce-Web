@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { BannerType } from "../../../interfaces/utils/utilsInterface";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function BannerSwiper({ banners }: { banners: BannerType[] }) {
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -47,7 +48,13 @@ export default function BannerSwiper({ banners }: { banners: BannerType[] }) {
       {banners &&
         banners.map((banner) => (
           <SwiperSlide key={banner.id}>
-            <img src={`${banner.thumbnail}`} alt={banner.alt || "Store banner"} />
+            <Image
+              src={`${banner.thumbnail}`}
+              alt={banner.alt || "Store banner"}
+              width={1600}
+              height={640}
+              sizes="100vw"
+            />
           </SwiperSlide>
         ))}
     </Swiper>

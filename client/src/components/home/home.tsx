@@ -12,6 +12,7 @@ import Products from "./products/products";
 import { CategoryType, ProductType } from "../../interfaces/shop/shopInterface";
 import { BannerType } from "../../interfaces/utils/utilsInterface";
 import BannerSwiper from "./swiper/swiper";
+import Image from "next/image";
 import Link from "next/link";
 import { useViewportReveal } from "../../hooks/useViewportReveal";
 
@@ -64,7 +65,13 @@ export default function Home({ banners }: { banners: BannerType[] }) {
         </div>
 
         <div className="home-hero__media">
-          <img src={logo.src} alt="Vista previa de la demo e-commerce" />
+          <Image
+            src={logo}
+            alt="Vista previa de la demo e-commerce"
+            fill
+            priority
+            sizes="(max-width: 900px) 92vw, 45vw"
+          />
         </div>
       </section>
 

@@ -5,6 +5,7 @@ import "./productCard.css";
 import { MdAddShoppingCart } from "react-icons/md";
 import { FaLink } from "react-icons/fa";
 import Stars from "../comment/stars";
+import Image from "next/image";
 import Link from "next/link";
 import { useShopcart } from "../../../../../context/shopcart/shopcartContext";
 import { ProductType } from "../../../../../interfaces/shop/shopInterface";
@@ -22,6 +23,7 @@ const ProductCard: React.FC<{
   const { addItem } = useShopcart();
   const [isAdded, setIsAdded] = useState(false);
   const [revealed, setRevealed] = useState(false);
+  const [imageSrc, setImageSrc] = useState(product.thumbnail);
   // Render the reveal's visible class through React state so re-renders (e.g.
   // the add-to-cart or breakpoint className change) never strip it and hide the
   // card. useViewportReveal stays the site-standard reveal trigger.
@@ -47,6 +49,10 @@ const ProductCard: React.FC<{
     return () => window.clearTimeout(timeout);
   }, [isAdded]);
 
+  useEffect(() => {
+    setImageSrc(product.thumbnail);
+  }, [product.thumbnail]);
+
   const handleAddItem = () => {
     addItem(product);
     setIsAdded(true);
@@ -71,14 +77,15 @@ const ProductCard: React.FC<{
         aria-label={`View ${product.name}`}
       >
         {badgeText && <span className="product-card__badge">{badgeText}</span>}
-        <img
+        <Image
           className="product-card__image border-radius-xs"
-          src={`${product.thumbnail}`}
+          src={imageSrc || fallbackProductImage.src}
           alt={product.name}
+          width={720}
+          height={720}
           loading="eager"
-          onError={(event) => {
-            event.currentTarget.src = fallbackProductImage.src;
-          }}
+          sizes="(max-width: 767px) 85vw, 420px"
+          onError={() => setImageSrc(fallbackProductImage.src)}
         />
       </Link>
 

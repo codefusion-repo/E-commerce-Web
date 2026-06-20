@@ -5,6 +5,7 @@ import "./filteredProductCard.css";
 import { MdAddShoppingCart } from "react-icons/md";
 import { FaLink } from "react-icons/fa";
 import { useShop } from "../../../../../context/shop/shopContext";
+import Image from "next/image";
 import Link from "next/link";
 import { useShopcart } from "../../../../../context/shopcart/shopcartContext";
 import { ProductType } from "../../../../../interfaces/shop/shopInterface";
@@ -23,6 +24,7 @@ const FilteredProductCard: React.FC<{
   const { addItem } = useShopcart();
   const [isAdded, setIsAdded] = useState(false);
   const [revealed, setRevealed] = useState(false);
+  const [imageSrc, setImageSrc] = useState(product.thumbnail);
   // Render the reveal's visible class through React state so re-renders never
   // strip it and hide the card. useViewportReveal stays the standard trigger.
   const entryRevealRef = useViewportReveal({
@@ -44,6 +46,10 @@ const FilteredProductCard: React.FC<{
     const timeout = window.setTimeout(() => setIsAdded(false), 1200);
     return () => window.clearTimeout(timeout);
   }, [isAdded]);
+
+  useEffect(() => {
+    setImageSrc(product.thumbnail);
+  }, [product.thumbnail]);
 
   const handleAddItem = () => {
     addItem(product);
@@ -69,14 +75,15 @@ const FilteredProductCard: React.FC<{
         onClick={() => setIsOpen(false)}
         aria-label={`View ${product.name}`}
       >
-        <img
+        <Image
           className="filtered-product-card__image border-radius-xs"
-          src={`${product.thumbnail}`}
+          src={imageSrc || fallbackProductImage.src}
           alt={product.name}
+          width={640}
+          height={640}
           loading="eager"
-          onError={(event) => {
-            event.currentTarget.src = fallbackProductImage.src;
-          }}
+          sizes="(max-width: 767px) 85vw, 360px"
+          onError={() => setImageSrc(fallbackProductImage.src)}
         />
       </Link>
 

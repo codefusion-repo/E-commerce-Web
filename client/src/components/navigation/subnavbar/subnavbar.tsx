@@ -5,6 +5,7 @@
 import { useShop } from "../../../context/shop/shopContext";
 import { MdArrowDropDown } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { CategoryType } from "../../../interfaces/shop/shopInterface";
 
@@ -90,10 +91,12 @@ export default function Subnavbar() {
             ))}
           </div>
           <div className="flex box-xs f-height-full a-center j-center t-center second-bg ">
-            <img
+            <Image
               className="f-width-l f-height-m border-radius-xxl"
               src={`${selectedCategory.icon}`}
               alt={selectedCategory.name}
+              width={320}
+              height={240}
             />
           </div>
         </div>

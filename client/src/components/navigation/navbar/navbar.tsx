@@ -11,6 +11,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { chainUrlStringWithSlug, getSearchedElements } from "./api/actions";
 import { useShop } from "../../../context/shop/shopContext";
 import SearchSidebar from "./searchSidebar/searchSidebar";
+import Image from "next/image";
 import Link from "next/link";
 import { IoIosCloseCircle } from "react-icons/io";
 import logo from "../../../assets/sampleBusinessImage.jpeg";
@@ -102,7 +103,19 @@ export default function Navbar() {
     if (slug || minPrice || maxPrice || search || orderBy || refresh) {
       refreshSearch(slug, minPrice, maxPrice, search, orderBy);
     }
-  }, [slug, minPrice, maxPrice, search, orderBy, refresh]);
+  }, [
+    brands,
+    categories,
+    maxPrice,
+    minPrice,
+    orderBy,
+    pathname,
+    products,
+    refresh,
+    router,
+    search,
+    slug,
+  ]);
 
   const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchFormData({ ...searchFormData, [e.target.name]: e.target.value });
@@ -147,9 +160,9 @@ export default function Navbar() {
       >
         <div className="flex box-ms a-center j-start padding-l-ms">
           <Link href={"/"}>
-            <img
+            <Image
               className="f-height-s fit-contain border-radius-xxs zoom-out-xs"
-              src={logo.src}
+              src={logo}
               alt="logo"
             />
           </Link>

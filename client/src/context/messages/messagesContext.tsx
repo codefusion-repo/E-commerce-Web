@@ -4,6 +4,7 @@
 import React, {
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -27,59 +28,47 @@ export const MessagesProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [messages, setMessages] = useState<MessageType[]>([]);
 
-  const addMessage = (newMessage: string) => {
-    const updatedMessages: MessageType[] = [];
-    let isMessageInside: boolean = false;
+  const addMessage = useCallback((newMessage: string) => {
+    setMessages((currentMessages) => {
+      const isMessageInside = currentMessages.some(
+        (message) => message.text === newMessage
+      );
 
-    messages.forEach((message) => {
-      if (message.text === newMessage) {
-        isMessageInside = true;
+      if (isMessageInside) {
+        return currentMessages;
       }
 
-      updatedMessages.push(message);
+      return [
+        ...currentMessages,
+        {
+          id: Date.now(),
+          text: newMessage,
+          countdown: 20,
+        },
+      ];
     });
+  }, []);
 
-    if (isMessageInside === false) {
-      const newMessageType: MessageType = {
-        id: Date.now(),
-        text: newMessage,
-        countdown: 20,
-      };
+  const removeMessage = useCallback((id: number) => {
+    setMessages((currentMessages) =>
+      currentMessages.filter((message) => message.id !== id)
+    );
+  }, []);
 
-      updatedMessages.push(newMessageType);
-    }
-
-    setMessages(updatedMessages);
-  };
-
-  const removeMessage = (id: number) => {
-    const updatedMessages: MessageType[] = [];
-    messages.forEach((message) => {
-      if (message.id !== id) {
-        updatedMessages.push(message);
-      }
-    });
-
-    setMessages(updatedMessages);
-  };
-
-  const updateCountdown = () => {
-    const updatedMessages: MessageType[] = [];
-    messages.forEach((message) => {
-      if (message.countdown > 0) {
-        updatedMessages.push({ ...message, countdown: message.countdown - 1 });
-      }
-    });
-
-    setMessages(updatedMessages);
-  };
+  const updateCountdown = useCallback(() => {
+    setMessages((currentMessages) =>
+      currentMessages
+        .filter((message) => message.countdown > 0)
+        .map((message) => ({ ...message, countdown: message.countdown - 1 }))
+    );
+  }, []);
 
   useEffect(() => {
     if (messages.length > 0) {
       const intervalId = setInterval(updateCountdown, 1000);
       return () => clearInterval(intervalId);
     }
-  }, [messages]);
+  }, [messages.length, updateCountdown]);
 
   return (
     <MessagesContext.Provider

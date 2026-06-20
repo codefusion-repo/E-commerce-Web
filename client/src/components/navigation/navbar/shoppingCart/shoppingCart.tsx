@@ -237,10 +237,12 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                             ? `${item.name.slice(0, 15)}...`
                             : item.name}
                         </h6>
-                        <img
+                        <Image
                           className="f-width-xxs f-height-xxs zoom-out-xs border-radius-xs"
                           src={`${item.thumbnail}`}
                           alt={item.name}
+                          width={48}
+                          height={48}
                         />
                         <h3>
                           {Intl.NumberFormat("es-CL", {

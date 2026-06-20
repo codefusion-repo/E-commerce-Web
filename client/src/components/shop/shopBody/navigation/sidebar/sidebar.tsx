@@ -3,6 +3,7 @@
 
 import "./sidebar.css";
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { MdArrowDropDown } from "react-icons/md";
 import { HiMenuAlt2 } from "react-icons/hi";
@@ -59,7 +60,12 @@ export default function Sidebar({
                   href={`/shop/${category.slug}`}
                   className="icon-category-sidebar btn-middle"
                 >
-                  <img src={`${category.icon}`} alt={category.name} />
+                  <Image
+                    src={`${category.icon}`}
+                    alt={category.name}
+                    width={64}
+                    height={64}
+                  />
                 </Link>
                 {isOpen && isOpen && (
                   <div className={`category-body`}>
@@ -90,9 +96,11 @@ export default function Sidebar({
                         href={`/shop/${subcategory.slug}`}
                         className="icon-category-sidebar btn-middle"
                       >
-                        <img
+                        <Image
                           src={`${subcategory.icon}`}
                           alt={subcategory.name}
+                          width={64}
+                          height={64}
                         />
                       </Link>
                       <div className="category-body">

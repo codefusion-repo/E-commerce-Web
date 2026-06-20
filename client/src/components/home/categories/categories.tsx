@@ -7,6 +7,7 @@ import {
 // categories.tsx
 
 import "./categories.css";
+import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { useViewportReveal } from "../../../hooks/useViewportReveal";
@@ -30,10 +31,12 @@ function CategoryRevealCard({
       className="category-card reveal reveal--slide-up flex column f-width-m a-center t-center j-start gap-xxs padding-xs"
       style={revealStyle}
     >
-      <img
+      <Image
         className="category-card__image f-width-s f-height-s border-radius-xs"
         src={`${category.icon}`}
         alt={category.name}
+        width={96}
+        height={96}
       />
       <h3>{category.name}</h3>
     </Link>

@@ -18,63 +18,72 @@ import { ShopcartProvider } from "../context/shopcart/shopcartContext";
 import { CheckoutProvider } from "../context/checkout/checkoutContext";
 import type { Metadata } from "next";
 import { serverApiUrl } from "../utils/api";
+import { I18nProvider } from "../i18n/client";
+import { LOCALE_COOKIE_NAME, LOCALE_DETAILS, normalizeLocale } from "../i18n/config";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://ecommerce-demo.codefusion.cl";
 const mediaBaseUrl =
   process.env.NEXT_PUBLIC_AWS_S3_CUSTOM_DOMAIN || siteUrl;
-const siteDescription =
-  "Demo e-commerce de CodeFusion con catálogo, carrito, cupones, checkout con Flow y gestión básica de pedidos para mostrar una experiencia de compra completa sin usar datos sensibles.";
 const mediaUrl = (path: string) => new URL(path, mediaBaseUrl).toString();
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "CodeFusion E-commerce Demo",
-    template: "%s | CodeFusion E-commerce Demo",
-  },
-  description: siteDescription,
-  applicationName: "CodeFusion E-commerce Demo",
-  keywords: [
-    "CodeFusion",
-    "e-commerce demo",
-    "checkout Flow",
-    "Next.js",
-    "Django",
-    "portfolio",
-  ],
-  alternates: {
-    canonical: "/",
-  },
+function getServerLocale() {
+  return normalizeLocale(cookies().get(LOCALE_COOKIE_NAME)?.value);
+}
 
-  openGraph: {
-    title: "CodeFusion E-commerce Demo",
-    description: siteDescription,
-    url: "/",
-    siteName: "CodeFusion E-commerce Demo",
-    locale: "es_CL",
-    type: "website",
-    images: [
-      {
-        url: mediaUrl("/static/meta/opengraph-image.png"),
-        width: 512,
-        height: 512,
-        alt: "Vista previa de CodeFusion E-commerce Demo",
-      },
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = getServerLocale();
+  const localeMetadata = LOCALE_DETAILS[locale].metadata;
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: localeMetadata.title,
+      template: `%s | ${localeMetadata.title}`,
+    },
+    description: localeMetadata.description,
+    applicationName: "CodeFusion E-commerce Demo",
+    keywords: [
+      "CodeFusion",
+      "e-commerce demo",
+      "checkout Flow",
+      "Next.js",
+      "Django",
+      "portfolio",
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "CodeFusion E-commerce Demo",
-    description: siteDescription,
-    images: [mediaUrl("/static/meta/twitter-image.png")],
-  },
-  icons: {
-    icon: mediaUrl("/static/meta/favicon.ico"),
-    apple: mediaUrl("/static/meta/apple-icon.png"),
-    shortcut: mediaUrl("/static/meta/icon.png"),
-  },
-};
+    alternates: {
+      canonical: "/",
+    },
+
+    openGraph: {
+      title: localeMetadata.title,
+      description: localeMetadata.description,
+      url: "/",
+      siteName: "CodeFusion E-commerce Demo",
+      locale: localeMetadata.openGraphLocale,
+      type: "website",
+      images: [
+        {
+          url: mediaUrl("/static/meta/opengraph-image.png"),
+          width: 512,
+          height: 512,
+          alt: localeMetadata.imageAlt,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: localeMetadata.title,
+      description: localeMetadata.description,
+      images: [mediaUrl("/static/meta/twitter-image.png")],
+    },
+    icons: {
+      icon: mediaUrl("/static/meta/favicon.ico"),
+      apple: mediaUrl("/static/meta/apple-icon.png"),
+      shortcut: mediaUrl("/static/meta/icon.png"),
+    },
+  };
+}
 
 // Función de retorno por default
 async function defaultAuthReturn() {
@@ -332,32 +341,35 @@ export default async function RootLayout({
   const authData = await postJWTVerifyToken();
 
   const shopData = await getShopData();
+  const locale = getServerLocale();
 
   // const cartData = await fetchShopcart(authData.user, authData.isAuthenticated);
 
   return (
-    <html lang="es-CL">
+    <html lang={LOCALE_DETAILS[locale].htmlLang}>
       <body>
         <MobileProvider>
-          <FirebaseProvider>
-            <MessagesProvider>
-              <SettingsProvider settingsData={settingsData}>
-                <AuthProvider authData={authData}>
-                  <ShopProvider shopData={shopData}>
-                    <CheckoutProvider>
-                      <ShopcartProvider>
-                        <ModalProvider>
-                          {children}
-                          <Modal />
-                          <Messages />
-                        </ModalProvider>
-                      </ShopcartProvider>
-                    </CheckoutProvider>
-                  </ShopProvider>
-                </AuthProvider>
-              </SettingsProvider>
-            </MessagesProvider>
-          </FirebaseProvider>
+          <I18nProvider initialLocale={locale}>
+            <FirebaseProvider>
+              <MessagesProvider>
+                <SettingsProvider settingsData={settingsData}>
+                  <AuthProvider authData={authData}>
+                    <ShopProvider shopData={shopData}>
+                      <CheckoutProvider>
+                        <ShopcartProvider>
+                          <ModalProvider>
+                            {children}
+                            <Modal />
+                            <Messages />
+                          </ModalProvider>
+                        </ShopcartProvider>
+                      </CheckoutProvider>
+                    </ShopProvider>
+                  </AuthProvider>
+                </SettingsProvider>
+              </MessagesProvider>
+            </FirebaseProvider>
+          </I18nProvider>
         </MobileProvider>
       </body>
     </html>

@@ -5,6 +5,7 @@ import "./navbar.css";
 import logo from "../../../assets/sampleBusinessImage.jpeg";
 import Image from "next/image";
 import Link from "next/link";
+import LanguageSelector from "../../i18n/languageSelector";
 
 export default function CheckoutNavbar() {
   return (
@@ -21,7 +22,8 @@ export default function CheckoutNavbar() {
       <div className="checkout-navbar__title flex box-xxl a-center j-center">
         <h2>CodeFusion Demo</h2>
       </div>
-      <div className="checkout-navbar__help flex box-xxl a-center j-end padding-r-m">
+      <div className="checkout-navbar__help flex box-xxl a-center j-end gap-ms padding-r-m">
+        <LanguageSelector />
         <h3>¿Necesitas ayuda? Escríbenos a support@codefusion.cl</h3>
       </div>
     </header>

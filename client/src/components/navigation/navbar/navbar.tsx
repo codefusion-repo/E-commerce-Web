@@ -21,6 +21,7 @@ import {
 } from "../../../interfaces/shop/shopInterface";
 import { SearchFormDataType } from "../../../interfaces/utils/utilsInterface";
 import { useMobile } from "../../../context/mobile/mobileContext";
+import LanguageSelector from "../../i18n/languageSelector";
 
 export default function Navbar() {
   const { device } = useMobile();
@@ -206,6 +207,7 @@ export default function Navbar() {
         </div>
 
         <div className="flex box-ms a-center j-end gap-ms padding-r-ms">
+          <LanguageSelector />
           <ShoppingCart initState={false} />
 
           <ProfileMenu initState={false} />

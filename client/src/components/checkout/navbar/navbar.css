@@ -26,7 +26,7 @@
 }
 
 @media screen and (max-width: 640px) {
-    .checkout-navbar__help {
+    .checkout-navbar__help h3 {
         display: none;
     }
     .checkout-navbar__brand {
@@ -34,7 +34,12 @@
         padding-left: .75rem;
     }
     .checkout-navbar__title {
+        justify-content: center;
+        width: 30%;
+    }
+    .checkout-navbar__help {
         justify-content: flex-end;
         padding-right: .75rem;
+        width: 35%;
     }
 }

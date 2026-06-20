@@ -40,7 +40,7 @@ export default function BlogCategory({
                 <Image
                   className="absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
                   src={`${blogCategory.icon}`}
-                  alt="banner-alt"
+                  alt={blogCategory.name}
                   width={1600}
                   height={640}
                 />

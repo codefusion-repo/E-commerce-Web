@@ -58,7 +58,7 @@ export const postValidateAddress = (
               }
 
               return reject(
-                `Error in ${param}: "${component.componentName.text}", please correct it and try again`
+                `Error en ${param}: "${component.componentName.text}", corrigelo e intenta nuevamente`
               );
             } else {
               if (component.componentType === "route") {
@@ -70,15 +70,15 @@ export const postValidateAddress = (
           });
           return resolve(params);
         } else {
-          return reject("Address entered is not valid");
+          return reject("La dirección ingresada no es válida");
         }
       })
       .catch((err) => {
         return reject(
           err?.response?.data?.error?.details &&
             err?.response?.data?.error?.details.length > 0
-            ? `Unexpected error in parameter "${err?.response?.data?.error?.details[0]?.fieldViolations[0]?.field}", please try again`
-            : "Unexpected error, please try again"
+            ? `Error inesperado en el parametro "${err?.response?.data?.error?.details[0]?.fieldViolations[0]?.field}", intenta nuevamente`
+            : "Error inesperado, intenta nuevamente"
         );
       });
   });
@@ -126,7 +126,7 @@ const postShipit = (
           .catch((err) => {
             return reject(
               err?.response?.data?.detail ||
-                "Unexpected error, please try again"
+                "Error inesperado, intenta nuevamente"
             );
           });
       })
@@ -150,10 +150,10 @@ export const postDeliveryCotization = (
 ): Promise<any> => {
   return new Promise((resolve, reject) => {
     if (!countyCode) {
-      return reject("Select a shipping address");
+      return reject("Selecciona una dirección de envío");
     }
     if (!countyName) {
-      return reject("Select a shipping address");
+      return reject("Selecciona una dirección de envío");
     }
 
     let peso = 0;

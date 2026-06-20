@@ -18,7 +18,7 @@ export default function PostCommentDefault({
   return (
     <div className="flex wrap box-xxl second-bg padding-ms">
       <div className="flex box-xxl a-center j-center gap-s base-border-b padding-b-xs">
-        <h4>Your comment</h4>
+        <h4>Tu comentario</h4>
       </div>
       <div className="flex box-xxl wrap a-center j-space">
         <div
@@ -26,8 +26,8 @@ export default function PostCommentDefault({
             device > 1 ? "box-ml" : "box-xxl"
           } column a-start j-center gap-xs padding-ms`}
         >
-          <h4>User: {comment.user.first_name}</h4>
-          <h4>Comment: {comment.comment}</h4>
+          <h4>Usuario: {comment.user.first_name}</h4>
+          <h4>Comentario: {comment.comment}</h4>
         </div>
 
         <div
@@ -35,7 +35,7 @@ export default function PostCommentDefault({
             device > 1 ? "box-xs" : "box-xxl"
           } column gap-xs a-center j-center padding-ms`}
         >
-          <h4>Rating:</h4>
+          <h4>Valoración:</h4>
           <Stars
             stars={parseFloat(comment.stars)}
             comments_quantity={-1}

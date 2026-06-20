@@ -293,14 +293,14 @@ export default function Add({
   return (
     <>
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-        {validateStatus === "default" && <h1>Add address</h1>}
+        {validateStatus === "default" && <h1>Agregar dirección</h1>}
         {validateStatus === "confirm" && (
-          <h1>Confirm your address on the map</h1>
+          <h1>Confirma tu dirección en el mapa</h1>
         )}
       </div>
       {loading && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (

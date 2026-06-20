@@ -70,20 +70,20 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
 
       verifyStockInput(item.id, quantity, items).then((status: string) => {
         if (status === "exceed") {
-          setError("Maximum reached");
+          setError("Máximo alcanzado");
           updateItemQuantity(item, 5);
         } else if (status === "stock") {
-          setError("Stock not available");
+          setError("Stock no disponible");
           updateItemQuantity(item, 5);
         } else if (status === "limit") {
-          setError("Press remove to delete the product");
+          setError("Usa eliminar para quitar el producto");
         } else if (status === "ok") {
           updateItemQuantity(item, quantity);
         }
         setLoading(false);
       });
     } catch (err) {
-      setError("Invalid number");
+      setError("Número inválido");
       setLoading(false);
       return;
     }
@@ -95,9 +95,9 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
 
     verifyStockAdd(item.id, 1, items).then((status: string) => {
       if (status === "exceed") {
-        setError("Maximum reached");
+        setError("Máximo alcanzado");
       } else if (status === "stock") {
-        setError("Stock not available");
+        setError("Stock no disponible");
       } else if (status === "ok") {
         addItem(item);
       }
@@ -110,7 +110,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
 
     verifyStockRemove(item.id, 1, items).then((status: string) => {
       if (status === "limit") {
-        setError("Press remove to delete the product");
+        setError("Usa eliminar para quitar el producto");
       } else if (status === "ok") {
         removeUnitFromItem(item);
       }
@@ -145,7 +145,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
     if (isAuthenticated) {
       router.push("/checkout/delivery");
     } else {
-      openModal("login", "Log in to your account to continue");
+      openModal("login", "Ingresa a tu cuenta para continuar");
     }
   };
 
@@ -159,7 +159,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
           className={`mini-cart__button btn-small ${isOpen && "btn-active"}`}
           onClick={() => handleOpenShoppingCart()}
           type="button"
-          aria-label="Open shopping cart"
+          aria-label="Abrir carrito"
         >
           <TiShoppingCart className="zoom-in-xxl" />
         </button>
@@ -180,14 +180,10 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
           <div className="mini-cart__header flex box-xxl column a-center gap-xs margin-b-xs">
             <h2>
               {items && items.length > 1
-                ? `You have ${
-                    items && items.length
-                  } products in your shopping cart`
+                ? `Tienes ${items && items.length} productos en el carrito`
                 : items && items.length === 0
-                ? `There are no products in your shopping cart`
-                : `You have ${
-                    items && items.length
-                  } product in your shopping cart`}
+                ? `No hay productos en el carrito`
+                : `Tienes ${items && items.length} producto en el carrito`}
             </h2>
             {items && items.length >= 1 && (
               <button
@@ -195,11 +191,11 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                 onClick={() => clearShop()}
                 type="button"
               >
-                <h4>Clear</h4>
+                <h4>Vaciar</h4>
                 <FaRegTrashAlt className="zoom-out-xxl" />
               </button>
             )}
-            <h4>Maximum 5 units per product</h4>
+            <h4>Máximo 5 unidades por producto</h4>
           </div>
 
           {items && items.length > 0 && (
@@ -207,16 +203,16 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
               <div className="flex box-xxl column">
                 <div className="flex box-xxl f-height-xxs a-center j-center base-border-t base-border-b">
                   <div className="flex box-xxl j-center base-border-r">
-                    <h4>Product</h4>
+                    <h4>Producto</h4>
                   </div>
                   {/*<div className="flex box-xxl j-center base-border-r">
                     <h4>Precio c/u</h4>
                   </div>*/}
                   <div className="flex box-xxl j-center base-border-r">
-                    <h4>Quantity</h4>
+                    <h4>Cantidad</h4>
                   </div>
                   <div className="flex box-xxl j-center">
-                    <h4>Remove</h4>
+                    <h4>Quitar</h4>
                   </div>
                 </div>
 
@@ -265,12 +261,12 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                             onClick={() => handleRemoveItem(item)}
                             className="btn-span"
                             type="button"
-                            aria-label={`Remove one ${item.name}`}
+                            aria-label={`Quitar una unidad de ${item.name}`}
                           >
                             <FaMinusCircle className="zoom-out-xl" />
                           </button>
                           <label className="sr-only" htmlFor={`input_${item.id}`}>
-                            Quantity for {item.name}
+                            Cantidad para {item.name}
                           </label>
                           <input
                             name="itemQuantity"
@@ -285,7 +281,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                             onClick={() => handleAddItem(item)}
                             className="btn-span"
                             type="button"
-                            aria-label={`Add one ${item.name}`}
+                            aria-label={`Agregar una unidad de ${item.name}`}
                           >
                             <FaPlusCircle className="zoom-out-xl" />
                           </button>
@@ -296,7 +292,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                           onClick={() => removeItem(item)}
                           className="btn-span"
                           type="button"
-                          aria-label={`Remove ${item.name} from cart`}
+                          aria-label={`Quitar ${item.name} del carrito`}
                         >
                           <FaRegTrashAlt className="zoom-out-xxl" />
                         </button>
@@ -310,7 +306,7 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                   <Image
                     className="f-height-xxs"
                     src={loadingGif}
-                    alt="Loading..."
+                    alt="Cargando..."
                   />
                 </div>
               )}
@@ -338,14 +334,14 @@ export default function ShoppingCart({ initState }: ShoppingCartProps) {
                   className="btn-middle btn-active"
                   type="button"
                 >
-                  <h4>Buy</h4>
+                  <h4>Comprar</h4>
                 </button>
 
                 <Link
                   href={"/shopcart"}
                   className="flex gap-m btn-middle btn-active"
                 >
-                  <h4>Go to cart</h4>
+                  <h4>Ir al carrito</h4>
                   <FaCartArrowDown className="zoom-out-xxl" />
                 </Link>
               </div>

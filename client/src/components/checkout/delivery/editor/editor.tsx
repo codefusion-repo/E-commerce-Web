@@ -393,9 +393,9 @@ export default function Editor({
   return (
     <>
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-        {validateStatus === "default" && <h1>Edit address</h1>}
+        {validateStatus === "default" && <h1>Editar dirección</h1>}
         {validateStatus === "confirm" && (
-          <h1>Confirm your address on the map</h1>
+          <h1>Confirma tu dirección en el mapa</h1>
         )}
       </div>
 

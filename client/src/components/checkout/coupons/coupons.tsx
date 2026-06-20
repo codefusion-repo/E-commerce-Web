@@ -19,15 +19,15 @@ const formatCurrency = (value: number) =>
 
 const getCouponUnavailableReason = (userCoupon: UserCouponType) => {
   if (userCoupon.status === "is_used") {
-    return "Coupon already used";
+    return "Cupón ya utilizado";
   }
 
   if (userCoupon.status === "is_expired") {
-    return "Coupon expired";
+    return "Cupón expirado";
   }
 
   if (!["is_claimed", "is_applied"].includes(userCoupon.status)) {
-    return "Coupon not available";
+    return "Cupón no disponible";
   }
 
   const expiresAt = userCoupon.coupon.discount_expire
@@ -35,7 +35,7 @@ const getCouponUnavailableReason = (userCoupon: UserCouponType) => {
     : null;
 
   if (expiresAt && !Number.isNaN(expiresAt) && expiresAt < Date.now()) {
-    return "Coupon expired";
+    return "Cupón expirado";
   }
 
   return null;
@@ -80,7 +80,7 @@ const getDiscountLabel = (
   }
 
   if (userCoupon.coupon.discount_type === "free_delivery") {
-    return `Free delivery / -${formatCurrency(estimatedDiscount)}`;
+    return `Envío gratis / -${formatCurrency(estimatedDiscount)}`;
   }
 
   return `-${formatCurrency(estimatedDiscount)}`;
@@ -143,7 +143,7 @@ export default function Coupons() {
 
     const couponCode = code.trim();
     if (!couponCode) {
-      setError("Enter a coupon code");
+      setError("Ingresa un código de cupón");
       return;
     }
 
@@ -155,7 +155,7 @@ export default function Coupons() {
       .then((updatedUser) => {
         setUser(updatedUser);
         setCode("");
-        setInfo("Coupon added");
+        setInfo("Cupón agregado");
         setLoading(false);
         setManualOpen(false);
       })
@@ -170,7 +170,7 @@ export default function Coupons() {
     <div className="coupon-panel flex box-xxl column a-center gap-xs">
       {loading && (
         <div className="coupon-alert coupon-alert--loading flex box-xxl m-height-xxs column a-center j-center padding-xxs">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (
@@ -189,20 +189,20 @@ export default function Coupons() {
 
       <div className="coupon-panel__body flex box-xxl column gap-s">
         <div className="coupon-panel__header flex box-xxl a-center j-space">
-          <h3>Your coupons</h3>
+          <h3>Tus cupones</h3>
           <button
             type="button"
             form="none"
             onClick={() => setManualOpen((isOpen) => !isOpen)}
             className="coupon-panel__toggle btn-span"
           >
-            {manualOpen ? "Hide code input" : "Enter code"}
+            {manualOpen ? "Ocultar código" : "Ingresar código"}
           </button>
         </div>
 
         <div className="coupon-selector flex box-xxl column gap-xs">
           <label htmlFor="coupon-selector">
-            <h4>Choose a coupon</h4>
+            <h4>Elige un cupón</h4>
           </label>
           <select
             id="coupon-selector"
@@ -210,7 +210,7 @@ export default function Coupons() {
             value={selectedCoupon?.id || ""}
             onChange={handleCouponSelection}
           >
-            <option value="">No coupon</option>
+            <option value="">Sin cupón</option>
             {eligibleCoupons.map((userCoupon) => (
               <option key={userCoupon.id} value={userCoupon.id}>
                 {userCoupon.coupon.code} -{" "}
@@ -221,17 +221,17 @@ export default function Coupons() {
 
           {selectedCoupon ? (
             <div className="coupon-card coupon-card--selected flex box-xxl column gap-xs padding-xxs">
-              <h4>Selected coupon: {selectedCoupon.coupon.code}</h4>
+              <h4>Cupón seleccionado: {selectedCoupon.coupon.code}</h4>
               <h4>
-                Estimated discount:{" "}
+                Descuento estimado:{" "}
                 {getDiscountLabel(selectedCoupon, subtotal, deliveryPrice)}
               </h4>
             </div>
           ) : (
             <div className="coupon-card flex box-xxl column gap-xs padding-xxs">
-              <h4>No coupon selected</h4>
+              <h4>No hay cupón seleccionado</h4>
               {eligibleCoupons.length === 0 && (
-                <h4>No eligible coupons available</h4>
+                <h4>No hay cupones disponibles</h4>
               )}
             </div>
           )}
@@ -239,7 +239,7 @@ export default function Coupons() {
 
         {unavailableCoupons.length > 0 && (
           <div className="coupon-unavailable flex box-xxl column gap-xs">
-            <h4>Unavailable coupons</h4>
+            <h4>Cupones no disponibles</h4>
             {unavailableCoupons.map((userCoupon) => (
               <div
                 className="coupon-unavailable__item flex box-xxl gap-s j-space a-center padding-xxs"
@@ -261,7 +261,7 @@ export default function Coupons() {
           className="coupon-form flex box-xxl column a-center gap-s"
           onSubmit={(e) => handleClaimCoupon(e)}
         >
-          <h4>Do you have a promotional code?</h4>
+          <h4>¿Tienes un código promocional?</h4>
           <input
             className="coupon-form__input input-middle"
             type="text"
@@ -280,11 +280,11 @@ export default function Coupons() {
                 onClick={() => setManualOpen(false)}
                 className="btn-span"
               >
-                <h5>Cancel</h5>
+                <h5>Cancelar</h5>
               </button>
             )}
             <button form="coupon-form" className="btn-span" disabled={loading}>
-              <h5>Claim coupon</h5>
+              <h5>Canjear cupón</h5>
             </button>
           </div>
         </form>

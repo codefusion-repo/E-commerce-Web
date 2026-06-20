@@ -32,19 +32,21 @@ export default function ShopBody() {
   return (
     <>
       <div className="shop-hero flex box-xxl f-height-m relative column a-center j-center four-bg hidden">
-        <span className="shop-hero__eyebrow z-index-s">Catalog</span>
-        <h1 className="z-index-s">Store</h1>
-        <p className="z-index-s">Explore demo products with clear cart actions.</p>
+        <span className="shop-hero__eyebrow z-index-s">Catálogo</span>
+        <h1 className="z-index-s">Tienda demo</h1>
+        <p className="z-index-s">
+          Explora productos de prueba con acciones claras de carrito.
+        </p>
         <Image
           className="shop-hero__image absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
           src={banner1}
-          alt="banner-alt"
+          alt="Banner de catálogo"
         />
       </div>
 
       {loading && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (
@@ -53,11 +55,11 @@ export default function ShopBody() {
         </div>
       )}
 
-      <Products header="All products" products={products} isSearch={false} />
+      <Products header="Todos los productos" products={products} isSearch={false} />
 
-      <Categories header="Main categories" categories={featuredCategories} />
+      <Categories header="Categorías principales" categories={featuredCategories} />
 
-      <Categories header="Recommended brands" categories={featuredBrands} />
+      <Categories header="Marcas recomendadas" categories={featuredBrands} />
 
       <NewsLetter />
     </>

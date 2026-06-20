@@ -96,7 +96,7 @@ export default function Form({
           device > 0 ? "box-m" : "box-xxl"
         } column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>Region</h4>
+        <h4>Región</h4>
         <select
           className="select-large"
           disabled={loading}
@@ -105,7 +105,7 @@ export default function Form({
           value={selectedRegionId}
           onChange={(e) => onChangeRegion(e)}
         >
-          <option value={undefined}>Select a region</option>
+          <option value={undefined}>Selecciona una región</option>
           {regions &&
             regions.map((region) => (
               <option key={region.region_id} value={region.region_id}>
@@ -120,7 +120,7 @@ export default function Form({
           device > 0 ? "box-m" : "box-xxl"
         } column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>Commune</h4>
+        <h4>Comuna</h4>
         <select
           className="select-large"
           disabled={loading}
@@ -129,7 +129,7 @@ export default function Form({
           value={selectedCommuneId}
           onChange={(e) => onChangeCommune(e)}
         >
-          <option value={undefined}>Select a commune</option>
+          <option value={undefined}>Selecciona una comuna</option>
           {communes &&
             communes.map((commune) => (
               <option key={commune.id} value={commune.id}>
@@ -143,7 +143,7 @@ export default function Form({
           device > 0 ? "box-m" : "box-xxl"
         } column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>Street</h4>
+        <h4>Calle</h4>
         <input
           className="input-large"
           readOnly={loading}
@@ -152,7 +152,7 @@ export default function Form({
           type="text"
           name="streetName"
           id="streetName"
-          placeholder="Street"
+          placeholder="Calle"
         />
       </div>
 
@@ -161,7 +161,7 @@ export default function Form({
           device > 0 ? "box-m" : "box-xxl"
         } column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>House number</h4>
+        <h4>Número</h4>
         <input
           className="input-large"
           readOnly={loading}
@@ -170,7 +170,7 @@ export default function Form({
           type="text"
           name="streetNumber"
           id="streetNumber"
-          placeholder="House number"
+          placeholder="Número"
         />
       </div>
       <div
@@ -178,10 +178,10 @@ export default function Form({
           device > 0 ? "box-m" : "box-xxl"
         } column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>Phone number</h4>
+        <h4>Teléfono</h4>
 
         <PhoneInput
-          placeholder={!isPhoneDefault ? "Enter a phone number" : user?.phone}
+          placeholder={!isPhoneDefault ? "Ingresa un teléfono" : user?.phone}
           name="phoneNumber"
           id="phoneNumber"
           value={phoneNumber}
@@ -197,7 +197,7 @@ export default function Form({
             device > 0 ? "box-m" : "box-xxl"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Use default phone number?</h4>
+          <h4>¿Usar teléfono predeterminado?</h4>
           <div className="flex box-xxl a-center j-center gap-xs">
             <button
               form="none"
@@ -220,7 +220,7 @@ export default function Form({
           device > 0 ? "box-m" : "box-xxl"
         } column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>Use as default address?</h4>
+        <h4>¿Usar como dirección predeterminada?</h4>
         <div className="flex box-xxl a-center j-center gap-xs">
           <button
             form="none"
@@ -241,7 +241,7 @@ export default function Form({
           device > 0 ? `${user && user.phone ? "box-m" : "box-xxl"}` : "box-xxl"
         } flex column gap-xxs padding-xs margin-b-xxs`}
       >
-        <h4>Add comment</h4>
+        <h4>Agregar comentario</h4>
         <textarea
           className="input-large"
           readOnly={loading}
@@ -249,7 +249,7 @@ export default function Form({
           value={comment}
           name="comment"
           id="comment"
-          placeholder="Add comment"
+          placeholder="Agregar comentario"
         ></textarea>
       </div>
       <div className="flex box-xxl a-center j-center gap-m padding-xxs margin-t-xxs">
@@ -260,14 +260,14 @@ export default function Form({
           onClick={() => setStatus("default")}
         >
           <MdArrowBack className="icon" />
-          <h4>Back</h4>
+          <h4>Volver</h4>
         </button>
         <button
           disabled={loading}
           className="btn-middle btn-active"
           form="address-form"
         >
-          <h4>Send</h4>
+          <h4>Enviar</h4>
         </button>
       </div>
     </form>

@@ -126,19 +126,19 @@ export default function Register() {
   return (
     <div className="flex box-xxl column j-center a-center border-radius-xxs base-border padding-xs">
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-        <h1>E-commerce Web Registration</h1>
+        <h1>Crear cuenta en CodeFusion Demo</h1>
         <button
           className="btn-span"
           onClick={() => handleAlreadyHaveAccount()}
           disabled={loading}
         >
-          <h5>Already have an account? Login here</h5>
+          <h5>¿Ya tienes cuenta? Ingresa aquí</h5>
         </button>
       </div>
 
       {loading && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (
@@ -155,7 +155,7 @@ export default function Register() {
         <h2
           className={`flex ${device < 3 ? "box-xxl j-center" : "box-m j-end"}`}
         >
-          Register with
+          Regístrate con
         </h2>
         <div className={`flex ${device < 3 ? "box-xxl j-center" : "box-m"}`}>
           {linkedProviders &&
@@ -198,7 +198,7 @@ export default function Register() {
             device > 1 ? "box-m" : device < 1 ? "box-xxl" : "box-m"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Username</h4>
+          <h4>Usuario</h4>
           <input
             className="input-large"
             onChange={(e) => onChange(e)}
@@ -206,7 +206,7 @@ export default function Register() {
             id="username"
             name="username"
             value={username}
-            placeholder="Enter your username"
+            placeholder="Ingresa tu usuario"
             readOnly={loading}
             required
           />
@@ -216,7 +216,7 @@ export default function Register() {
             device > 1 ? "box-m" : device < 1 ? "box-xxl" : "box-m"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Email</h4>
+          <h4>Correo</h4>
           <input
             className="input-large"
             onChange={(e) => onChange(e)}
@@ -224,7 +224,7 @@ export default function Register() {
             id="email"
             name="email"
             value={email}
-            placeholder="Enter your email"
+            placeholder="Ingresa tu correo"
             readOnly={loading}
             required
           />
@@ -234,7 +234,7 @@ export default function Register() {
             device > 1 ? "box-m" : device < 1 ? "box-xxl" : "box-m"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Name</h4>
+          <h4>Nombre</h4>
           <input
             className="input-large"
             onChange={(e) => onChange(e)}
@@ -242,7 +242,7 @@ export default function Register() {
             id="first_name"
             name="first_name"
             value={first_name}
-            placeholder="Enter your name"
+            placeholder="Ingresa tu nombre"
             readOnly={loading}
             required
           />
@@ -252,7 +252,7 @@ export default function Register() {
             device > 1 ? "box-m" : device < 1 ? "box-xxl" : "box-m"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Last name</h4>
+          <h4>Apellido</h4>
           <input
             className="input-large"
             onChange={(e) => onChange(e)}
@@ -260,7 +260,7 @@ export default function Register() {
             id="last_name"
             name="last_name"
             value={last_name}
-            placeholder="Enter your last name"
+            placeholder="Ingresa tu apellido"
             readOnly={loading}
             required
           />
@@ -270,7 +270,7 @@ export default function Register() {
             device > 1 ? "box-m" : device < 1 ? "box-xxl" : "box-m"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Password</h4>
+          <h4>Contraseña</h4>
           <input
             className="input-large"
             onChange={(e) => onChange(e)}
@@ -278,7 +278,7 @@ export default function Register() {
             id="password"
             name="password"
             value={password}
-            placeholder="Enter your password"
+            placeholder="Ingresa tu contraseña"
             readOnly={loading}
             required
           />
@@ -288,7 +288,7 @@ export default function Register() {
             device > 1 ? "box-m" : device < 1 ? "box-xxl" : "box-m"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Repeat your password</h4>
+          <h4>Repite tu contraseña</h4>
           <input
             className="input-large"
             onChange={(e) => onChange(e)}
@@ -296,7 +296,7 @@ export default function Register() {
             id="re_password"
             name="re_password"
             value={re_password}
-            placeholder="Repeat your password"
+            placeholder="Repite tu contraseña"
             readOnly={loading}
             required
           />
@@ -306,9 +306,9 @@ export default function Register() {
             device > 1 ? "box-m" : device < 1 ? "box-xxl" : "box-m"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Phone number</h4>
+          <h4>Teléfono</h4>
           <PhoneInput
-            placeholder="Enter your phone number"
+            placeholder="Ingresa tu teléfono"
             name="phone"
             id="phone"
             value={phone}
@@ -331,7 +331,7 @@ export default function Register() {
             id="rut"
             name="rut"
             value={rut}
-            placeholder="Enter an identification number (RUT) without dots or dashes"
+            placeholder="Ingresa un identificador (RUT) sin puntos ni guion"
             readOnly={loading}
           />
         </div>
@@ -342,7 +342,7 @@ export default function Register() {
             className="btn-middle btn-active"
             disabled={loading}
           >
-            Send
+            Crear cuenta
           </button>
         </div>
       </form>

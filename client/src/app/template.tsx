@@ -13,7 +13,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
         <>{children}</>
       ) : (
         <div className="flex box-xxl m-height-full a-center j-center">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
     </>

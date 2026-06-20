@@ -66,16 +66,16 @@ export default function UserPostComment({
             className="btn-span btn-active"
             onClick={() => openModal("register", null)}
           >
-            <h4>Register</h4>
+            <h4>Regístrate</h4>
           </button>
-          <h4>or</h4>
+          <h4>o</h4>
           <button
             className="btn-span btn-active"
             onClick={() => openModal("login", null)}
           >
-            <h4>Log in to your account</h4>
+            <h4>ingresa a tu cuenta</h4>
           </button>
-          <h4>to send a comment</h4>
+          <h4>para enviar un comentario</h4>
         </div>
       )}
       {!isUserComment && isAuthenticated && <AddPostComment postId={postId} />}

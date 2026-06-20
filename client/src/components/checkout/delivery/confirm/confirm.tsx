@@ -67,7 +67,7 @@ export default function Confirm({
 
       <div className="flex box-xxl a-center j-end padding-m">
         <h3>
-          Latitude: {lat}, Longitude: {lng}
+          Latitud: {lat}, Longitud: {lng}
         </h3>
       </div>
 
@@ -79,14 +79,14 @@ export default function Confirm({
           onClick={() => setValidateStatus("default")}
         >
           <MdArrowBack className="icon" />
-          <h4>Back</h4>
+          <h4>Volver</h4>
         </button>
         <button
           onClick={() => onClickConfirm()}
           disabled={loading}
           className="btn-middle btn-active"
         >
-          <h4>Confirm</h4>
+          <h4>Confirmar</h4>
         </button>
       </div>
     </div>

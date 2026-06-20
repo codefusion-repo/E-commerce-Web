@@ -163,7 +163,7 @@ export default function Navbar() {
             <Image
               className="f-height-s fit-contain border-radius-xxs zoom-out-xs"
               src={logo}
-              alt="logo"
+              alt="CodeFusion E-commerce Demo"
             />
           </Link>
         </div>
@@ -177,7 +177,7 @@ export default function Navbar() {
               id="search"
               name="search"
               value={search ? search : ""}
-              placeholder="Search categories and products"
+              placeholder="Buscar categorías y productos"
               //readOnly={loading}
             />
             <FaSearch className="absolute base-color zoom-out-xl f-top f-right cursor-pointer margin-t-xs margin-r-s" />
@@ -199,7 +199,7 @@ export default function Navbar() {
                   pathname.includes("/contact") && "btn-active"
                 }`}
               >
-                Contact
+                Contacto
               </Link>
             </>
           )}

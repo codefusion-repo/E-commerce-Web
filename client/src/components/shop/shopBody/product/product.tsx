@@ -107,7 +107,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
 
       setLoading(false);
     } catch (err) {
-      setError("Invalid number");
+      setError("Número inválido");
       setLoading(false);
       return;
     }
@@ -174,15 +174,15 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
 
     verifyStockInputFromPage(product.id, quantity, items).then((status) => {
       if (status === "exceed") {
-        setInfo(`You have ${5} in the shopping cart`);
+        setInfo(`Tienes ${5} unidades en el carrito`);
         updateItemQuantity(product, 5);
       } else if (status === "stock") {
-        setInfo(`You have ${5} in the shopping cart`);
+        setInfo(`Tienes ${5} unidades en el carrito`);
         updateItemQuantity(product, 5);
       } else if (status === "limit") {
         //setError("Presiona quitar para borrar el producto");
       } else if (typeof status === "number") {
-        setInfo(`You have ${status} in the shopping cart`);
+        setInfo(`Tienes ${status} unidades en el carrito`);
         updateItemQuantity(product, status);
       }
       setLoading(false);
@@ -202,15 +202,15 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
 
     verifyStockInputFromPage(product.id, quantity, items).then((status) => {
       if (status === "exceed") {
-        setInfo(`You have ${5} in the shopping cart`);
+        setInfo(`Tienes ${5} unidades en el carrito`);
         updateItemQuantity(product, 5);
       } else if (status === "stock") {
-        setInfo(`You have ${5} in the shopping cart`);
+        setInfo(`Tienes ${5} unidades en el carrito`);
         updateItemQuantity(product, 5);
       } else if (status === "limit") {
         //setError("Presiona quitar para borrar el producto");
       } else if (typeof status === "number") {
-        setInfo(`You have ${status} in the shopping cart`);
+        setInfo(`Tienes ${status} unidades en el carrito`);
         updateItemQuantity(product, status);
       }
       setLoading(false);
@@ -374,11 +374,11 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                     <div className="flex box-m a-center j-end padding-l-s padding-r-s">
                       {isAuthenticated ? (
                         <Link href="#product-comments" className="btn-span">
-                          <h4>Write a comment</h4>
+                          <h4>Escribir comentario</h4>
                         </Link>
                       ) : (
                         <Link href="#product-comments" className="btn-span">
-                          <h4>See comments</h4>
+                          <h4>Ver comentarios</h4>
                         </Link>
                       )}
                     </div>
@@ -396,22 +396,22 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                     } column gap-s padding-ms`}
                   >
                     <h1>
-                      Price:{" "}
+                      Precio:{" "}
                       {Intl.NumberFormat("es-CL", {
                         style: "currency",
                         currency: "CLP",
                       }).format(product.price)}
                     </h1>
-                    <h3>Name: {product.name}</h3>
+                    <h3>Nombre: {product.name}</h3>
                     <h3>Stock: {product.stock}</h3>
-                    <h3>Code: {product.id.slice(4, 13)}</h3>
+                    <h3>Código: {product.id.slice(4, 13)}</h3>
                   </div>
                   <div
                     className={`flex ${
                       device > 1 ? "box-m" : "box-xxl"
                     } t-center column gap-s padding-ms`}
                   >
-                    <h5>Maximum 5 units per product</h5>
+                    <h5>Máximo 5 unidades por producto</h5>
                     <div className="flex a-center j-center gap-xs">
                       <button
                         onClick={() => handleRemoveItem()}
@@ -440,7 +440,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                         <Image
                           className="f-height-xxs"
                           src={loadingGif}
-                          alt="Loading..."
+                          alt="Cargando..."
                         />
                       </div>
                     )}
@@ -461,7 +461,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                         }
                         className="btn-middle btn-active"
                       >
-                        Add
+                        Agregar
                       </button>
                       <button
                         onClick={() =>
@@ -469,7 +469,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                         }
                         className="btn-middle btn-active"
                       >
-                        Buy
+                        Comprar
                       </button>
                     </div>
                   </div>
@@ -480,11 +480,11 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                         <FaTruck className="zoom-in-xxl base-color" />
                       </h1>
                       <div className="flex box-xxl column a-center j-center">
-                        <h2>Home delivery</h2>
-                        <h4>5 to 10 working days</h4>
+                        <h2>Despacho a domicilio</h2>
+                        <h4>5 a 10 días hábiles</h4>
                       </div>
                       <Link href={"/send-conditions"} className="btn-span">
-                        <h5>Learn more...</h5>
+                        <h5>Ver más...</h5>
                       </Link>
                     </div>
                     <div className="flex f-width-ml column a-center j-center gap-xxs margin-t-xs">
@@ -492,11 +492,11 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                         <FaCreditCard className="zoom-in-xxl base-color" />
                       </h1>
                       <div className="flex box-xxl column a-center j-center">
-                        <h2>Payment methods</h2>
+                        <h2>Métodos de pago</h2>
                         <h4>Flow</h4>
                       </div>
                       <Link href={"/faqs/payment-methods"} className="btn-span">
-                        <h5>Learn more...</h5>
+                        <h5>Ver más...</h5>
                       </Link>
                     </div>
                     <div className="flex f-width-ml column a-center j-center gap-xxs margin-t-xs">
@@ -504,12 +504,12 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                         <FaWhatsapp className="zoom-in-xxl base-color" />
                       </h1>
                       <div className="flex box-xxl column a-center j-center">
-                        <h2>Need help?</h2>
+                        <h2>¿Necesitas ayuda?</h2>
                         <h4>WhatsApp al +569xxxxxxxx</h4>
                       </div>
 
                       <Link href={"/contact"} className="btn-span">
-                        <h5>Learn more...</h5>
+                        <h5>Ver más...</h5>
                       </Link>
                     </div>
                   </div>
@@ -522,7 +522,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                 } m-height-s j-center second-bg margin-t-s border-radius-xs`}
               >
                 <div className="flex box-xxl m-height-xxs column a-start j-center padding-s base-border-b">
-                  <h1>Features</h1>
+                  <h1>Características</h1>
                 </div>
 
                 {product.features.map((feature) => (
@@ -551,7 +551,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                 />
 
                 <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-                  <h1>Comments</h1>
+                  <h1>Comentarios</h1>
                 </div>
 
                 {currentItems.length > 0 && (
@@ -571,8 +571,8 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                                 device > 0 ? "box-ml" : "box-xxl"
                               } column a-start j-center gap-xs padding-ms`}
                             >
-                              <h4>User: {comment.user.first_name}</h4>
-                              <h4>Comment: {comment.comment}</h4>
+                              <h4>Usuario: {comment.user.first_name}</h4>
+                              <h4>Comentario: {comment.comment}</h4>
                             </div>
 
                             <div
@@ -580,7 +580,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
                                 device > 0 ? "box-xs" : "box-xxl"
                               } column gap-xs a-center j-center padding-ms`}
                             >
-                              <h4>Rating:</h4>
+                              <h4>Valoración:</h4>
                               <Stars
                                 stars={parseFloat(comment.stars)}
                                 comments_quantity={-1}
@@ -603,7 +603,7 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
 
                 {product.comments.length === 0 && (
                   <div className="flex box-xxl gap-m padding-ms">
-                    <h4>There are no comments for this product.</h4>
+                    <h4>Aún no hay comentarios para este producto.</h4>
                   </div>
                 )}
               </div>
@@ -613,10 +613,10 @@ export default function Product({ slugProduct }: { slugProduct: string }) {
       ) : (
         <div className="flex box-xxl f-height-xxxl a-start j-center navbar-p-xs">
           <div className="flex f-width-xxxl f-height-l column a-center j-center gap-s second-bg border-radius-xs">
-            <h1>Page not found 404</h1>
-            <h2>We were unable to complete the request</h2>
+            <h1>Página no encontrada 404</h1>
+            <h2>No pudimos completar la solicitud</h2>
             <Link className="btn-middle btn-active" href="/">
-              Return to home
+              Volver al inicio
             </Link>
           </div>
         </div>

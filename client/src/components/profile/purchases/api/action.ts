@@ -81,7 +81,7 @@ export const postCreatePurchaseOrder = (
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     if (!items) {
-      return reject("There are no products in your shopping cart");
+      return reject("No hay productos en el carrito");
     }
     if (!selectedCourier) {
       return reject("Delivery method not selected");

@@ -55,12 +55,12 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
                 </span>
                 <h1 className="z-index-s">{category?.name}</h1>
                 <p className="z-index-s">
-                  {categoryProducts.length} products in this collection.
+                  {categoryProducts.length} productos en esta coleccion.
                 </p>
                 <Image
                   className="shop-hero__image absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
                   src={`${category?.icon}`}
-                  alt="banner-alt"
+                  alt={category.name}
                   width={1600}
                   height={640}
                 />
@@ -70,7 +70,7 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
                   <Image
                     className="f-height-xxs"
                     src={loadingGif}
-                    alt="Loading..."
+                    alt="Cargando..."
                   />
                 </div>
               )}
@@ -80,12 +80,12 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
                 </div>
               )}
               <Products
-                header="Featured products of the category"
+                header="Productos destacados de la categoría"
                 products={featuredProducts}
                 isSearch={false}
               />
               <Products
-                header="All featured products in the category"
+                header="Todos los productos de la categoría"
                 products={categoryProducts}
                 isSearch={false}
               />
@@ -93,12 +93,12 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
                 <Categories
                   header={
                     category.type === "special"
-                      ? "Related categories"
+                      ? "Categorías relacionadas"
                       : category.type === "brand"
-                      ? "Categories related to this brand"
+                      ? "Categorías relacionadas con esta marca"
                       : /*: category.type === "category"
                       ? "Marcas relacionadas con esta categoria"*/
-                        "Related categories"
+                        "Categorías relacionadas"
                   }
                   categories={category.subcategories}
                 />
@@ -110,10 +110,10 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
       ) : (
         <div className="flex box-xxl f-height-xxxl a-start j-center navbar-p-xs">
           <div className="flex f-width-xxxl f-height-l column a-center j-center gap-s second-bg border-radius-xs">
-            <h1>Page not found 404</h1>
-            <h2>We were unable to complete the request</h2>
+            <h1>Página no encontrada 404</h1>
+            <h2>No pudimos completar la solicitud</h2>
             <Link className="btn-middle btn-active" href="/">
-              Return to home
+              Volver al inicio
             </Link>
           </div>
         </div>

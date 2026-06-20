@@ -58,7 +58,7 @@ export default function Products({
           } m-height-xxs gap-xs padding-l-ms padding-r-ms padding-t-xs padding-b-xs`}
         >
           <div className="product-section__title">
-            <span>{data.length} items</span>
+            <span>{data.length} productos</span>
             <h1>{header}</h1>
           </div>
           <select
@@ -72,7 +72,7 @@ export default function Products({
             defaultValue="df"
             id="orderBy"
             name="orderBy"
-            aria-label={`Order products in ${header}`}
+            aria-label={`Ordenar productos en ${header}`}
           >
             {availableOrderBy &&
               availableOrderBy.map((orderBy, index) => (
@@ -99,8 +99,8 @@ export default function Products({
           </>
         ) : (
           <div className="product-empty-state">
-            <h4>No products found</h4>
-            <p>Try a different category or ordering option.</p>
+            <h4>No encontramos productos</h4>
+            <p>Prueba otra categoría o cambia el orden del catálogo.</p>
           </div>
         )}
       </div>

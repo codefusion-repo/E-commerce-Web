@@ -49,10 +49,10 @@ export default function NewsLetter() {
       <Image
         className="absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
         src={newsletter}
-        alt="newsletter"
+        alt="Newsletter CodeFusion"
       />
       <div className="flex box-xxl column a-start j-start padding-s base-border-b z-index-s">
-        <h1>Join our newsletter!</h1>
+        <h1>Recibe novedades de la demo CodeFusion</h1>
       </div>
       {error && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b z-index-s">
@@ -71,7 +71,7 @@ export default function NewsLetter() {
             device > 1 ? "box-ml" : "box-xxl"
           } gap-xxs padding-xs`}
         >
-          <h4>Email</h4>
+          <h4>Correo</h4>
           <input
             className="input-large"
             onChange={(e) => onChange(e)}
@@ -79,7 +79,7 @@ export default function NewsLetter() {
             id="email"
             name="email"
             value={email}
-            placeholder="Enter your email"
+            placeholder="Ingresa tu correo"
             readOnly={loading}
             required
           />
@@ -94,7 +94,7 @@ export default function NewsLetter() {
             className={`btn-middle btn-active`}
             disabled={loading}
           >
-            Send
+            Enviar
           </button>
         </div>
       </form>

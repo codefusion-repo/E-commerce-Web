@@ -34,7 +34,7 @@ export default function Login() {
     console.log("Forgot password");
     openModal(
       "forgotPassword",
-      "If the email you entered is found, we will send a verification number to your email to reset your password"
+      "Si encontramos el correo ingresado, enviaremos un código de verificación para restablecer tu contraseña"
     );
   };
 
@@ -88,19 +88,19 @@ export default function Login() {
   return (
     <div className="flex box-xxl column j-center a-center border-radius-xxs base-border padding-xs">
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-        <h1>E-commerce Web Login</h1>
+        <h1>Ingresar a CodeFusion Demo</h1>
         <button
           className="btn-span"
           onClick={() => handleDontHaveAccount()}
           disabled={loading}
         >
-          <h5>Don&apos;t have an account? Register here</h5>
+          <h5>¿No tienes cuenta? Regístrate aquí</h5>
         </button>
       </div>
 
       {loading && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (
@@ -116,7 +116,7 @@ export default function Login() {
         <h2
           className={`flex ${device < 3 ? "box-xxl j-center" : "box-m j-end"}`}
         >
-          Access with
+          Accede con
         </h2>
         <div className={`flex ${device < 3 ? "box-xxl j-center" : "box-m"}`}>
           {linkedProviders &&
@@ -159,7 +159,7 @@ export default function Login() {
             device > 1 ? "box-m" : device < 1 ? "box-xxl" : "box-m"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Email</h4>
+          <h4>Correo</h4>
 
           <input
             className="input-large"
@@ -168,7 +168,7 @@ export default function Login() {
             id="email"
             name="email"
             value={email}
-            placeholder="Enter your email"
+            placeholder="Ingresa tu correo"
             readOnly={loading}
             required
           />
@@ -179,7 +179,7 @@ export default function Login() {
             device > 1 ? "box-m" : device < 1 ? "box-xxl" : "box-m"
           } column gap-xxs padding-xs margin-b-xxs`}
         >
-          <h4>Password</h4>
+          <h4>Contraseña</h4>
 
           <input
             className="input-large"
@@ -188,7 +188,7 @@ export default function Login() {
             id="password"
             name="password"
             value={password}
-            placeholder="Enter your password"
+            placeholder="Ingresa tu contraseña"
             readOnly={loading}
             required
           />
@@ -200,7 +200,7 @@ export default function Login() {
             onClick={() => handleForgotPassword()}
             disabled={loading}
           >
-            <h5>Forgot your password? Recover it here</h5>
+            <h5>¿Olvidaste tu contraseña? Recupérala aquí</h5>
           </button>
         </div>
 
@@ -211,7 +211,7 @@ export default function Login() {
             disabled={loading}
             className="btn-middle btn-active"
           >
-            Send
+            Ingresar
           </button>
         </div>
       </form>

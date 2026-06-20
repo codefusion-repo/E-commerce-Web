@@ -86,26 +86,26 @@ export default function ForgotPassword() {
   return (
     <div className="flex box-xxl column j-center a-center border-radius-xxs base-border padding-xs">
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-        {status === "default" && <h1>Forgot your password?</h1>}
+        {status === "default" && <h1>¿Olvidaste tu contraseña?</h1>}
         {status === "waiting" && (
           <>
-            <h1>Verify your identity and enter your new password</h1>
+            <h1>Verifica tu identidad e ingresa una nueva contraseña</h1>
             <h3>{email}</h3>
           </>
         )}
         <button className="btn-span" onClick={() => handleBackLogin()}>
-          <h5>Back to login</h5>
+          <h5>Volver al ingreso</h5>
         </button>
         {status === "waiting" && (
           <button onClick={() => resendVerifyCode()} className="btn-span">
-            <h5>Resend code</h5>
+            <h5>Reenviar código</h5>
           </button>
         )}
       </div>
 
       {loading && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (
@@ -123,7 +123,7 @@ export default function ForgotPassword() {
           className="flex box-xxl wrap a-center j-center margin-t-xxs"
         >
           <div className="flex box-xxl column gap-xxs padding-xs margin-b-xxs">
-            <h4>Enter your registration email</h4>
+            <h4>Ingresa el correo registrado</h4>
 
             <input
               className="input-large"
@@ -132,7 +132,7 @@ export default function ForgotPassword() {
               id="email"
               name="email"
               value={email}
-              placeholder="Enter your registration email"
+              placeholder="Ingresa el correo registrado"
               readOnly={loading}
               required
             />
@@ -144,7 +144,7 @@ export default function ForgotPassword() {
               className="btn-middle btn-active"
               disabled={loading}
             >
-              Send
+              Enviar
             </button>
           </div>
         </form>
@@ -158,7 +158,7 @@ export default function ForgotPassword() {
           className="box-xxl box-column box-center margin-top"
         >
           <div className="flex box-xxl column gap-xxs padding-xs margin-b-xxs">
-            <h4>Enter verification code</h4>
+            <h4>Ingresa el código de verificación</h4>
             <input
               className="input-large"
               onChange={(e) => onChange(e)}
@@ -166,13 +166,13 @@ export default function ForgotPassword() {
               id="code"
               name="code"
               value={code}
-              placeholder="Enter verification code"
+              placeholder="Ingresa el código de verificación"
               readOnly={loading}
               required
             />
           </div>
           <div className="flex box-xxl column gap-xxs padding-xs margin-b-xxs">
-            <h4>Enter new password</h4>
+            <h4>Ingresa una nueva contraseña</h4>
 
             <input
               className="input-large"
@@ -181,13 +181,13 @@ export default function ForgotPassword() {
               id="newPassword"
               name="newPassword"
               value={newPassword}
-              placeholder="Enter new password"
+              placeholder="Ingresa una nueva contraseña"
               readOnly={loading}
               required
             />
           </div>
           <div className="flex box-xxl column gap-xxs padding-xs margin-b-xxs">
-            <h4>Repeat new password</h4>
+            <h4>Repite la nueva contraseña</h4>
 
             <input
               className="input-large"
@@ -196,7 +196,7 @@ export default function ForgotPassword() {
               id="reNewPassword"
               name="reNewPassword"
               value={reNewPassword}
-              placeholder="Repeat new password"
+              placeholder="Repite la nueva contraseña"
               readOnly={loading}
               required
             />
@@ -208,7 +208,7 @@ export default function ForgotPassword() {
               className="btn-middle btn-active"
               disabled={loading}
             >
-              Send
+              Guardar
             </button>
           </div>
         </form>

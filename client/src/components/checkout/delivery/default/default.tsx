@@ -46,7 +46,7 @@ export default function Default({
     if (isDefault) {
       setStatus("selected");
     } else {
-      setError("Select an address");
+      setError("Selecciona una dirección");
     }
   };
 
@@ -86,11 +86,11 @@ export default function Default({
   return (
     <>
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-        <h1>Addresses</h1>
+        <h1>Direcciones</h1>
       </div>
       {loading && (
         <div className="flex box-xxl m-height-xxs column a-center j-center padding-xxs base-border-b">
-          <Image className="f-height-xxs" src={loadingGif} alt="Loading..." />
+          <Image className="f-height-xxs" src={loadingGif} alt="Cargando..." />
         </div>
       )}
       {error && (
@@ -108,13 +108,13 @@ export default function Default({
         <div className="default-address flex box-xxl column">
           <div className="default-address__columns flex box-xxl a-center j-space base-border-b">
             <div className="flex box-xxl a-center j-start padding-s base-border-r">
-              <h4>Address</h4>
+              <h4>Dirección</h4>
             </div>
             <div className="flex box-xxl a-center j-start padding-s base-border-r">
-              <h4>Default</h4>
+              <h4>Predeterminada</h4>
             </div>
             <div className="flex box-xxl a-center j-start padding-s">
-              <h4>Actions</h4>
+              <h4>Acciones</h4>
             </div>
           </div>
 
@@ -127,14 +127,14 @@ export default function Default({
             >
               <div className="flex box-xxl column padding-s gap-xxs">
                 <h4>
-                  Address: {address.streetName}, {address.streetNumber},{" "}
+                  Dirección: {address.streetName}, {address.streetNumber},{" "}
                   {address.postalCode} {address.countyName},{" "}
                   {address.regionName}
                 </h4>
-                <h4>Number: {address.phoneNumber}</h4>
+                <h4>Teléfono: {address.phoneNumber}</h4>
                 {address.comment && address.comment && (
                   <div>
-                    <h4>Comment: {address.comment}</h4>
+                    <h4>Comentario: {address.comment}</h4>
                   </div>
                 )}
               </div>
@@ -145,7 +145,7 @@ export default function Default({
                   onClick={() => onChangeDefaultAddress(address.id)}
                   className="checkbox"
                   type="button"
-                  aria-label={`Set ${address.streetName} as default address`}
+                  aria-label={`Marcar ${address.streetName} como dirección predeterminada`}
                 >
                   {address.isDefault ? (
                     <div className={"checkbox-center-active"}></div>
@@ -164,7 +164,7 @@ export default function Default({
                   className="btn-small"
                   onClick={() => handleRemoveAddress(address)}
                   type="button"
-                  aria-label={`Remove ${address.streetName}`}
+                  aria-label={`Eliminar ${address.streetName}`}
                 >
                   <FaRegTrashAlt
                     className={`${device > 1 ? "zoom-out-xxl" : "zoom-out-m"}`}
@@ -174,7 +174,7 @@ export default function Default({
                   className="btn-small"
                   onClick={() => handleAddresEditor(address)}
                   type="button"
-                  aria-label={`Edit ${address.streetName}`}
+                  aria-label={`Editar ${address.streetName}`}
                 >
                   <FaEdit
                     className={`${device > 1 ? "zoom-out-xxl" : "zoom-out-m"}`}
@@ -191,7 +191,7 @@ export default function Default({
                 className="btn-middle"
                 type="button"
               >
-                <h4>Add</h4>
+                <h4>Agregar</h4>
               </button>
             )}
             {pathname.includes("/checkout") && (
@@ -201,20 +201,20 @@ export default function Default({
                 onClick={() => selectedAddress()}
                 type="button"
               >
-                <h4>Continue</h4>
+                <h4>Continuar</h4>
               </button>
             )}
           </div>
         </div>
       ) : (
         <div className="flex box-xxl column padding-s gap-s">
-          <h4>You have no addresses added</h4>
+          <h4>No tienes direcciones agregadas</h4>
           <button
             onClick={() => setStatus("add")}
             className="btn-middle btn-active"
             type="button"
           >
-            <h4>Add</h4>
+            <h4>Agregar</h4>
           </button>
         </div>
       )}

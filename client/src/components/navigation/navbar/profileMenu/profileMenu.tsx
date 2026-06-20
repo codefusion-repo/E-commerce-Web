@@ -76,7 +76,7 @@ export default function ProfileMenu({ initState }: { initState: boolean }) {
                 <BsFileRichtextFill className="zoom-out-xxl" />
               </Link>
               <Link href={"/contact"} className="flex btn-span j-space">
-                <h3>Contact</h3>
+                <h3>Contacto</h3>
                 <GrContact className="zoom-out-xxl" />
               </Link>
             </>
@@ -84,18 +84,18 @@ export default function ProfileMenu({ initState }: { initState: boolean }) {
           {isAuthenticated ? (
             <>
               <Link href={"/profile"} className="flex btn-span j-space">
-                <h3>Account</h3>
+                <h3>Cuenta</h3>
                 <FaRegUserCircle className="zoom-out-xxl" />
               </Link>
               <Link
                 href={"/profile/purchases"}
                 className="flex btn-span j-space"
               >
-                <h3>Purchases</h3>
+                <h3>Compras</h3>
                 <BiPackage className="zoom-out-xxl" />
               </Link>
               <Link href={"/settings"} className="flex btn-span j-space">
-                <h3>Settings</h3>
+                <h3>Ajustes</h3>
                 <IoMdSettings className="zoom-out-xxl" />
               </Link>
 
@@ -103,28 +103,28 @@ export default function ProfileMenu({ initState }: { initState: boolean }) {
                 onClick={() => signOutAuthState()}
                 className="flex btn-span j-space"
               >
-                <h3>Log out</h3>
+                <h3>Cerrar sesión</h3>
                 <BiLogOut className="zoom-out-xxl" />
               </button>
             </>
           ) : (
             <>
               <Link href={"/settings"} className="flex btn-span j-space">
-                <h3>Settings</h3>
+                <h3>Ajustes</h3>
                 <IoMdSettings className="zoom-out-xxl" />
               </Link>
               <button
                 className="flex btn-span j-space"
                 onClick={() => openModal("register", null)}
               >
-                <h3>Register</h3>
+                <h3>Registro</h3>
                 <FaRegUserCircle className="zoom-in-xxl" />
               </button>
               <button
                 className="flex btn-span j-space"
                 onClick={() => openModal("login", null)}
               >
-                <h3>Login</h3>
+                <h3>Ingresar</h3>
                 <BiLogInCircle className="zoom-in-xxl" />
               </button>
             </>

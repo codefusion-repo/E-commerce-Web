@@ -66,13 +66,13 @@ export default function Shopcart() {
 
       verifyStockInput(item.id, quantity, items).then((status: string) => {
         if (status === "exceed") {
-          setError("Maximum reached");
+          setError("Máximo alcanzado");
           updateItemQuantity(item, 5);
         } else if (status === "stock") {
-          setError("Not available");
+          setError("Stock no disponible");
           updateItemQuantity(item, 5);
         } else if (status === "limit") {
-          setError("Press remove to delete the product");
+          setError("Usa eliminar para quitar el producto");
         } else if (status === "ok") {
           updateItemQuantity(item, quantity);
           setLastChangedItemId(item.id);
@@ -91,9 +91,9 @@ export default function Shopcart() {
 
     verifyStockAdd(item.id, 1, items).then((status: string) => {
       if (status === "exceed") {
-        setError("Maximum reached");
+        setError("Máximo alcanzado");
       } else if (status === "stock") {
-        setError("Not available");
+        setError("Stock no disponible");
       } else if (status === "ok") {
         addItem(item);
         setLastChangedItemId(item.id);
@@ -107,7 +107,7 @@ export default function Shopcart() {
 
     verifyStockRemove(item.id, 1, items).then((status: string) => {
       if (status === "limit") {
-        setError("Press remove to delete the product");
+        setError("Usa eliminar para quitar el producto");
       } else if (status === "ok") {
         removeUnitFromItem(item);
         setLastChangedItemId(item.id);
@@ -122,7 +122,7 @@ export default function Shopcart() {
     if (isAuthenticated) {
       router.push("/checkout/delivery");
     } else {
-      openModal("login", "Log in to your account to continue");
+      openModal("login", "Ingresa a tu cuenta para continuar");
     }
   };
 
@@ -135,8 +135,8 @@ export default function Shopcart() {
         } m-height-m wrap padding-s margin-t-l margin-b-l reveal reveal--slide-up`}
       >
         <div className="shopcart-shell__header flex box-xxl m-height-xxs column a-start j-center padding-xs">
-          <span>Order summary</span>
-          <h2>Shopping cart</h2>
+          <span>Resumen de compra</span>
+          <h2>Carrito</h2>
         </div>
         <div
           ref={listRevealRef}
@@ -147,13 +147,13 @@ export default function Shopcart() {
           {items && items.length > 0 && (
             <div className="shopcart-list__columns flex box-xxl f-height-xs">
               <div className="flex box-xxl a-center j-center">
-                <h4>Product</h4>
+                <h4>Producto</h4>
               </div>
               <div className="flex box-xxl a-center j-center">
-                <h4>Quantity</h4>
+                <h4>Cantidad</h4>
               </div>
               <div className="flex box-xxl a-center j-center">
-                <h4>Remove</h4>
+                <h4>Quitar</h4>
               </div>
             </div>
           )}
@@ -196,12 +196,12 @@ export default function Shopcart() {
                       onClick={() => handleRemoveItem(item)}
                       className="btn-span"
                       type="button"
-                      aria-label={`Remove one ${item.name}`}
+                      aria-label={`Quitar una unidad de ${item.name}`}
                     >
                       <FaMinusCircle className="zoom-out-xl" />
                     </button>
                     <label className="sr-only" htmlFor={`input_${item.id}`}>
-                      Quantity for {item.name}
+                      Cantidad para {item.name}
                     </label>
                     <input
                       name="itemQuantity"
@@ -216,7 +216,7 @@ export default function Shopcart() {
                       onClick={() => handleAddItem(item)}
                       className="btn-span"
                       type="button"
-                      aria-label={`Add one ${item.name}`}
+                      aria-label={`Agregar una unidad de ${item.name}`}
                     >
                       <FaPlusCircle className="zoom-out-xl" />
                     </button>
@@ -227,7 +227,7 @@ export default function Shopcart() {
                     onClick={() => removeItem(item)}
                     className="btn-span"
                     type="button"
-                    aria-label={`Remove ${item.name} from cart`}
+                    aria-label={`Quitar ${item.name} del carrito`}
                   >
                     <FaRegTrashAlt className="zoom-out-xxl" />
                   </button>
@@ -240,7 +240,7 @@ export default function Shopcart() {
               <Image
                 className="f-height-xxs"
                 src={loadingGif}
-                alt="Loading..."
+                alt="Cargando..."
               />
             </div>
           )}
@@ -255,10 +255,10 @@ export default function Shopcart() {
 
           {items && items.length === 0 && (
             <div className="shopcart-empty-state">
-              <h3>Your cart is empty</h3>
-              <p>Browse products in the catalog to begin checkout.</p>
+              <h3>Tu carrito está vacío</h3>
+              <p>Explora el catálogo para iniciar una compra de prueba.</p>
               <Link href="/shop" className="btn-middle btn-active">
-                Shop catalog
+                Ver catálogo
               </Link>
             </div>
           )}
@@ -270,12 +270,10 @@ export default function Shopcart() {
           >
             <h3>
               {items && items.length > 1
-                ? `You have ${items.length} items in your shopping cart`
+                ? `Tienes ${items.length} productos en el carrito`
                 : items && items.length === 0
-                ? `There are no products in your shopping cart`
-                : `You have ${
-                    items && items.length
-                  } product in your shopping cart`}
+                ? `No hay productos en el carrito`
+                : `Tienes ${items && items.length} producto en el carrito`}
             </h3>
             {items && items.length > 0 && (
               <h3>
@@ -296,7 +294,7 @@ export default function Shopcart() {
           } gap-m a-center padding-t-l padding-b-l padding-r-s padding-l-s reveal reveal--fade reveal-delay-2`}
         >
           <Link href={"/shop"} className="btn-middle">
-            <h4>Back to the store</h4>
+            <h4>Volver a la tienda</h4>
           </Link>
 
           {items && items.length >= 1 && (
@@ -305,7 +303,7 @@ export default function Shopcart() {
               className="btn-middle btn-active"
               type="button"
             >
-              <h4>Place an order</h4>
+              <h4>Iniciar checkout</h4>
             </button>
           )}
         </div>

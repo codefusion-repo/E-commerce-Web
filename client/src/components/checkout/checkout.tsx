@@ -28,7 +28,7 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/shopcart");
-      openModal("login", "You must be authenticated to continue");
+      openModal("login", "Debes ingresar a tu cuenta para continuar");
     }
   }, [isAuthenticated, openModal, router]);
 
@@ -64,7 +64,7 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
             ? "box-xxl-m column m-height-s"
             : "box-xxl-m f-height-s"
         } a-center j-space reveal reveal--fade`}
-        aria-label="Checkout progress"
+        aria-label="Progreso del checkout"
       >
         <div
           className={`${getStepClass(0)} flex ${
@@ -74,8 +74,8 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
         >
           <div className="checkout-step__marker">1</div>
           <div>
-            <h2>Address</h2>
-            <h3>Select your shipping address</h3>
+            <h2>Dirección</h2>
+            <h3>Selecciona tu dirección de envío</h3>
           </div>
         </div>
         <div
@@ -86,8 +86,8 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
         >
           <div className="checkout-step__marker">2</div>
           <div>
-            <h2>Shipping Method</h2>
-            <h3>Select a shipping method</h3>
+            <h2>Envío</h2>
+            <h3>Selecciona un método de despacho</h3>
           </div>
         </div>
         <div
@@ -98,8 +98,8 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
         >
           <div className="checkout-step__marker">3</div>
           <div>
-            <h2>Payment</h2>
-            <h3>Finish your purchase</h3>
+            <h2>Pago</h2>
+            <h3>Finaliza la compra de prueba</h3>
           </div>
         </div>
       </div>
@@ -109,9 +109,9 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
         } m-height-m wrap padding-s margin-b-xxl`}
       >
         <div className="checkout-shell__header flex box-xxl m-height-xxs column a-start j-center padding-xs">
-          <span>Secure checkout</span>
-          {pathname.includes("/delivery") && <h1>Shipping address</h1>}
-          {pathname.includes("/payment") && <h1>Payment method</h1>}
+          <span>Checkout seguro</span>
+          {pathname.includes("/delivery") && <h1>Dirección de envío</h1>}
+          {pathname.includes("/payment") && <h1>Método de pago</h1>}
         </div>
         <div
           className={`checkout-shell__main flex ${
@@ -130,12 +130,12 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
           <div className="checkout-summary__nav flex box-xxl column a-center gap-m">
             {pathname.includes("/delivery") && (
               <Link href={"/shopcart"} className="btn-middle">
-                <h4>Shopping cart</h4>
+                <h4>Carrito</h4>
               </Link>
             )}
             {pathname.includes("/payment") && (
               <Link href={"/checkout/delivery"} className="btn-middle">
-                <h4>Shipping address</h4>
+                <h4>Dirección de envío</h4>
               </Link>
             )}
             {pathname.includes("/delivery") && (
@@ -143,7 +143,7 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
                 onClick={
                   selectedAddress && selectedCourier
                     ? () => router.push("/checkout/payment")
-                    : () => addMessage("Select a shipping method")
+                    : () => addMessage("Selecciona un método de despacho")
                 }
                 disabled={selectedAddress && selectedCourier ? false : true}
                 className={`btn-middle ${
@@ -151,12 +151,12 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
                 }`}
                 type="button"
               >
-                <h4>Continue</h4>
+                <h4>Continuar</h4>
               </button>
             )}
           </div>
           <div className="checkout-summary__products flex box-xxl column a-center gap-xs">
-            <h3>Products</h3>
+            <h3>Productos</h3>
             <div
               className={`flex box-xxl column ${
                 device > 2 ? "a-start" : "a-center"
@@ -191,14 +191,10 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
         >
           <h3>
             {items && items.length > 1
-              ? `You have ${
-                  items && items.length
-                } products in your shopping cart`
+              ? `Tienes ${items && items.length} productos en el carrito`
               : items && items.length === 0
-              ? `There are no products in your shopping cart`
-              : `You have ${
-                  items && items.length
-                } product in your shopping cart`}
+              ? `No hay productos en el carrito`
+              : `Tienes ${items && items.length} producto en el carrito`}
           </h3>
           <h3>
             Subtotal:{" "}
@@ -208,7 +204,7 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
             }).format(subtotal && subtotal)}
           </h3>
           <h3>
-            Delivery cost:{" "}
+            Costo de envío:{" "}
             {Intl.NumberFormat("es-CL", {
               style: "currency",
               currency: "CLP",
@@ -217,12 +213,12 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
           {coupon?.coupon.code && (
             <h3>
               {coupon.coupon.discount_type === "value" &&
-                `Discount: -${Intl.NumberFormat("es-CL", {
+                `Descuento: -${Intl.NumberFormat("es-CL", {
                   style: "currency",
                   currency: "CLP",
                 }).format(coupon.coupon.discount_value)}`}
               {coupon.coupon.discount_type === "percent" &&
-                `Discount: ${
+                `Descuento: ${
                   coupon.coupon.discount_percent
                 }%/-${Intl.NumberFormat("es-CL", {
                   style: "currency",
@@ -235,7 +231,7 @@ export default function Checkout({ children }: { children: React.ReactNode }) {
                   )
                 )}`}
               {coupon.coupon.discount_type === "free_delivery" &&
-                `Discount: Free delivery/-${Intl.NumberFormat("es-CL", {
+                `Descuento: envío gratis/-${Intl.NumberFormat("es-CL", {
                   style: "currency",
                   currency: "CLP",
                 }).format(deliveryPrice)}`}

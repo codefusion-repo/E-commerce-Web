@@ -21,7 +21,7 @@ export default function Purchases() {
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/");
-      openModal("login", "You must be authenticated to continue");
+      openModal("login", "Debes ingresar a tu cuenta para continuar");
     }
   }, [isAuthenticated, openModal, router]);
 
@@ -39,7 +39,7 @@ export default function Purchases() {
   useEffect(() => {
     const initShop = (puchases: PurchaseType[]) => {
       if (puchases.length === 0) {
-        setError("You haven't made your first purchase yet");
+        setError("Aún no realizas tu primera compra de prueba");
       } else {
         setData(puchases);
       }
@@ -55,23 +55,23 @@ export default function Purchases() {
       {isAuthenticated && user?.purchases && (
         <>
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
-            <h1>Purchases</h1>
+            <h1>Compras</h1>
           </div>
 
           <div className="flex box-xxl column a-center j-center padding-l-xs padding-r-xs">
             {currentItems && currentItems.length > 0 && (
               <div className="flex box-xxl f-height-xs base-border-b">
                 <div className="flex box-xxl a-center j-center">
-                  <h3>Code</h3>
+                  <h3>Código</h3>
                 </div>
                 <div className="flex box-xxl a-center j-center">
-                  <h3>Status</h3>
+                  <h3>Estado</h3>
                 </div>
                 <div className="flex box-xxl a-center j-center">
                   <h3>Total</h3>
                 </div>
                 <div className="flex box-xxl a-center j-center">
-                  <h3>Details</h3>
+                  <h3>Detalle</h3>
                 </div>
               </div>
             )}
@@ -89,26 +89,26 @@ export default function Purchases() {
                       <h5>
                         {purchase.status === "uncompleted" &&
                           purchase.delivery.status === "created" &&
-                          "Waiting for payment"}
+                          "Esperando pago"}
 
                         {purchase.status === "created" &&
                           purchase.delivery.status === "created" &&
-                          "Waiting for payment"}
+                          "Esperando pago"}
 
                         {purchase.status === "payed" &&
                           purchase.delivery.status === "created" &&
-                          "Preparing shipment"}
+                          "Preparando envío"}
 
                         {purchase.status === "payed" &&
                           purchase.delivery.status === "receivedForCourier" &&
-                          "Received by carrier"}
+                          "Recibido por courier"}
 
                         {purchase.status === "payed" &&
                           purchase.delivery.status === "inRoute" &&
-                          "In transit"}
+                          "En tránsito"}
                         {purchase.status === "delivered" &&
                           purchase.delivery.status === "delivered" &&
-                          "Delivered"}
+                          "Entregado"}
                       </h5>
                     )}
                   </div>
@@ -136,7 +136,7 @@ export default function Purchases() {
               <Image
                 className="f-height-xxs"
                 src={loadingGif}
-                alt="Loading..."
+                alt="Cargando..."
               />
             </div>
           )}

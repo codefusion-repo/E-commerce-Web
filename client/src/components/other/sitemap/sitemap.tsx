@@ -19,13 +19,13 @@ export default function Sitemap() {
       } a-center j-center margin-t-l margin-b-l`}
     >
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-        <h1>Site map</h1>
+        <h1>Mapa del sitio</h1>
       </div>
 
       <div className="flex wrap box-xxl a-start j-center padding-s gap-xxl">
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>Categories</h1>
+            <h1>Categorías</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             {categories.map((category) => (
@@ -41,7 +41,7 @@ export default function Sitemap() {
         </div>
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>Brands</h1>
+            <h1>Marcas</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             {brands.map((category) => (
@@ -57,7 +57,7 @@ export default function Sitemap() {
         </div>
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>Products</h1>
+            <h1>Productos</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             {products.map((product) => (
@@ -73,26 +73,26 @@ export default function Sitemap() {
         </div>
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>Pages</h1>
+            <h1>Páginas</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             <Link href={"/"} className="btn-span">
-              <h4>Home</h4>
+              <h4>Inicio</h4>
             </Link>
             <Link href={"/shop"} className="btn-span">
-              <h4>Store</h4>
+              <h4>Tienda</h4>
             </Link>
             <Link href={"/blog"} className="btn-span">
               <h4>Blog</h4>
             </Link>
             <Link href={"/contact"} className="btn-span">
-              <h4>Contact</h4>
+              <h4>Contacto</h4>
             </Link>
           </div>
         </div>
         <div className="flex column f-width-xl">
           <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs second-border-b">
-            <h1>Posts</h1>
+            <h1>Articulos</h1>
           </div>
           <div className="flex column box-xxl padding-xs">
             {posts.map((post) => (

@@ -157,7 +157,7 @@ export default function ShopNavbar() {
         setCurrentPage(1);
         setProducts(res.data.products);
         setData(res.data.products);
-        setInfo(`Results: ${res.data.products.length}`);
+        setInfo(`Resultados: ${res.data.products.length}`);
         setLoading(false);
       })
       .catch((err) => {
@@ -187,7 +187,7 @@ export default function ShopNavbar() {
         setCurrentPage(1);
         setProducts(res.data.products);
         setData(res.data.products);
-        setInfo(`Results: ${res.data.products.length}`);
+        setInfo(`Resultados: ${res.data.products.length}`);
         setLoading(false);
       })
       .catch((err) => {
@@ -304,7 +304,7 @@ export default function ShopNavbar() {
         setCurrentPage(1);
         setProducts(res.data.products);
         setData(res.data.products);
-        setInfo(`Results: ${res.data.products.length}`);
+        setInfo(`Resultados: ${res.data.products.length}`);
         setLoading(false);
       })
       .catch((err) => {
@@ -332,7 +332,7 @@ export default function ShopNavbar() {
           className="filters-form"
         >
           <div className="filters-form-item">
-            <label>Search</label>
+            <label>Buscar</label>
             <input
               className="large"
               onChange={(e) => onChangeSearch(e)}
@@ -340,14 +340,14 @@ export default function ShopNavbar() {
               id="search"
               name="search"
               value={search ? search : ""}
-              placeholder="Search products"
+              placeholder="Buscar productos"
               readOnly={loading}
             />
           </div>
 
           <div className="filters-form-minmax">
             <div className="filters-form-minmax-item">
-              <label>Minimum price</label>
+              <label>Precio minimo</label>
               <input
                 onChange={(e) => onChangeMinPrice(e)}
                 className="no-spinners large"
@@ -362,7 +362,7 @@ export default function ShopNavbar() {
             <FaArrowsAltH className="icon" />
 
             <div className="filters-form-minmax-item">
-              <label>Maximum price</label>
+              <label>Precio máximo</label>
               <input
                 onChange={(e) => onChangeMaxPrice(e)}
                 className="no-spinners large"
@@ -377,7 +377,7 @@ export default function ShopNavbar() {
           </div>
 
           <div className="filters-form-item">
-            <label>Sort by</label>
+            <label>Ordenar por</label>
             <select
               className="large"
               onChange={(e) => onChangeOrder(e)}
@@ -400,7 +400,7 @@ export default function ShopNavbar() {
             className="large"
             disabled={loading}
           >
-            Filter
+            Filtrar
           </button>
         </form>
       </div>
@@ -408,7 +408,7 @@ export default function ShopNavbar() {
       <div className="filters-tags">
         {search && search && searchParams.get("search") && isOpen && (
           <div className="tag">
-            <h4>{`Search: ${search}`} </h4>
+            <h4>{`Busqueda: ${search}`} </h4>
             <h4>
               <IoIosCloseCircle
                 onClick={() => removeFilter("search")}
@@ -420,7 +420,7 @@ export default function ShopNavbar() {
         {minPrice && minPrice && searchParams.get("minPrice") && isOpen && (
           <div className="tag">
             <h4>
-              {`Minimum: ${Intl.NumberFormat("es-CL", {
+              {`Minimo: ${Intl.NumberFormat("es-CL", {
                 style: "currency",
                 currency: "CLP",
               }).format(parseFloat(minPrice))}`}{" "}
@@ -436,7 +436,7 @@ export default function ShopNavbar() {
         {maxPrice && maxPrice && searchParams.get("maxPrice") && isOpen && (
           <div className="tag">
             <h4>
-              {`Maximum: ${Intl.NumberFormat("es-CL", {
+              {`Máximo: ${Intl.NumberFormat("es-CL", {
                 style: "currency",
                 currency: "CLP",
               }).format(parseFloat(maxPrice))}`}{" "}
@@ -455,7 +455,7 @@ export default function ShopNavbar() {
           searchParams.get("orderBy") &&
           isOpen && (
             <div className="tag">
-              <h4>{`Sorted: ${getOrderByLabel(orderBy)}`} </h4>
+              <h4>{`Ordenado: ${getOrderByLabel(orderBy)}`} </h4>
               <h4>
                 <IoIosCloseCircle
                   onClick={() => removeFilter("orderBy")}
@@ -477,16 +477,16 @@ export default function ShopNavbar() {
           <div className="banner-filters">
             <h1>
               {categorySlug && typeof categorySlug === "string"
-                ? `Search: ${formatSlugToText(categorySlug)}`
-                : "Search"}{" "}
+                ? `Busqueda: ${formatSlugToText(categorySlug)}`
+                : "Busqueda"}{" "}
             </h1>
-            <Image src={banner1} alt="banner-alt" />
+            <Image src={banner1} alt="Banner de busqueda" />
           </div>
           <div className="filters-footer">
             <div className="filters-error">{error && <h3>{error}</h3>}</div>
             <div className="filters-info">{info && <h3>{info}</h3>}</div>
             <div className="filters-info">
-              {loading && <Image src={loadingGif} alt="Loading..." />}
+              {loading && <Image src={loadingGif} alt="Cargando..." />}
             </div>
           </div>
 

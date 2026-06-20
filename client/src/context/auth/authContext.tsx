@@ -95,8 +95,7 @@ export const AuthProvider: React.FC<{
         .then(() => {
           reSignOut();
         })
-        .catch((err) => {
-          console.log(err.code);
+        .catch(() => {
           reSignOut();
         });
 
@@ -146,13 +145,11 @@ export const AuthProvider: React.FC<{
                 addMessage("Active session in progress");
                 setAuthType("authenticated");
               })
-              .catch((err) => {
-                console.log(err);
+              .catch(() => {
                 signOutAuthState();
               });
           })
-          .catch((err) => {
-            console.log(err.code);
+          .catch(() => {
             signOutAuthState();
           });
       } else {

@@ -35,6 +35,14 @@
     color: rgba(235, 235, 235, .72);
 }
 
+.payment-method-card__notice {
+    max-width: 30rem;
+    color: var(--warning-text);
+    font-size: .92rem;
+    line-height: 1.35;
+    text-align: center;
+}
+
 .payment-method-card__action {
     padding-top: .5rem;
 }

@@ -46,8 +46,6 @@ export default function Purchases() {
     };
 
     initShop(user?.purchases || []);
-
-    //console.log("user: ", user);
   }, [user?.purchases]);
 
   return (

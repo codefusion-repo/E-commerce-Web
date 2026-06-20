@@ -10,7 +10,6 @@ export const verifyStockInputFromPage = (
   return new Promise((resolve, reject) => {
     items?.forEach((item) => {
       if (item.id === productId) {
-        console.log("item.quantity: ", item.quantity);
         if (item.quantity + quantity > 5) {
           return resolve("exceed");
         } else if (item.quantity + quantity > parseInt(item.stock)) {

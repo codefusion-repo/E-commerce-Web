@@ -81,7 +81,6 @@ const FilteredProductCard: React.FC<{
           alt={product.name}
           width={640}
           height={640}
-          loading="eager"
           sizes="(max-width: 767px) 85vw, 360px"
           onError={() => setImageSrc(fallbackProductImage.src)}
         />

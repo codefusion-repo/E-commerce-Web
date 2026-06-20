@@ -139,8 +139,9 @@ const postRegisterForm = async (
         return resolve(res);
       })
       .catch((err) => {
-        console.log("err", err);
-        return reject(err.response.data.detail);
+        return reject(
+          err.response?.data?.detail || "No pudimos completar el registro"
+        );
       });
   });
 };

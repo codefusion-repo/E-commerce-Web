@@ -4,6 +4,7 @@
 import React, {
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -37,7 +38,7 @@ export const MobileProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, [hasWindow]);
 
-  const adjustSize = () => {
+  const adjustSize = useCallback(() => {
     const screenWidth = window.innerWidth;
 
     if (screenWidth < 480) {
@@ -51,25 +52,21 @@ export const MobileProvider: React.FC<{ children: ReactNode }> = ({
     } else {
       setDevice(4);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (hasWindow && !isSet) {
       adjustSize();
       setIsSet(true);
     }
-  }, [hasWindow, isSet]);
+  }, [adjustSize, hasWindow, isSet]);
 
   useEffect(() => {
     window.addEventListener("resize", adjustSize);
     return () => {
-      window.addEventListener("resize", adjustSize);
+      window.removeEventListener("resize", adjustSize);
     };
-  }, []);
-
-  useEffect(() => {
-    console.log("device: ", device);
-  }, [device]);
+  }, [adjustSize]);
 
   return (
     <MobileContext.Provider

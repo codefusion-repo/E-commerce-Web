@@ -50,7 +50,8 @@ export default function ShopNavbar() {
   const params = useParams();
   const searchParams = useSearchParams();
 
-  const slugCategory = params.slugCategory;
+  const slugCategory =
+    params.slugCategory === undefined ? "" : params.slugCategory;
   const minPriceParam = searchParams.get("minPrice");
   const maxPriceParam = searchParams.get("maxPrice");
   const searchParam = searchParams.get("search");

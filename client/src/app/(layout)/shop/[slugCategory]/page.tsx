@@ -2,10 +2,12 @@
 
 import Category from "../../../../components/shop/shopBody/category/category";
 
-export default async function Page({
-  params: { slugCategory },
-}: {
-  params: { slugCategory: string };
-}) {
+type PageProps = {
+  params: Promise<{ slugCategory: string }>;
+};
+
+export default async function Page({ params }: PageProps) {
+  const { slugCategory } = await params;
+
   return <Category slugCategory={slugCategory} />;
 }

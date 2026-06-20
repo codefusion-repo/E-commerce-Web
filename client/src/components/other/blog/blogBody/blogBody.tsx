@@ -19,7 +19,7 @@ export default function BlogBody() {
         <Image
           className="absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
           src={banner1}
-          alt="banner-alt"
+          alt="Banner del blog"
         />
       </div>
 
@@ -42,7 +42,7 @@ export default function BlogBody() {
             <Image
               className="absolute f-top f-left fit-cover blur opacity-xs z-index-xs"
               src={banner1}
-              alt="banner-alt"
+              alt="Banner del blog"
             />
           </div>
         </div>

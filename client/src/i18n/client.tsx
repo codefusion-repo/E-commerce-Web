@@ -304,6 +304,35 @@ function translateTemplates(source: string, locale: Locale): string | undefined 
     if (allPosts) {
       return `All posts from ${translateSegment(allPosts[1])}`;
     }
+
+    const minimum = source.match(/^Mínimo: (.+)$/);
+    if (minimum) {
+      return `Minimum: ${minimum[1]}`;
+    }
+
+    const maximum = source.match(/^Máximo: (.+)$/);
+    if (maximum) {
+      return `Maximum: ${maximum[1]}`;
+    }
+
+    const results = source.match(/^Resultados: (.+)$/);
+    if (results) {
+      return `Results: ${results[1]}`;
+    }
+
+    const addressComponent = source.match(
+      /^Error en (.+): "(.+)", corrigelo e intenta nuevamente$/
+    );
+    if (addressComponent) {
+      return `Error in ${addressComponent[1]}: "${addressComponent[2]}", fix it and try again`;
+    }
+
+    const addressField = source.match(
+      /^Error inesperado en el parametro "(.+)", intenta nuevamente$/
+    );
+    if (addressField) {
+      return `Unexpected error in parameter "${addressField[1]}", please try again`;
+    }
   }
 
   const readMoreAbout = source.match(/^Read more about (.+)$/);

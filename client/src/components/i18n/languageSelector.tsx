@@ -1,6 +1,5 @@
 "use client";
 
-import { ChangeEvent } from "react";
 import "./languageSelector.css";
 import { LOCALE_DETAILS, Locale, SUPPORTED_LOCALES } from "../../i18n/config";
 import { useI18n } from "../../i18n/client";
@@ -8,31 +7,38 @@ import { useI18n } from "../../i18n/client";
 export default function LanguageSelector() {
   const { locale, setLocale, t } = useI18n();
 
-  const onChangeLocale = (event: ChangeEvent<HTMLSelectElement>) => {
-    setLocale(event.target.value as Locale);
+  const onSelectLocale = (selectedLocale: Locale) => {
+    setLocale(selectedLocale);
   };
 
   return (
-    <div className="language-selector">
-      <label
-        className="language-selector__label"
-        htmlFor="global-language-selector"
-      >
-        {t("Idioma")}
-      </label>
-      <select
-        id="global-language-selector"
-        className="language-selector__select"
-        value={locale}
-        onChange={onChangeLocale}
+    <div
+      className="language-selector"
+      role="group"
+      aria-label={t("Seleccionar idioma")}
+    >
+      <span className="language-selector__label">{t("Idioma")}</span>
+      <div
+        className="language-selector__options"
         aria-label={t("Seleccionar idioma")}
       >
         {SUPPORTED_LOCALES.map((availableLocale) => (
-          <option key={availableLocale} value={availableLocale}>
-            {LOCALE_DETAILS[availableLocale].label}
-          </option>
+          <button
+            key={availableLocale}
+            type="button"
+            className={`language-selector__button ${
+              availableLocale === locale ? "language-selector__button--active" : ""
+            }`}
+            onClick={() => onSelectLocale(availableLocale)}
+            aria-label={`${t("Seleccionar idioma")}: ${
+              LOCALE_DETAILS[availableLocale].label
+            }`}
+            aria-pressed={availableLocale === locale}
+          >
+            {LOCALE_DETAILS[availableLocale].shortLabel}
+          </button>
         ))}
-      </select>
+      </div>
     </div>
   );
 }

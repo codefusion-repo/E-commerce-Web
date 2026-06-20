@@ -142,6 +142,262 @@ class Command(BaseCommand):
             "ullamcorper velit, ut scelerisque metus lorem at sapien."
         )
 
+    def catalog_specials(self):
+        return [
+            {"name": "Ofertas demo", "views": 138},
+            {"name": "Nuevos ingresos", "views": 132},
+            {"name": "Más vendidos", "views": 126},
+            {"name": "Selección portfolio", "views": 120},
+        ]
+
+    def catalog_categories(self):
+        return [
+            {"name": "Notebooks y productividad", "views": 118, "special_index": 1},
+            {"name": "Audio personal", "views": 112, "special_index": 2},
+            {"name": "Periféricos gaming", "views": 108, "special_index": 0},
+            {"name": "Casa inteligente", "views": 102, "special_index": 3},
+            {"name": "Accesorios y energía", "views": 98, "special_index": 0},
+            {"name": "Monitores y streaming", "views": 94, "special_index": 2},
+        ]
+
+    def catalog_brands(self):
+        return [
+            {"name": "CodeFusion Lab", "views": 96},
+            {"name": "AndesTech", "views": 91},
+            {"name": "PuntoPixel", "views": 86},
+            {"name": "Nexo Audio", "views": 82},
+            {"name": "Voltia", "views": 78},
+            {"name": "CasaNube", "views": 74},
+            {"name": "Raven Gaming", "views": 70},
+            {"name": "MiraDisplay", "views": 66},
+            {"name": "Ruta Mobile", "views": 62},
+            {"name": "Taller Digital", "views": 58},
+        ]
+
+    def catalog_products(self):
+        return [
+            {
+                "name": "Notebook Andes Studio 14",
+                "price": 749990,
+                "stock": 10,
+                "views": 168,
+                "special_index": 1,
+                "category_index": 0,
+                "brand_index": 1,
+                "description": (
+                    "Notebook liviano para trabajo remoto, presentaciones y demos. "
+                    "Equilibra potencia, batería y portabilidad en una vitrina clara "
+                    "para probar búsqueda, carrito y checkout."
+                ),
+                "features": [
+                    ("Pantalla", "14 pulgadas IPS"),
+                    ("Memoria", "16 GB RAM / 512 GB SSD"),
+                    ("Uso sugerido", "Productividad y demos SaaS"),
+                ],
+            },
+            {
+                "name": "Audífonos Nexo Air ANC",
+                "price": 89990,
+                "stock": 32,
+                "views": 160,
+                "special_index": 2,
+                "category_index": 1,
+                "brand_index": 3,
+                "description": (
+                    "Audífonos inalámbricos con cancelación activa de ruido y estuche "
+                    "compacto. Pensados para destacar un producto de precio medio con "
+                    "copy breve, rating y acciones visibles."
+                ),
+                "features": [
+                    ("Cancelación", "ANC híbrida"),
+                    ("Batería", "Hasta 28 horas con estuche"),
+                    ("Conectividad", "Bluetooth 5.3 multipunto"),
+                ],
+            },
+            {
+                "name": "Teclado Raven Pro TKL",
+                "price": 69990,
+                "stock": 28,
+                "views": 154,
+                "special_index": 0,
+                "category_index": 2,
+                "brand_index": 6,
+                "description": (
+                    "Teclado mecánico compacto para setups gaming y escritorios de "
+                    "desarrollo. Su formato TKL muestra bien filtros por categoría, marca "
+                    "y rango de precio."
+                ),
+                "features": [
+                    ("Formato", "TKL con switches lineales"),
+                    ("Iluminación", "RGB por tecla"),
+                    ("Conexión", "USB-C desmontable"),
+                ],
+            },
+            {
+                "name": "Monitor MiraView 27 4K",
+                "price": 289990,
+                "stock": 14,
+                "views": 148,
+                "special_index": 2,
+                "category_index": 5,
+                "brand_index": 7,
+                "description": (
+                    "Monitor 4K de 27 pulgadas para edición, streaming y trabajo diario. "
+                    "Aporta una referencia premium al catálogo sin alterar flujos de compra."
+                ),
+                "features": [
+                    ("Resolución", "4K UHD"),
+                    ("Frecuencia", "60 Hz"),
+                    ("Puertos", "HDMI, DisplayPort y USB-C"),
+                ],
+            },
+            {
+                "name": "Mouse Raven Vector",
+                "price": 39990,
+                "stock": 40,
+                "views": 140,
+                "special_index": 0,
+                "category_index": 2,
+                "brand_index": 6,
+                "description": (
+                    "Mouse liviano con sensor preciso y botones programables. Sirve para "
+                    "probar productos de alta rotación en cards, búsqueda y carrito."
+                ),
+                "features": [
+                    ("Sensor", "Hasta 12.000 DPI"),
+                    ("Peso", "72 gramos"),
+                    ("Botones", "6 programables"),
+                ],
+            },
+            {
+                "name": "Parlante CasaNube 360",
+                "price": 119990,
+                "stock": 18,
+                "views": 134,
+                "special_index": 3,
+                "category_index": 3,
+                "brand_index": 5,
+                "description": (
+                    "Parlante inteligente para ambientes conectados, con sonido envolvente "
+                    "y control por app. Refuerza la categoría smart home con un producto "
+                    "fácil de entender."
+                ),
+                "features": [
+                    ("Audio", "Sonido 360 grados"),
+                    ("Control", "App móvil y voz"),
+                    ("Conectividad", "Wi-Fi y Bluetooth"),
+                ],
+            },
+            {
+                "name": "Dock USB-C CodeFusion 8 en 1",
+                "price": 79990,
+                "stock": 22,
+                "views": 128,
+                "special_index": 1,
+                "category_index": 4,
+                "brand_index": 0,
+                "description": (
+                    "Hub USB-C con puertos esenciales para notebooks modernos. Un producto "
+                    "de apoyo que comunica bien compatibilidad, precio y disponibilidad."
+                ),
+                "features": [
+                    ("Puertos", "HDMI, USB-A, USB-C y SD"),
+                    ("Carga", "Power Delivery 100 W"),
+                    ("Material", "Aluminio anodizado"),
+                ],
+            },
+            {
+                "name": "Power Bank Voltia 20K",
+                "price": 44990,
+                "stock": 35,
+                "views": 122,
+                "special_index": 0,
+                "category_index": 4,
+                "brand_index": 4,
+                "description": (
+                    "Batería externa de 20.000 mAh para viajes, ferias y jornadas largas. "
+                    "Completa el catálogo con un accesorio masivo y precio accesible."
+                ),
+                "features": [
+                    ("Capacidad", "20.000 mAh"),
+                    ("Carga rápida", "USB-C PD 30 W"),
+                    ("Pantalla", "Indicador digital"),
+                ],
+            },
+            {
+                "name": "Webcam PuntoPixel Full HD",
+                "price": 54990,
+                "stock": 30,
+                "views": 116,
+                "special_index": 1,
+                "category_index": 5,
+                "brand_index": 2,
+                "description": (
+                    "Webcam Full HD con micrófono integrado para reuniones y streaming. "
+                    "Ayuda a mostrar información técnica simple en la ficha del producto."
+                ),
+                "features": [
+                    ("Resolución", "1080p a 30 fps"),
+                    ("Audio", "Micrófono integrado"),
+                    ("Montaje", "Clip ajustable"),
+                ],
+            },
+            {
+                "name": "SSD externo Andes 1TB",
+                "price": 99990,
+                "stock": 24,
+                "views": 110,
+                "special_index": 3,
+                "category_index": 4,
+                "brand_index": 1,
+                "description": (
+                    "Unidad SSD portátil para respaldos, proyectos y archivos pesados. "
+                    "Suma un ejemplo claro para ordenar por precio y comparar accesorios."
+                ),
+                "features": [
+                    ("Capacidad", "1 TB"),
+                    ("Velocidad", "Hasta 1.050 MB/s"),
+                    ("Resistencia", "Carcasa reforzada"),
+                ],
+            },
+            {
+                "name": "Ampolleta CasaNube Color",
+                "price": 24990,
+                "stock": 50,
+                "views": 104,
+                "special_index": 0,
+                "category_index": 3,
+                "brand_index": 5,
+                "description": (
+                    "Ampolleta LED inteligente con escenas de color y programación desde "
+                    "app. Da variedad al catálogo con un producto compacto de bajo ticket."
+                ),
+                "features": [
+                    ("Color", "RGB + blanco cálido"),
+                    ("Control", "App móvil"),
+                    ("Consumo", "9 W LED"),
+                ],
+            },
+            {
+                "name": "Soporte Ruta Mobile MagSafe",
+                "price": 29990,
+                "stock": 38,
+                "views": 98,
+                "special_index": 2,
+                "category_index": 4,
+                "brand_index": 8,
+                "description": (
+                    "Soporte magnético para escritorio o auto, ideal para navegación y "
+                    "videollamadas. Cierra la selección con un accesorio simple y visible."
+                ),
+                "features": [
+                    ("Montaje", "Magnético compatible MagSafe"),
+                    ("Rotación", "360 grados"),
+                    ("Uso", "Escritorio y vehículo"),
+                ],
+            },
+        ]
+
     def ensure_admin_user(self):
         username = os.getenv("SUPER_USERNAME", "support-cf")
         email = os.getenv("SUPER_EMAIL", "support@codefusion.cl")
@@ -209,26 +465,21 @@ class Command(BaseCommand):
             banner.save()
 
     def seed_special_categories(self):
-        names = [
-            "Ofertas Flash",
-            "Lo Nuevo",
-            "Top Ventas",
-            "Edición Limitada",
-        ]
         results = []
-        for index, name in enumerate(names, start=1):
+        for index, special_data in enumerate(self.catalog_specials(), start=1):
+            name = special_data["name"]
             slug = f"special-{index}"
             category, _ = Category.objects.get_or_create(
                 slug=slug,
                 defaults={
                     "name": name,
                     "type": "special",
-                    "views": 120 - index * 5,
+                    "views": special_data["views"],
                 },
             )
             category.name = name
             category.type = "special"
-            category.views = 120 - index * 5
+            category.views = special_data["views"]
             self.assign_image(
                 category.icon,
                 filename="sampleCategoryImage.jpeg",
@@ -241,28 +492,21 @@ class Command(BaseCommand):
         return results
 
     def seed_categories(self, specials):
-        names = [
-            "Computación",
-            "Audio",
-            "Gaming",
-            "Smart Home",
-            "Accesorios",
-            "Movilidad",
-        ]
         results = []
-        for index, name in enumerate(names, start=1):
+        for index, category_data in enumerate(self.catalog_categories(), start=1):
+            name = category_data["name"]
             slug = f"category-{index}"
             category, _ = Category.objects.get_or_create(
                 slug=slug,
                 defaults={
                     "name": name,
                     "type": "category",
-                    "views": 90 - index * 4,
+                    "views": category_data["views"],
                 },
             )
             category.name = name
             category.type = "category"
-            category.views = 90 - index * 4
+            category.views = category_data["views"]
             self.assign_image(
                 category.icon,
                 filename="sampleCategoryImage.jpeg",
@@ -270,38 +514,27 @@ class Command(BaseCommand):
                 output_name=f"category-{slug}.jpeg",
             )
             category.save()
-            category.subcategories.add(specials[index % len(specials)])
+            category.subcategories.add(specials[category_data["special_index"]])
             self.sync_counter(CategoryViewCount, "category", category, category.views)
             results.append(category)
         return results
 
     def seed_brands(self, categories):
-        names = [
-            "NovaTech",
-            "PixelWave",
-            "Quantum Gear",
-            "BlueCore",
-            "HyperByte",
-            "VoltEdge",
-            "Axiom",
-            "Nebula Labs",
-            "Vertex",
-            "Fusion Devices",
-        ]
         results = []
-        for index, name in enumerate(names, start=1):
+        for index, brand_data in enumerate(self.catalog_brands(), start=1):
+            name = brand_data["name"]
             slug = f"brand-{index}"
             brand, _ = Category.objects.get_or_create(
                 slug=slug,
                 defaults={
                     "name": name,
                     "type": "brand",
-                    "views": 75 - index * 3,
+                    "views": brand_data["views"],
                 },
             )
             brand.name = name
             brand.type = "brand"
-            brand.views = 75 - index * 3
+            brand.views = brand_data["views"]
             self.assign_image(
                 brand.icon,
                 filename="sampleCategoryImage.jpeg",
@@ -316,42 +549,27 @@ class Command(BaseCommand):
         return results
 
     def seed_products(self, specials, categories, brands):
-        product_specs = [
-            ("Aurora Laptop Pro", 849990, 18),
-            ("Pulse Wireless Headset", 89990, 35),
-            ("Nebula Mechanical Keyboard", 69990, 28),
-            ("Orbit Gaming Mouse", 49990, 42),
-            ("Nova Smart Speaker", 119990, 14),
-            ("Vertex 4K Monitor", 259990, 11),
-            ("Hyper Portable SSD", 79990, 26),
-            ("BlueCore Webcam HD", 45990, 33),
-            ("Quantum Desk Lamp", 29990, 24),
-            ("Fusion Dock Station", 109990, 16),
-            ("VoltEdge Smartwatch", 149990, 13),
-            ("Axiom Power Bank", 39990, 37),
-        ]
-
         results = []
-        for index, (name, price, stock) in enumerate(product_specs, start=1):
+        for index, product_data in enumerate(self.catalog_products(), start=1):
             slug = f"product-{index}"
             product = Product.objects.filter(slug=slug).first()
             if not product:
                 product = Product(
-                    name=name,
+                    name=product_data["name"],
                     slug=slug,
-                    price=price,
-                    description=f"{self.lorem()} Producto demo orientado a {name.lower()}.",
-                    stock=stock,
+                    price=product_data["price"],
+                    description=product_data["description"],
+                    stock=product_data["stock"],
                     status="on_sale",
-                    views=110 - index * 4,
+                    views=product_data["views"],
                 )
             else:
-                product.name = name
-                product.price = price
-                product.description = f"{self.lorem()} Producto demo orientado a {name.lower()}."
-                product.stock = stock
+                product.name = product_data["name"]
+                product.price = product_data["price"]
+                product.description = product_data["description"]
+                product.stock = product_data["stock"]
                 product.status = "on_sale"
-                product.views = 110 - index * 4
+                product.views = product_data["views"]
 
             self.assign_image(
                 product.thumbnail,
@@ -362,9 +580,9 @@ class Command(BaseCommand):
             product.save()
             product.categories.set(
                 [
-                    specials[index % len(specials)],
-                    categories[index % len(categories)],
-                    brands[index % len(brands)],
+                    specials[product_data["special_index"]],
+                    categories[product_data["category_index"]],
+                    brands[product_data["brand_index"]],
                 ]
             )
             self.sync_counter(ProductViewCount, "product", product, product.views)
@@ -372,14 +590,13 @@ class Command(BaseCommand):
         return results
 
     def seed_product_extras(self, products, admin_user, customer_user):
-        feature_sets = [
-            [("Color", "Azul"), ("Garantía", "12 meses"), ("Compatibilidad", "Universal")],
-            [("Conectividad", "Bluetooth 5.3"), ("Batería", "Hasta 20 horas"), ("Material", "Aluminio")],
-            [("Resolución", "4K"), ("Frecuencia", "144Hz"), ("Puertos", "USB-C / HDMI")],
-        ]
+        feature_map = {
+            f"product-{index}": product_data["features"]
+            for index, product_data in enumerate(self.catalog_products(), start=1)
+        }
         product_comments = [
-            "Muy buen producto para una demo de tienda, responde rápido y se ve premium.",
-            "La relación precio/calidad está sólida, ideal para probar el flujo completo.",
+            "La ficha se entiende rápido y el producto se ve listo para una demo comercial.",
+            "Buen ejemplo para revisar precio, disponibilidad y compra sin datos sensibles.",
         ]
 
         for index, product in enumerate(products, start=1):
@@ -394,7 +611,7 @@ class Command(BaseCommand):
             )
 
             ProductFeatures.objects.filter(product=product).delete()
-            for param, value in feature_sets[index % len(feature_sets)]:
+            for param, value in feature_map.get(product.slug, []):
                 ProductFeatures.objects.create(product=product, param=param, value=value)
 
             if ProductImages.objects.filter(product=product).count() < 2:

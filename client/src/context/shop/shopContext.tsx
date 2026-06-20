@@ -20,35 +20,35 @@ import {
 export const availableOrders: OrderByType[] = [
   {
     type: "df",
-    name: "Default order",
+    name: "Orden recomendado",
   },
   {
     type: "mp",
-    name: "Most popular",
+    name: "Más populares",
   },
   {
     type: "az",
-    name: "Alphabetically, A - Z",
+    name: "Nombre, A - Z",
   },
   {
     type: "za",
-    name: "Alphabetically, Z - A",
+    name: "Nombre, Z - A",
   },
   {
     type: "me",
-    name: "Price, Lowest - Highest",
+    name: "Precio, menor a mayor",
   },
   {
     type: "ma",
-    name: "Price, Highest - Lowest",
+    name: "Precio, mayor a menor",
   },
   {
     type: "ra",
-    name: "Date, Recent - Old",
+    name: "Más recientes",
   },
   {
     type: "ar",
-    name: "Date, Old - Recent",
+    name: "Más antiguos",
   },
 ];
 

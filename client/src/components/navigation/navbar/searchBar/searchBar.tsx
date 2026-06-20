@@ -208,7 +208,7 @@ export default function SearchBar({
         <div className={`flex a-center j-around gap-ms padding-s`}>
           <div className="flex a-center j-center gap-xs">
             <div className="flex column gap-xxs a-center">
-              <label>Precio minimo</label>
+              <label>Precio mínimo</label>
               <input
                 onChange={(e) => onChange(e)}
                 className="input-small"
@@ -353,7 +353,7 @@ export default function SearchBar({
         {searchFormData.minPrice && isOpen && (
           <div className="flex f-width-xl f-height-xxs a-center j-space third-bg padding-l-s padding-r-s border-radius-xxs">
             <h4>
-              {`Minimo: ${Intl.NumberFormat("es-CL", {
+              {`Mínimo: ${Intl.NumberFormat("es-CL", {
                 style: "currency",
                 currency: "CLP",
               }).format(parseFloat(searchFormData.minPrice))}`}{" "}

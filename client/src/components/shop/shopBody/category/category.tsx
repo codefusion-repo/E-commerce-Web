@@ -43,6 +43,16 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
     );
   }, [allCategories, products, slugCategory]);
 
+  const getCategoryTypeLabel = (type: string) => {
+    if (type === "brand") {
+      return "Marca";
+    }
+    if (type === "special") {
+      return "Selección";
+    }
+    return "Categoría";
+  };
+
   return (
     <>
       {allCategories.find((c) => c.slug === slugCategory) ? (
@@ -51,11 +61,11 @@ export default function Category({ slugCategory }: { slugCategory: string }) {
             <>
               <div className="shop-hero flex box-xxl f-height-m relative column a-center j-center four-bg hidden">
                 <span className="shop-hero__eyebrow z-index-s">
-                  {category.type}
+                  {getCategoryTypeLabel(category.type)}
                 </span>
                 <h1 className="z-index-s">{category?.name}</h1>
                 <p className="z-index-s">
-                  {categoryProducts.length} productos en esta coleccion.
+                  {categoryProducts.length} productos en esta colección.
                 </p>
                 <Image
                   className="shop-hero__image absolute f-top f-left fit-cover blur opacity-xs z-index-xs"

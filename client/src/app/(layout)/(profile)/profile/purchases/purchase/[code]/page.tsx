@@ -2,10 +2,12 @@
 
 import Purchase from "../../../../../../../components/profile/purchases/purchase/purchase";
 
-export default function Page({
-  params: { code },
-}: {
-  params: { code: string };
-}) {
+type PageProps = {
+  params: Promise<{ code: string }>;
+};
+
+export default async function Page({ params }: PageProps) {
+  const { code } = await params;
+
   return <Purchase code={code} />;
 }

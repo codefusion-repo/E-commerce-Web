@@ -2,10 +2,12 @@
 
 import Product from "../../../../../components/shop/shopBody/product/product";
 
-export default async function Page({
-  params: { slugProduct },
-}: {
-  params: { slugProduct: string };
-}) {
+type PageProps = {
+  params: Promise<{ slugProduct: string }>;
+};
+
+export default async function Page({ params }: PageProps) {
+  const { slugProduct } = await params;
+
   return <Product slugProduct={slugProduct} />;
 }

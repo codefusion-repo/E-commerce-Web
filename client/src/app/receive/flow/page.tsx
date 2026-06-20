@@ -41,11 +41,13 @@ async function receiveFlowPayment(token: string) {
   }
 }
 
-export default async function Page({
-  searchParams: { token },
-}: {
-  searchParams: { token: string };
-}) {
+type PageProps = {
+  searchParams: Promise<{ token: string }>;
+};
+
+export default async function Page({ searchParams }: PageProps) {
+  const { token } = await searchParams;
+
   const { receive, detail, paymentState } = await receiveFlowPayment(token);
   return (
     <ReceiveFlow

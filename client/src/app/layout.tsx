@@ -27,12 +27,13 @@ const mediaBaseUrl =
   process.env.NEXT_PUBLIC_AWS_S3_CUSTOM_DOMAIN || siteUrl;
 const mediaUrl = (path: string) => new URL(path, mediaBaseUrl).toString();
 
-function getServerLocale() {
-  return normalizeLocale(cookies().get(LOCALE_COOKIE_NAME)?.value);
+async function getServerLocale() {
+  const cookieStore = await cookies();
+  return normalizeLocale(cookieStore.get(LOCALE_COOKIE_NAME)?.value);
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = getServerLocale();
+  const locale = await getServerLocale();
   const localeMetadata = LOCALE_DETAILS[locale].metadata;
 
   return {
@@ -97,7 +98,7 @@ async function defaultAuthReturn() {
 // Función para refrescar el token de acceso si este a expirado
 async function postJWTRefreshToken() {
   try {
-    const Cookies = cookies();
+    const Cookies = await cookies();
     if (!Cookies.get("refresh")) {
       return await defaultAuthReturn();
     }
@@ -129,7 +130,7 @@ async function postJWTRefreshToken() {
 // Función para verificar el token de acceso
 async function postJWTVerifyToken() {
   try {
-    const Cookies = cookies();
+    const Cookies = await cookies();
     if (!Cookies.get("access")) {
       return await defaultAuthReturn();
     }
@@ -284,7 +285,7 @@ async function getSettings() {
     areCookiesActive: true,
   };
   try {
-    const Cookies = cookies();
+    const Cookies = await cookies();
     if (Cookies.get("areMessagesActive")?.value === "false") {
       settingsData.areMessagesActive = false;
     }
@@ -341,7 +342,7 @@ export default async function RootLayout({
   const authData = await postJWTVerifyToken();
 
   const shopData = await getShopData();
-  const locale = getServerLocale();
+  const locale = await getServerLocale();
 
   // const cartData = await fetchShopcart(authData.user, authData.isAuthenticated);
 

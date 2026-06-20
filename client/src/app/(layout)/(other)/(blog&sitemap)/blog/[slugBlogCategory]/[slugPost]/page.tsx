@@ -2,10 +2,12 @@
 
 import Post from "../../../../../../../components/other/blog/blogBody/post/post";
 
-export default async function Page({
-  params: { slugPost },
-}: {
-  params: { slugPost: string };
-}) {
+type PageProps = {
+  params: Promise<{ slugPost: string }>;
+};
+
+export default async function Page({ params }: PageProps) {
+  const { slugPost } = await params;
+
   return <Post slugPost={slugPost} />;
 }

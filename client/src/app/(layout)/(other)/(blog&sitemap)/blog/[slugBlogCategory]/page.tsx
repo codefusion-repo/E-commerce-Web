@@ -2,10 +2,12 @@
 
 import BlogCategory from "../../../../../../components/other/blog/blogBody/blogCategory/blogCategory";
 
-export default async function Page({
-  params: { slugBlogCategory },
-}: {
-  params: { slugBlogCategory: string };
-}) {
+type PageProps = {
+  params: Promise<{ slugBlogCategory: string }>;
+};
+
+export default async function Page({ params }: PageProps) {
+  const { slugBlogCategory } = await params;
+
   return <BlogCategory slugBlogCategory={slugBlogCategory} />;
 }

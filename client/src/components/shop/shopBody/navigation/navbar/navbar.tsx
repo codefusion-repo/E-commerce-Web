@@ -347,7 +347,7 @@ export default function ShopNavbar() {
 
           <div className="filters-form-minmax">
             <div className="filters-form-minmax-item">
-              <label>Precio minimo</label>
+              <label>Precio mínimo</label>
               <input
                 onChange={(e) => onChangeMinPrice(e)}
                 className="no-spinners large"
@@ -408,7 +408,7 @@ export default function ShopNavbar() {
       <div className="filters-tags">
         {search && search && searchParams.get("search") && isOpen && (
           <div className="tag">
-            <h4>{`Busqueda: ${search}`} </h4>
+            <h4>{`Búsqueda: ${search}`} </h4>
             <h4>
               <IoIosCloseCircle
                 onClick={() => removeFilter("search")}
@@ -420,7 +420,7 @@ export default function ShopNavbar() {
         {minPrice && minPrice && searchParams.get("minPrice") && isOpen && (
           <div className="tag">
             <h4>
-              {`Minimo: ${Intl.NumberFormat("es-CL", {
+              {`Mínimo: ${Intl.NumberFormat("es-CL", {
                 style: "currency",
                 currency: "CLP",
               }).format(parseFloat(minPrice))}`}{" "}
@@ -477,10 +477,10 @@ export default function ShopNavbar() {
           <div className="banner-filters">
             <h1>
               {categorySlug && typeof categorySlug === "string"
-                ? `Busqueda: ${formatSlugToText(categorySlug)}`
-                : "Busqueda"}{" "}
+                ? `Búsqueda: ${formatSlugToText(categorySlug)}`
+                : "Búsqueda"}{" "}
             </h1>
-            <Image src={banner1} alt="Banner de busqueda" />
+            <Image src={banner1} alt="Banner de búsqueda" />
           </div>
           <div className="filters-footer">
             <div className="filters-error">{error && <h3>{error}</h3>}</div>

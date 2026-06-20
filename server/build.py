@@ -26,6 +26,146 @@ environ.Env.read_env()
 
 User = get_user_model()
 
+CATALOG_SPECIALS = [
+    "Ofertas demo",
+    "Nuevos ingresos",
+    "Más vendidos",
+    "Selección portfolio",
+]
+
+CATALOG_CATEGORIES = [
+    {"name": "Notebooks y productividad", "special_index": 1},
+    {"name": "Audio personal", "special_index": 2},
+    {"name": "Periféricos gaming", "special_index": 0},
+    {"name": "Casa inteligente", "special_index": 3},
+    {"name": "Accesorios y energía", "special_index": 0},
+    {"name": "Monitores y streaming", "special_index": 2},
+]
+
+CATALOG_BRANDS = [
+    "CodeFusion Lab",
+    "AndesTech",
+    "PuntoPixel",
+    "Nexo Audio",
+    "Voltia",
+    "CasaNube",
+    "Raven Gaming",
+    "MiraDisplay",
+    "Ruta Mobile",
+    "Taller Digital",
+]
+
+CATALOG_PRODUCTS = [
+    {
+        "name": "Notebook Andes Studio 14",
+        "price": 749990,
+        "stock": 10,
+        "special_index": 1,
+        "category_index": 0,
+        "brand_index": 1,
+        "description": "Notebook liviano para trabajo remoto, presentaciones y demos.",
+    },
+    {
+        "name": "Audífonos Nexo Air ANC",
+        "price": 89990,
+        "stock": 32,
+        "special_index": 2,
+        "category_index": 1,
+        "brand_index": 3,
+        "description": "Audífonos inalámbricos con cancelación activa de ruido.",
+    },
+    {
+        "name": "Teclado Raven Pro TKL",
+        "price": 69990,
+        "stock": 28,
+        "special_index": 0,
+        "category_index": 2,
+        "brand_index": 6,
+        "description": "Teclado mecánico compacto para setups gaming y escritorios de desarrollo.",
+    },
+    {
+        "name": "Monitor MiraView 27 4K",
+        "price": 289990,
+        "stock": 14,
+        "special_index": 2,
+        "category_index": 5,
+        "brand_index": 7,
+        "description": "Monitor 4K de 27 pulgadas para edición, streaming y trabajo diario.",
+    },
+    {
+        "name": "Mouse Raven Vector",
+        "price": 39990,
+        "stock": 40,
+        "special_index": 0,
+        "category_index": 2,
+        "brand_index": 6,
+        "description": "Mouse liviano con sensor preciso y botones programables.",
+    },
+    {
+        "name": "Parlante CasaNube 360",
+        "price": 119990,
+        "stock": 18,
+        "special_index": 3,
+        "category_index": 3,
+        "brand_index": 5,
+        "description": "Parlante inteligente para ambientes conectados, con sonido envolvente.",
+    },
+    {
+        "name": "Dock USB-C CodeFusion 8 en 1",
+        "price": 79990,
+        "stock": 22,
+        "special_index": 1,
+        "category_index": 4,
+        "brand_index": 0,
+        "description": "Hub USB-C con puertos esenciales para notebooks modernos.",
+    },
+    {
+        "name": "Power Bank Voltia 20K",
+        "price": 44990,
+        "stock": 35,
+        "special_index": 0,
+        "category_index": 4,
+        "brand_index": 4,
+        "description": "Batería externa de 20.000 mAh para viajes y jornadas largas.",
+    },
+    {
+        "name": "Webcam PuntoPixel Full HD",
+        "price": 54990,
+        "stock": 30,
+        "special_index": 1,
+        "category_index": 5,
+        "brand_index": 2,
+        "description": "Webcam Full HD con micrófono integrado para reuniones y streaming.",
+    },
+    {
+        "name": "SSD externo Andes 1TB",
+        "price": 99990,
+        "stock": 24,
+        "special_index": 3,
+        "category_index": 4,
+        "brand_index": 1,
+        "description": "Unidad SSD portátil para respaldos, proyectos y archivos pesados.",
+    },
+    {
+        "name": "Ampolleta CasaNube Color",
+        "price": 24990,
+        "stock": 50,
+        "special_index": 0,
+        "category_index": 3,
+        "brand_index": 5,
+        "description": "Ampolleta LED inteligente con escenas de color y programación desde app.",
+    },
+    {
+        "name": "Soporte Ruta Mobile MagSafe",
+        "price": 29990,
+        "stock": 38,
+        "special_index": 2,
+        "category_index": 4,
+        "brand_index": 8,
+        "description": "Soporte magnético para escritorio o auto, ideal para navegación y llamadas.",
+    },
+]
+
 class CreateDB():
 
     def createBanners():
@@ -65,9 +205,8 @@ class CreateDB():
 
         specialCategories = []
 
-        for index in range(1, 5):
-            name = f"{index}-Sample special category"
-            slug = f"{index}-sample-special-category"
+        for index, name in enumerate(CATALOG_SPECIALS, start=1):
+            slug = f"special-{index}"
             type = "special"
 
             if not Category.objects.filter(slug=slug, type=type).exists():
@@ -107,43 +246,42 @@ class CreateDB():
 
         categories = []
 
-        for sc in specialCategories:
-            for index in range(1, 7):
-                name = f"{sc.name[0:2]}{index}-Sample category"
-                slug = f"{sc.name[0:2]}{index}-sample-category"
-                type = "category"
+        for index, category_data in enumerate(CATALOG_CATEGORIES, start=1):
+            name = category_data["name"]
+            slug = f"category-{index}"
+            type = "category"
 
-                if not Category.objects.filter(slug=slug, type=type).exists():
-                    category = Category.objects.create(
-                        name=name,
-                        slug=slug,
-                        type=type
-                    )
+            if not Category.objects.filter(slug=slug, type=type).exists():
+                category = Category.objects.create(
+                    name=name,
+                    slug=slug,
+                    type=type
+                )
 
-                    category.subcategories.add(sc)
-
-                    red = random.randint(0, 255)
-                    green = random.randint(0, 255)
-                    blue = random.randint(0, 255)
-                    width, height = Image.open(
-                        "static-ecw/static/imgs/sampleCategoryImage.jpeg").size
-                    solid_color_image = Image.new(
-                        "RGB", (width, height), (red, green, blue))
-                    
-                    with open("static-ecw/static/imgs/sampleCategoryImage.jpeg", "rb") as img_file:
-                        original_image = Image.open(img_file)
-                        blended_image = Image.blend(
-                            original_image, solid_color_image, alpha=0.5)
-                        buffer = BytesIO()
-                        blended_image.save(buffer, format="JPEG")
-                        category.icon.save(
-                            f"sampleCategoryImage_{index}.jpeg", File(buffer))
-                        
-                    category.save()
-                else:
-                    category = Category.objects.get(slug=slug, type=type)
+                red = random.randint(0, 255)
+                green = random.randint(0, 255)
+                blue = random.randint(0, 255)
+                width, height = Image.open(
+                    "static-ecw/static/imgs/sampleCategoryImage.jpeg").size
+                solid_color_image = Image.new(
+                    "RGB", (width, height), (red, green, blue))
                 
-                categories.append(category)
+                with open("static-ecw/static/imgs/sampleCategoryImage.jpeg", "rb") as img_file:
+                    original_image = Image.open(img_file)
+                    blended_image = Image.blend(
+                        original_image, solid_color_image, alpha=0.5)
+                    buffer = BytesIO()
+                    blended_image.save(buffer, format="JPEG")
+                    category.icon.save(
+                        f"sampleCategoryImage_{index}.jpeg", File(buffer))
+            else:
+                category = Category.objects.get(slug=slug, type=type)
+
+            category.name = name
+            category.type = type
+            category.subcategories.add(specialCategories[category_data["special_index"]])
+            category.save()
+            categories.append(category)
         
         print("Categories created successfully")
         
@@ -155,9 +293,8 @@ class CreateDB():
 
         brands = []
 
-        for index in range(1, 14) :
-            name = f"{index}-Sample brand"
-            slug = f"{index}-sample-brand"
+        for index, name in enumerate(CATALOG_BRANDS, start=1):
+            slug = f"brand-{index}"
             type = "brand"
 
             if not Category.objects.filter(slug=slug, type=type).exists():
@@ -188,10 +325,14 @@ class CreateDB():
             else:
                 brand = Category.objects.get(slug=slug, type=type)
 
+            brand.name = name
+            brand.type = type
+
             for c in categories:
                 category = Category.objects.get(slug=c.slug)
                 category.subcategories.add(brand)                
 
+            brand.save()
             brands.append(brand)
 
         print("Brands created successfully")
@@ -202,28 +343,28 @@ class CreateDB():
 
         print("Starting create products")
 
-        for index in range(1, 80):
-            name = f"{index}-Sample product"
-            slug = f"{index}-sample-product"
-
-            price = random.randint(2500, 50000)
-
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec magna magna. Suspendisse in maximus tortor. Sed ultricies feugiat ex. Etiam in interdum mauris. Donec vitae faucibus libero, vel cursus sapien. Fusce vel urna sed mi luctus auctor. Nulla facilisi. Ut sed scelerisque sem. Cras non metus turpis."
-
-            stock = random.randint(5, 25)
+        for index, product_data in enumerate(CATALOG_PRODUCTS, start=1):
+            name = product_data["name"]
+            slug = f"product-{index}"
+            price = product_data["price"]
+            description = product_data["description"]
+            stock = product_data["stock"]
             status = "on_sale"
 
-            c = []
-
-            specialCategory = random.choice(specialCategories)
-            specialCategory = Category.objects.get(slug=specialCategory.slug, type=specialCategory.type)
-            c.append(specialCategory)
-            category = random.choice(categories)
-            category = Category.objects.get(slug=category.slug, type=category.type)
-            c.append(category)
-            brand = random.choice(brands)
-            brand = Category.objects.get(slug=brand.slug, type=brand.type)
-            c.append(brand)
+            catalog_categories = [
+                Category.objects.get(
+                    slug=specialCategories[product_data["special_index"]].slug,
+                    type=specialCategories[product_data["special_index"]].type,
+                ),
+                Category.objects.get(
+                    slug=categories[product_data["category_index"]].slug,
+                    type=categories[product_data["category_index"]].type,
+                ),
+                Category.objects.get(
+                    slug=brands[product_data["brand_index"]].slug,
+                    type=brands[product_data["brand_index"]].type,
+                ),
+            ]
 
             if not Product.objects.filter(slug=slug).exists():
                 product = Product.objects.create(
@@ -234,7 +375,6 @@ class CreateDB():
                     stock=stock,
                     status=status
                 )
-                product.categories.set(c)
 
                 red = random.randint(0, 255)
                 green = random.randint(0, 255)
@@ -252,8 +392,16 @@ class CreateDB():
                     blended_image.save(buffer, format="JPEG")
                     product.thumbnail.save(
                         f"sampleProductImage_{index}.jpeg", File(buffer))
-                    
-                product.save()
+            else:
+                product = Product.objects.get(slug=slug)
+                product.name = name
+                product.price = price
+                product.description = description
+                product.stock = stock
+                product.status = status
+
+            product.categories.set(catalog_categories)
+            product.save()
         
         print("Products created successfully")
 

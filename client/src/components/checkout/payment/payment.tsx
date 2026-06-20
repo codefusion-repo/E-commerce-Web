@@ -83,6 +83,9 @@ export default function Payment() {
                   alt="Flow"
                 />
                 <h5>Flow es el proveedor activo para esta demo.</h5>
+                <p className="payment-method-card__notice">
+                  Usa solo datos de prueba; no ingreses datos de pago reales.
+                </p>
               </div>
 
               <div className="payment-method-card__action flex box-xxl a-center j-center">

@@ -31,7 +31,6 @@ export default function Login() {
   };
 
   const handleForgotPassword = () => {
-    console.log("Forgot password");
     openModal(
       "forgotPassword",
       "Si encontramos el correo ingresado, enviaremos un código de verificación para restablecer tu contraseña"
@@ -55,11 +54,8 @@ export default function Login() {
     setLoading(true);
     setAuthType(currentProvider);
 
-    console.log("Login with provider: " + currentProvider);
-
     postFirebaseLogin(auth, email, password, currentProvider)
       .then((res) => {
-        console.log(res);
         if (res.data.email.status === "waitingConfirmCode") {
           openModal("verifyEmail", res.data.detail);
         } else if (res.data.email.status === "notLogged") {
@@ -89,6 +85,7 @@ export default function Login() {
     <div className="flex box-xxl column j-center a-center border-radius-xxs base-border padding-xs">
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
         <h1>Ingresar a CodeFusion Demo</h1>
+        <h5>Usa una cuenta de prueba; evita credenciales reales.</h5>
         <button
           className="btn-span"
           onClick={() => handleDontHaveAccount()}

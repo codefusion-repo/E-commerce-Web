@@ -109,7 +109,6 @@ export default function Settings() {
       setLoading(false);
       openModal("setPassword", null);
     } else {
-      console.log("Link with: ", providerId);
       postLinkProvider(
         providerId,
         auth,
@@ -153,7 +152,6 @@ export default function Settings() {
       setLoading(false);
       openModal("changePassword", null);
     } else {
-      console.log("Unlink with: ", providerId);
       postUnlinkProvider(
         providerId,
         auth,

@@ -52,7 +52,6 @@ export default function VerifyEmail() {
       setTimeout(() => {
         postVerifyEmailNumber(token, user.uid, verifyEmailNumber)
           .then((res) => {
-            console.log(res);
             if (res.data.email.status === "waitingConfirmCode") {
               openModal("verifyEmail", res.data.detail);
             } else if (res.data.email.status === "notLogged") {

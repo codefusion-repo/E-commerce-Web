@@ -83,8 +83,6 @@ export default function Register() {
 
     setAuthType(currentProvider);
 
-    console.log("Register with provider: " + currentProvider);
-
     postFirebaseRegister(
       auth,
       username,
@@ -98,7 +96,6 @@ export default function Register() {
       currentProvider
     )
       .then((res) => {
-        console.log(res);
         if (res.data.email.status === "waitingConfirmCode") {
           openModal("verifyEmail", res.data.detail);
         } else if (res.data.email.status === "notLogged") {
@@ -127,6 +124,7 @@ export default function Register() {
     <div className="flex box-xxl column j-center a-center border-radius-xxs base-border padding-xs">
       <div className="flex box-xxl m-height-xxs column a-start j-center padding-xs base-border-b">
         <h1>Crear cuenta en CodeFusion Demo</h1>
+        <h5>Usa datos de prueba; evita credenciales o identificadores reales.</h5>
         <button
           className="btn-span"
           onClick={() => handleAlreadyHaveAccount()}

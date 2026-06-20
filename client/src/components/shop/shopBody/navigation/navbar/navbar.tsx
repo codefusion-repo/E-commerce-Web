@@ -80,7 +80,6 @@ export default function ShopNavbar() {
 
       postProductsFilters(slug, minPrice, maxPrice, search, orderBy)
         .then((res) => {
-          console.log(res);
           setCurrentPage(1);
           setProducts(res.data.products);
           setData(res.data.products);
@@ -109,8 +108,6 @@ export default function ShopNavbar() {
       searchParam ||
       orderByParam
     ) {
-      console.log("slugCategory: ", slugCategory);
-      console.log("categorySlug: ", categorySlug);
       getProducts(slugCategory);
     }
   }, [
@@ -153,7 +150,6 @@ export default function ShopNavbar() {
       e.target.value
     )
       .then((res) => {
-        console.log(res);
         setCurrentPage(1);
         setProducts(res.data.products);
         setData(res.data.products);
@@ -480,7 +476,11 @@ export default function ShopNavbar() {
                 ? `Búsqueda: ${formatSlugToText(categorySlug)}`
                 : "Búsqueda"}{" "}
             </h1>
-            <Image src={banner1} alt="Banner de búsqueda" />
+            <Image
+              src={banner1}
+              alt="Banner de búsqueda"
+              sizes="(max-width: 767px) 100vw, 720px"
+            />
           </div>
           <div className="filters-footer">
             <div className="filters-error">{error && <h3>{error}</h3>}</div>

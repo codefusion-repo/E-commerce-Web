@@ -53,8 +53,6 @@ export default function PostCommentEditor({
     setError(null);
     setLoading(true);
 
-    console.log(stars, comment);
-
     postCommentEditor(stars, newComment, comment.id, signOutAuthState)
       .then(() => {
         getPosts().then((updatedPosts) => {

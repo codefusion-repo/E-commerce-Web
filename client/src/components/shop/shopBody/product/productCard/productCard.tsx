@@ -83,7 +83,6 @@ const ProductCard: React.FC<{
           alt={product.name}
           width={720}
           height={720}
-          loading="eager"
           sizes="(max-width: 767px) 85vw, 420px"
           onError={() => setImageSrc(fallbackProductImage.src)}
         />
